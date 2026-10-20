@@ -1,0 +1,20 @@
+{
+  "derived_at": "2026-01-01T00:00:00Z",
+  "terms_covered": ["2022FA", "2026FA"],
+  "rule": "Synthetic fixture. regular = offered in the season in at least 3 of the last 4 years; occasional = 1 or 2",
+  "courses": {
+    "MATH 1730": { "fall": [2023, 2024, 2025, 2026], "spring": [2023, 2024, 2025], "summer": [], "regular_seasons": ["fall", "spring"], "occasional_seasons": [] },
+    "MATH 1910": { "fall": [2023, 2024, 2025, 2026], "spring": [2023, 2024, 2025], "summer": [], "regular_seasons": ["fall", "spring"], "occasional_seasons": [] },
+    "ENGR 1100": { "fall": [2023, 2024, 2025, 2026], "spring": [], "summer": [], "regular_seasons": ["fall"], "occasional_seasons": [] },
+    "CSCI 1170": { "fall": [], "spring": [2023, 2024, 2025], "summer": [], "regular_seasons": ["spring"], "occasional_seasons": [] },
+    "PHYS 2110": { "fall": [2023, 2024, 2025, 2026], "spring": [2023, 2024, 2025], "summer": [], "regular_seasons": ["fall", "spring"], "occasional_seasons": [] },
+    "PHYS 2111": { "fall": [2023, 2024, 2025, 2026], "spring": [2023, 2024, 2025], "summer": [], "regular_seasons": ["fall", "spring"], "occasional_seasons": [] },
+    "ENGR 2100": { "fall": [], "spring": [2023, 2024, 2025], "summer": [], "regular_seasons": ["spring"], "occasional_seasons": [] },
+    "ENGR 3520": { "fall": [2023, 2024, 2025, 2026], "spring": [], "summer": [], "regular_seasons": ["fall"], "occasional_seasons": [] },
+    "ENGR 3530": { "fall": [2023, 2024, 2025, 2026], "spring": [2023, 2024, 2025], "summer": [], "regular_seasons": ["fall", "spring"], "occasional_seasons": [] },
+    "ENGR 4540": { "fall": [2023, 2024, 2025, 2026], "spring": [], "summer": [], "regular_seasons": ["fall"], "occasional_seasons": [] },
+    "ENGR 4550": { "fall": [], "spring": [2023, 2024, 2025], "summer": [], "regular_seasons": ["spring"], "occasional_seasons": [] },
+    "ENGR 4580": { "fall": [2023, 2024, 2025, 2026], "spring": [], "summer": [], "regular_seasons": ["fall"], "occasional_seasons": [] },
+    "ENGR 4590": { "fall": [], "spring": [2023, 2024, 2025], "summer": [], "regular_seasons": ["spring"], "occasional_seasons": [] }
+  }
+}

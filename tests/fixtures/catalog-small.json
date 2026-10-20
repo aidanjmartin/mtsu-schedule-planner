@@ -1,0 +1,92 @@
+{
+  "catalog_year": "test-small",
+  "program": "Test fixture, not a real catalog",
+  "total_hours": 41,
+  "sources": ["Synthetic fixture for engine tests. Not MTSU data."],
+  "standing_hours": { "sophomore": 10, "junior": 20, "senior": 28 },
+  "milestones": [
+    { "id": "senior-design", "label": "Senior design", "courses": ["ENGR 4580", "ENGR 4590"] }
+  ],
+  "courses": {
+    "MATH 1730": {
+      "title": "Pre-Calculus (fixture)", "credits": 4, "components": ["MATH 1730"],
+      "prereqs": null, "standing": null, "suggested_term": "freshman-fall",
+      "notes": "Fixture course."
+    },
+    "MATH 1910": {
+      "title": "Calculus I (fixture)", "credits": 4, "components": ["MATH 1910"],
+      "prereqs": { "all": ["MATH 1730"] }, "standing": null, "suggested_term": "freshman-spring",
+      "notes": "Fixture course."
+    },
+    "ENGR 1100": {
+      "title": "Introduction to Engineering (fixture)", "credits": 2, "components": ["ENGR 1100"],
+      "prereqs": null, "standing": null, "suggested_term": "freshman-fall",
+      "notes": "Fixture course."
+    },
+    "CSCI 1170": {
+      "title": "Computer Science I (fixture)", "credits": 3, "components": ["CSCI 1170"],
+      "prereqs": null, "standing": null, "suggested_term": "freshman-spring",
+      "notes": "Fixture course."
+    },
+    "PHYS 2110": {
+      "title": "Physics I with Lab (fixture)", "credits": 4, "components": ["PHYS 2110", "PHYS 2111"],
+      "prereqs": { "all": [{ "course": "MATH 1910", "concurrent_ok": true }] },
+      "standing": null, "suggested_term": "sophomore-fall",
+      "notes": "Fixture unit: lecture PHYS 2110 plus lab PHYS 2111. MATH 1910 may be taken at the same time."
+    },
+    "ENGR 2100": {
+      "title": "Statics (fixture)", "credits": 3, "components": ["ENGR 2100"],
+      "prereqs": { "all": ["ENGR 1100", "MATH 1910"] }, "standing": null,
+      "suggested_term": "sophomore-spring", "notes": "Fixture course."
+    },
+    "ENGR 3520": {
+      "title": "Circuits (fixture)", "credits": 3, "components": ["ENGR 3520"],
+      "prereqs": { "all": ["ENGR 2100", { "any": ["PHYS 2110", "CSCI 1170"] }] },
+      "standing": null, "suggested_term": "junior-fall",
+      "notes": "Fixture course with an any-of prerequisite."
+    },
+    "ENGR 3530": {
+      "title": "Signals (fixture)", "credits": 3, "components": ["ENGR 3530"],
+      "prereqs": { "all": ["ENGR 3520", { "course": "PHYS 2110", "concurrent_ok": true }] },
+      "standing": null, "suggested_term": "junior-spring",
+      "notes": "Fixture course. PHYS 2110 may be taken at the same time."
+    },
+    "ENGR 4540": {
+      "title": "Elective A (fixture)", "credits": 3, "components": ["ENGR 4540"],
+      "prereqs": { "all": ["ENGR 3520"] }, "standing": null,
+      "suggested_term": "senior-fall", "notes": "Fixture elective."
+    },
+    "ENGR 4550": {
+      "title": "Elective B (fixture)", "credits": 3, "components": ["ENGR 4550"],
+      "prereqs": { "all": ["ENGR 3530"] }, "standing": null,
+      "suggested_term": "senior-spring", "notes": "Fixture elective."
+    },
+    "ENGR 4580": {
+      "title": "Senior Design I (fixture)", "credits": 3, "components": ["ENGR 4580"],
+      "prereqs": { "all": ["ENGR 3530"] }, "standing": "senior",
+      "suggested_term": "senior-fall", "notes": "Fixture course with a standing rule."
+    },
+    "ENGR 4590": {
+      "title": "Senior Design II (fixture)", "credits": 3, "components": ["ENGR 4590"],
+      "prereqs": { "all": ["ENGR 4580"] }, "standing": null,
+      "suggested_term": "senior-spring", "notes": "Fixture course."
+    }
+  },
+  "requirements": [
+    {
+      "id": "major-core", "type": "all",
+      "courses": [
+        "MATH 1730", "MATH 1910", "ENGR 1100", "CSCI 1170", "PHYS 2110",
+        "ENGR 2100", "ENGR 3520", "ENGR 3530", "ENGR 4580", "ENGR 4590"
+      ]
+    },
+    {
+      "id": "engr-elective", "type": "choose", "count": 1,
+      "options": ["ENGR 4540", "ENGR 4550"], "suggested_term": "senior-fall"
+    },
+    {
+      "id": "tbc-history", "type": "placeholder", "label": "History and Civic Learning",
+      "hours": 6, "suggested_terms": ["sophomore-fall", "junior-fall"]
+    }
+  ]
+}

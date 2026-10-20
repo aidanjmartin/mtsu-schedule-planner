@@ -1,0 +1,50 @@
+{
+  "term": "2026FA",
+  "term_label": "Fall 2026",
+  "banner_term_code": "synthetic",
+  "imported_at": "2026-01-01T00:00:00Z",
+  "source": "Synthetic fixture for engine tests. Not MTSU data.",
+  "subjects": ["ENGR", "MATH", "PHYS", "CHEM", "CSCI"],
+  "sections": [
+    {
+      "crn": "10001", "course": "MATH 1730", "section": "001", "title": "Pre-Calculus (fixture)", "credits": 4,
+      "schedule_type": "Lecture", "instructional_method": "Traditional", "part_of_term": "1", "instructor": "A. Teacher",
+      "meetings": [{ "days": "MWF", "start": "08:00", "end": "09:15", "location": "FIX 100", "start_date": "2026-08-24", "end_date": "2026-12-11" }]
+    },
+    {
+      "crn": "10002", "course": "MATH 1730", "section": "002", "title": "Pre-Calculus (fixture)", "credits": 4,
+      "schedule_type": "Lecture", "instructional_method": "Traditional", "part_of_term": "1", "instructor": "A. Teacher",
+      "meetings": [{ "days": "MWF", "start": "10:00", "end": "11:15", "location": "FIX 100", "start_date": "2026-08-24", "end_date": "2026-12-11" }]
+    },
+    {
+      "crn": "10003", "course": "MATH 1730", "section": "003", "title": "Pre-Calculus (fixture)", "credits": 4,
+      "schedule_type": "Lecture", "instructional_method": "Traditional", "part_of_term": "1", "instructor": "B. Teacher",
+      "meetings": [{ "days": "TR", "start": "12:30", "end": "14:25", "location": "FIX 100", "start_date": "2026-08-24", "end_date": "2026-12-11" }]
+    },
+    {
+      "crn": "10011", "course": "ENGR 1100", "section": "001", "title": "Introduction to Engineering (fixture)", "credits": 2,
+      "schedule_type": "Lecture", "instructional_method": "Traditional", "part_of_term": "1", "instructor": "C. Teacher",
+      "meetings": [{ "days": "TR", "start": "09:40", "end": "11:05", "location": "FIX 200", "start_date": "2026-08-24", "end_date": "2026-12-11" }]
+    },
+    {
+      "crn": "10012", "course": "ENGR 1100", "section": "002", "title": "Introduction to Engineering (fixture)", "credits": 2,
+      "schedule_type": "Lecture", "instructional_method": "Traditional", "part_of_term": "1", "instructor": "C. Teacher",
+      "meetings": [{ "days": "MWF", "start": "10:00", "end": "11:50", "location": "FIX 200", "start_date": "2026-08-24", "end_date": "2026-12-11" }]
+    },
+    {
+      "crn": "10021", "course": "PHYS 2110", "section": "001", "title": "Physics I (fixture)", "credits": 3,
+      "schedule_type": "Lecture", "instructional_method": "Traditional", "part_of_term": "1", "instructor": "D. Teacher",
+      "meetings": [{ "days": "MWF", "start": "13:00", "end": "13:50", "location": "FIX 300", "start_date": "2026-08-24", "end_date": "2026-12-11" }]
+    },
+    {
+      "crn": "10022", "course": "PHYS 2111", "section": "001", "title": "Physics I Lab (fixture)", "credits": 1,
+      "schedule_type": "Laboratory", "instructional_method": "Traditional", "part_of_term": "1", "instructor": "D. Teacher",
+      "meetings": [{ "days": "T", "start": "14:30", "end": "17:00", "location": "FIX LAB", "start_date": "2026-08-24", "end_date": "2026-12-11" }]
+    },
+    {
+      "crn": "10023", "course": "PHYS 2111", "section": "002", "title": "Physics I Lab (fixture)", "credits": 1,
+      "schedule_type": "Laboratory", "instructional_method": "Traditional", "part_of_term": "1", "instructor": "D. Teacher",
+      "meetings": [{ "days": "R", "start": "14:30", "end": "17:00", "location": "FIX LAB", "start_date": "2026-08-24", "end_date": "2026-12-11" }]
+    }
+  ]
+}

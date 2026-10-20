@@ -1,0 +1,9 @@
+{
+  "name": "mtsu-degree-planner",
+  "private": true,
+  "type": "module",
+  "description": "Degree planner proof of concept for MTSU Mechatronics Engineering. The engine has no dependencies.",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs"
+  }
+}

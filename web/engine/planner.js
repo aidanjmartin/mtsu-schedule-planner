@@ -1,12 +1,19 @@
 // Term-by-term planner.
 //
 // Each term, take every course that is offered, has its prerequisites met, and meets its standing rule.
-// Sort by least slack, then by the longest chain of courses that depend on it, and fill the term up to the
-// credit limit. General education hours are reserved in their preferred terms first.
+// Sort by the latest term each course can start without delaying graduation (earliest deadline first, which is
+// the same as least remaining slack in this term), then by the longest chain of courses that depend on it,
+// and fill the term up to the credit limit. A course's latest term already accounts for the courses that
+// need it, so a prerequisite of a tight course is itself tight.
+//
+// General education hours are reserved in their preferred terms first. A course with no room left (its latest
+// term is this term or earlier) may take reserved hours; the displaced general education hours move to the
+// next term.
 //
 // This rule produces a good plan. It does not guarantee the best plan.
 
 import { buildModel, analyze, firstOffered } from './critical-path.js';
+import { termIndex } from './terms.js';
 import { readyOrdinal, bindingLeaves } from './prereqs.js';
 import { termLabel } from './terms.js';
 
@@ -40,10 +47,11 @@ export function planFromModel(model, analysis) {
   const placed = new Map();
   for (const id of model.inProgress) placed.set(id, 0);
 
-  const reserved = new Array(n).fill(0);
-  for (const chunk of model.chunks) reserved[chunk.ordinal] += chunk.hours;
-  const used = reserved.slice();
-  for (const id of model.inProgress) used[0] += model.courses.get(id).credits;
+  // General education hours by term. A chunk can move to a later term when a course with no slack needs the room.
+  const chunks = model.chunks.map((c) => ({ ...c, from: null }));
+  const reservedAt = (t) => chunks.filter((c) => c.ordinal === t).reduce((sum, c) => sum + c.hours, 0);
+  const courseHours = new Array(n).fill(0);
+  for (const id of model.inProgress) courseHours[0] += model.courses.get(id).credits;
 
   const termOf = (id) => {
     const c = model.courses.get(id);
@@ -55,14 +63,16 @@ export function planFromModel(model, analysis) {
   const hoursBefore = (t) => {
     let hours = model.completedHours;
     for (const [id, p] of placed) if (p < t) hours += model.courses.get(id).credits;
-    for (const chunk of model.chunks) if (chunk.ordinal < t) hours += chunk.hours;
+    for (const chunk of chunks) if (chunk.ordinal < t) hours += chunk.hours;
     return hours;
   };
 
+  const latestOf = (id) => analysis.courses[id].latest ?? Infinity;
   const slackOf = (id) => analysis.courses[id].slack ?? Infinity;
   const priority = (a, b) =>
-    slackOf(a) - slackOf(b)
+    latestOf(a) - latestOf(b)
     || analysis.courses[b].chain - analysis.courses[a].chain
+    || slackOf(a) - slackOf(b)
     || (model.courses.get(a).suggestedPos ?? 99) - (model.courses.get(b).suggestedPos ?? 99)
     || a.localeCompare(b);
 
@@ -76,17 +86,27 @@ export function planFromModel(model, analysis) {
       for (const id of order) {
         const course = model.courses.get(id);
         if (!course.seasons.has(axis.seasons[t])) continue;
+        if (course.availableFrom !== null && termIndex(axis.terms[t]) < course.availableFrom) continue;
         if (readyOrdinal(course.prereqs, termOf) > t) continue;
         if (course.standing && hoursBefore(t) < (catalog.standing_hours?.[course.standing] ?? 0)) continue;
-        if (used[t] + course.credits > cap) continue;
+        const urgent = latestOf(id) <= t;
+        if (courseHours[t] + course.credits + (urgent ? 0 : reservedAt(t)) > cap) continue;
         placed.set(id, t);
-        used[t] += course.credits;
+        courseHours[t] += course.credits;
         waiting.delete(id);
         progress = true;
         break;
       }
     }
+    // Courses that used reserved hours push general education to the next term.
+    const here = chunks.filter((c) => c.ordinal === t).sort((a, b) => b.hours - a.hours || a.id.localeCompare(b.id));
+    while (courseHours[t] + reservedAt(t) > cap && here.length > 0 && t + 1 < n) {
+      const moved = here.pop();
+      moved.from = moved.from ?? axis.terms[t];  // first term the hours were reserved in
+      moved.ordinal = t + 1;
+    }
   }
+  const used = courseHours.map((h, t) => h + reservedAt(t));
 
   // Why each course landed where it did.
   const standingReady = (course) => {
@@ -134,7 +154,7 @@ export function planFromModel(model, analysis) {
 
   const placedOrdinals = [...placed.values()];
   const lastCourse = placedOrdinals.length ? Math.max(...placedOrdinals) : -1;
-  const lastChunk = model.chunks.length ? Math.max(...model.chunks.map((c) => c.ordinal)) : -1;
+  const lastChunk = chunks.length ? Math.max(...chunks.map((c) => c.ordinal)) : -1;
   const gradOrdinal = unplaced.length ? null : Math.max(lastCourse, lastChunk, 0);
   const lastShown = gradOrdinal === null ? n - 1 : gradOrdinal;
 
@@ -159,7 +179,7 @@ export function planFromModel(model, analysis) {
         added: model.courses.get(id).added,
         reason: explain(id),
       })),
-      placeholders: model.chunks.filter((c) => c.ordinal === t).map((c) => ({ id: c.id, label: c.label, hours: c.hours })),
+      placeholders: chunks.filter((c) => c.ordinal === t).map((c) => ({ id: c.id, label: c.label, hours: c.hours, moved_from: c.from })),
     });
   }
 
@@ -201,6 +221,10 @@ export function planFromModel(model, analysis) {
     model.placeholders.filter((p) => !p.done).reduce((sum, p) => sum + p.hours, 0);
 
   const warnings = [...model.warnings];
+  const assumptions = [...model.assumptions];
+  for (const c of chunks) {
+    if (c.from) assumptions.push(`${c.label}: ${c.hours} hours moved from ${termLabel(c.from)} to ${termLabel(axis.terms[c.ordinal])} to make room for courses with no slack.`);
+  }
   for (const u of unplaced) warnings.push(`${u.course} is not in the plan. ${u.reason}`);
 
   return {
@@ -218,7 +242,7 @@ export function planFromModel(model, analysis) {
     choices: model.choose,
     added_prereqs: model.added,
     warnings,
-    assumptions: [...model.assumptions],
+    assumptions,
     analysis,
   };
 }

@@ -614,3 +614,84 @@ test('what-if: term timetable uses the plan and reports who can move', () => {
   const inSpring = timetable.movableFromAnalysis(plan.analysis, '2028SP');
   assert.equal(inSpring('ENGR 2100').can_move, false, 'a zero-slack course cannot move');
 });
+
+// ------------------------------------------- planner priority (real catalog)
+
+const realCatalog = JSON.parse(fs.readFileSync(new URL('../data/catalogs/2026-27.json', import.meta.url), 'utf8'));
+const realStudent = (choices) => ({
+  start_term: '2026FA', completed: [], in_progress: [], choices, options: { max_credits: 18, summer_allowed: false },
+});
+const coursesByTerm = (plan) => Object.fromEntries(plan.terms.map((t) => [t.term, t.courses.map((c) => c.course).sort()]));
+
+test('planner (real catalog, no offering data): electives with more slack do not push out courses that set graduation', () => {
+  const choices = { 'engr-elective': ['ENGR 4550', 'ENGR 4570', 'ENGR 4610'] };
+  const plan = planTerms({ catalog: realCatalog, offerings: null, student: realStudent(choices) });
+  assert.equal(plan.graduation_term, '2030SP');
+  assert.deepEqual(plan.unplaced, []);
+  // MATH 2010 is fall-only and leads to ENGR 4550, so it keeps its Fall 2028 slot over ENGR 4610.
+  assert.equal(plan.placements['MATH 2010'], '2028FA');
+  assert.equal(plan.placements['ENGR 4550'], '2029SP');
+  assert.equal(plan.placements['ENGR 4610'], '2029SP');
+  for (const t of plan.terms) assert.ok(t.credits <= t.capacity, `${t.term} stays within its credit limit`);
+});
+
+test('planner (real catalog, no offering data): the default-elective plan does not change', () => {
+  const plan = planTerms({ catalog: realCatalog, offerings: null, student: realStudent({}) });
+  assert.equal(plan.graduation_term, '2030SP');
+  assert.deepEqual(coursesByTerm(plan), {
+    '2026FA': ['CHEM 1110', 'ENGR 1100', 'MATH 1910'],
+    '2027SP': ['CSCI 1170', 'MATH 1920', 'PHYS 2110'],
+    '2027FA': ['ENGR 2110', 'ENGR 2210', 'MATH 3110', 'PHYS 2120'],
+    '2028SP': ['ENGR 2100', 'ENGR 2120', 'ENGR 2130', 'MATH 3120'],
+    '2028FA': ['ENGR 3510', 'ENGR 3520', 'ENGR 3560', 'ENGR 3590', 'MATH 2010'],
+    '2029SP': ['ENGR 3530', 'ENGR 3550', 'ENGR 3915', 'ENGR 3970', 'ENGR 4520', 'ENGR 4550'],
+    '2029FA': ['ENGR 3540', 'ENGR 4500', 'ENGR 4510', 'ENGR 4580'],
+    '2030SP': ['ENGR 4530', 'ENGR 4590'],
+  });
+});
+
+test('planner: a course with no slack takes reserved general education hours, and those hours move to the next term', () => {
+  const student = freshStudent({
+    completed: ['MATH 1730', 'ENGR 1100', 'MATH 1910', 'CSCI 1170', 'PHYS 2110'],
+    options: { max_credits: 3 },
+  });
+  const plan = planTerms({ catalog, offerings, student });
+  assert.equal(plan.placements['ENGR 3520'], '2027FA', 'ENGR 3520 keeps its earliest term even though general education was reserved there');
+  assert.equal(plan.graduation_term, '2030SP');
+  for (const t of plan.terms) assert.ok(t.credits <= t.capacity);
+  const moved = plan.terms.flatMap((t) => t.placeholders.map((p) => ({ term: t.term, ...p }))).filter((p) => p.moved_from);
+  assert.ok(moved.length > 0 && moved.every((p) => p.moved_from === '2027FA' || p.moved_from === '2026FA'));
+  assert.ok(plan.assumptions.some((a) => /moved from Fall 2027/.test(a)));
+});
+
+test('planner: courses with more room do not outrank courses that must start now, in any order of the catalog', () => {
+  // ENGR 1100 and CSCI 1170 have slack. MATH 1730 leads to the longest chain, so it wins a one-course term.
+  const plan = planTerms({ catalog, offerings, student: freshStudent({ options: { max_credits: 4 } }) });
+  assert.equal(plan.placements['MATH 1730'], '2026FA');
+  assert.equal(plan.placements['MATH 1910'], '2027SP');
+});
+
+test('planner: the unplaced course and its reason are reported with no graduation term', () => {
+  const o = clone(offerings);
+  o.courses['ENGR 3520'].regular_seasons = [];
+  const plan = planTerms({ catalog, offerings: o, student: freshStudent() });
+  assert.equal(plan.graduation_term, null);
+  assert.equal(plan.graduation_label, null);
+  const reasons = Object.fromEntries(plan.unplaced.map((u) => [u.course, u.reason]));
+  assert.match(reasons['ENGR 3520'], /Not offered in any season/);
+  assert.ok(reasons['ENGR 4590'].length > 0, 'every unplaced course carries a reason');
+});
+
+test('a course with available_from is never planned before that term', async () => {
+  const fs = await import('node:fs');
+  const { planTerms } = await import('../web/engine/planner.js');
+  const catalog = JSON.parse(fs.readFileSync(new URL('../data/catalogs/2026-27.json', import.meta.url)));
+  const completed = ['MATH 1910', 'ENGR 1100', 'CHEM 1110', 'MATH 1920', 'PHYS 2110', 'CSCI 1170', 'PHYS 2120', 'ENGR 2110',
+    'MATH 3110', 'ENGR 2210', 'ENGR 2130', 'MATH 3120', 'ENGR 2120', 'ENGR 2100', 'ENGR 3520'];
+  const plan = planTerms({ catalog, student: { catalog_year: '2026-27', start_term: '2026FA', completed, in_progress: [],
+    choices: { 'engr-elective': ['ENGR 4570', 'ENGR 4600', 'ENGR 4610'] },
+    options: { summer_allowed: false, max_credits: 18 }, edits: [] } });
+  const term = plan.terms.find((t) => t.courses.some((c) => c.course === 'ENGR 4570'))?.term;
+  assert.ok(term, 'ENGR 4570 is placed');
+  assert.ok(term >= '2027FA' && term !== '2027SP', `ENGR 4570 placed in ${term}`);
+});

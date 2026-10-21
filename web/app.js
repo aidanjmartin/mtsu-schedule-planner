@@ -737,10 +737,13 @@ function renderPlan(root, result) {
       })))));
 
   // ---- results
+  const blocked = unplacedNotice(plan);
+  if (blocked) right.append(blocked);
   right.append(planSummary(result));
-  if (plan.warnings.length || plan.assumptions.length) {
+  const notes = [...plan.warnings.filter((w) => !plan.unplaced.some((u) => w.startsWith(`${u.course} is not in the plan.`))), ...plan.assumptions];
+  if (notes.length) {
     right.append(el('div', { class: 'notice warn' },
-      el('ul', {}, [...plan.warnings, ...plan.assumptions].map((w) => el('li', { text: w })))));
+      el('ul', {}, notes.map((w) => el('li', { text: w })))));
   }
   right.append(driverPanel(plan, catalog));
   right.append(el('section', { class: 'panel' },
@@ -762,6 +765,22 @@ function startFromPanel(catalog) {
     } }));
 }
 
+/** Short text naming the courses the plan could not place. */
+function unplacedSummary(plan) {
+  const names = plan.unplaced.map((u) => u.course);
+  if (names.length === 0) return 'The plan could not be completed.';
+  return `No term fits ${names.length <= 3 ? names.join(', ') : `${names.slice(0, 3).join(', ')} and ${names.length - 3} more`}.`;
+}
+
+/** A notice that names each unplaced course and the reason, or null when every course has a term. */
+function unplacedNotice(plan) {
+  if (plan.unplaced.length === 0) return null;
+  return el('div', { class: 'notice bad', role: 'alert' },
+    el('p', {}, el('b', { text: 'No graduation term: the plan cannot place every course.' })),
+    el('ul', {}, plan.unplaced.map((u) => el('li', {}, el('b', { text: u.course }), `: ${u.reason}`))),
+    el('p', { class: 'small', text: 'Change the start term, allow summer terms, or check the course data and what-if edits that affect these courses.' }));
+}
+
 function planSummary(result) {
   const { scenario, baseline, diff } = result;
   const plan = scenario.plan;
@@ -769,8 +788,8 @@ function planSummary(result) {
   const stats = [];
   stats.push(el('div', { class: 'stat' },
     el('div', { class: 'k', text: 'Projected graduation' }),
-    el('div', { class: 'v', text: plan.graduation_term ? termName(plan.graduation_term) : 'Not reachable' }),
-    el('div', { class: 'd' }, plan.graduation_term ? `${plural(plan.terms.length, 'term')} from ${termName(plan.start_term)}` : 'See the notes below', edited ? [' ', deltaNode(diff.graduation.delta_terms)] : null)));
+    el('div', { class: 'v', text: plan.graduation_term ? termName(plan.graduation_term) : 'Cannot finish' }),
+    el('div', { class: 'd' }, plan.graduation_term ? `${plural(plan.terms.length, 'term')} from ${termName(plan.start_term)}` : unplacedSummary(plan), edited ? [' ', deltaNode(diff.graduation.delta_terms)] : null)));
   plan.milestones.forEach((m, i) => {
     const d = diff.milestones[i];
     stats.push(el('div', { class: 'stat' },
@@ -798,6 +817,7 @@ function driverPanel(plan, catalog) {
   }
   if (plan.drivers.graduation.set_by === 'courses') nodes.push(chainView('Courses that set the graduation term', plan.drivers.graduation.chain));
   else if (plan.graduation_term) nodes.push(el('p', { text: `General education hours in ${termName(plan.graduation_term)} set the graduation term.` }));
+  else nodes.push(el('p', { text: `No graduation term. ${unplacedSummary(plan)} The reasons are listed at the top of this tab.` }));
   return el('section', { class: 'panel' }, el('h2', { text: 'What sets the dates' }), nodes);
 }
 
@@ -824,7 +844,7 @@ function termCard(t, plan, basePlan) {
     }),
     t.placeholders.map((p) => el('div', { class: 'chip reserve' },
       el('span', { class: 't', text: p.label }), el('span', { class: 'small', text: `${p.hours} hr` }),
-      el('span', { class: 'm', text: 'Reserved general education hours' }))));
+      el('span', { class: 'm', text: p.moved_from ? `Reserved general education hours, moved from ${termName(p.moved_from)} to make room for courses with no slack.` : 'Reserved general education hours' }))));
 }
 
 function comparePanel(result) {
@@ -1133,6 +1153,7 @@ function resultsPanel(result) {
   const responsible = Object.entries(diff.responsible).flatMap(([key, list]) => list.map((r) => ({ key, ...r })));
   return el('section', { class: 'panel' },
     el('h2', { text: 'Difference from the baseline' }),
+    unplacedNotice(alt),
     planSummary(result),
     el('ul', {}, lines.map((l) => el('li', { text: l }))),
     el('h3', { text: 'Critical path' }),

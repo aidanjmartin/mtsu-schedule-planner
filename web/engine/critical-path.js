@@ -59,6 +59,7 @@ export function buildModel({ catalog, offerings = null, student, horizon = 24 })
       prereqs: normalizePrereqs(def.prereqs),
       standing: def.standing ?? null,
       seasons: seasonInfo.seasons,
+      availableFrom: def.available_from ? termIndex(def.available_from) : null,
       seasonSource: seasonInfo.source,
       regular: seasonInfo.regular,
       occasional: seasonInfo.occasional,
@@ -129,7 +130,9 @@ export function buildModel({ catalog, offerings = null, student, horizon = 24 })
 }
 
 function seasonAllowed(model, id, ordinal) {
-  return model.courses.get(id).seasons.has(model.axis.seasons[ordinal]);
+  const course = model.courses.get(id);
+  if (course.availableFrom !== null && termIndex(model.axis.terms[ordinal]) < course.availableFrom) return false;
+  return course.seasons.has(model.axis.seasons[ordinal]);
 }
 
 /** Smallest usable ordinal at or after `from` where the course runs. */

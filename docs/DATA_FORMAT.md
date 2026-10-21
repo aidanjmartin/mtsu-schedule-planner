@@ -71,6 +71,8 @@ All data files are JSON. Course identifiers use the subject, one space, and the 
   - an object `{ "course": "...", "concurrent_ok": true, "min_grade": "C" }`, where `concurrent_ok` allows the same term and `min_grade` is recorded but not enforced in the proof of concept;
   - `{ "all": [ ... ] }` and `{ "any": [ ... ] }`, which nest.
 - `standing`: `null`, `"junior"`, or `"senior"`, checked against completed hours using `standing_hours`.
+- `available_from`: optional term code (for example `2027FA`) before which the course is never offered. Used for new courses.
+- `season_override`: optional list of seasons (`fall`, `spring`) that replaces offering data for this course. Used for new courses with no schedule history.
 - `suggested_term`: the academic map position, `<year>-<season>` with year `freshman`, `sophomore`, `junior`, or `senior` and season `fall`, `spring`, or `summer`. Used for graph layout and as the baseline plan.
 - `notes`: required whenever sources disagree or a value needs a human check. Start such notes with `CHECK:`.
 - `requirements`: every course in `courses` must appear in exactly one requirement. Placeholder requirements reserve hours only.

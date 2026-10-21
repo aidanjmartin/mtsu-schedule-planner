@@ -442,7 +442,6 @@
       "prereqs": {
         "all": [
           "ENGR 3590",
-          "ENGR 3915",
           {
             "course": "ENGR 3540",
             "concurrent_ok": true
@@ -455,7 +454,7 @@
       },
       "standing": null,
       "suggested_term": "senior-fall",
-      "notes": "Prerequisites from the 2026-27 catalog course description."
+      "notes": "The published 2026-27 catalog also requires ENGR 3915. That prerequisite is dropped here per the proposed Fall 2027 change that makes ENGR 3915 an elective."
     },
     "ENGR 4530": {
       "title": "Controls and Optimization",
@@ -501,10 +500,11 @@
       "components": [
         "ENGR 4570"
       ],
-      "prereqs": null,
+      "prereqs": "ENGR 3520",
       "standing": null,
       "suggested_term": "senior-fall",
-      "notes": "CHECK: Proposed course, first offered Fall 2027; not in the published 2026-27 catalog. Prerequisites not yet set."
+      "notes": "Proposed course, first offered Fall 2027; not in the published 2026-27 catalog.",
+      "available_from": "2027FA"
     },
     "ENGR 4600": {
       "title": "Mechatronics Engineering Internship",
@@ -513,9 +513,13 @@
         "ENGR 4600"
       ],
       "prereqs": null,
-      "standing": null,
+      "standing": "junior",
       "suggested_term": "junior-spring",
-      "notes": "CHECK: Proposed course; 3 hours of internship credit; not in the published 2026-27 catalog. Prerequisites and offered terms not yet set."
+      "notes": "Proposed course; 3 hours of internship credit; not in the published 2026-27 catalog. Open to juniors and seniors. Offered every fall and spring.",
+      "season_override": [
+        "fall",
+        "spring"
+      ]
     },
     "ENGR 4610": {
       "title": "Mechatronics Engineering Research",
@@ -524,9 +528,13 @@
         "ENGR 4610"
       ],
       "prereqs": null,
-      "standing": null,
+      "standing": "junior",
       "suggested_term": "junior-spring",
-      "notes": "CHECK: Proposed course; 3 hours of research credit; not in the published 2026-27 catalog. Prerequisites and offered terms not yet set."
+      "notes": "Proposed course; 3 hours of research credit; not in the published 2026-27 catalog. Open to juniors and seniors. Offered every fall and spring.",
+      "season_override": [
+        "fall",
+        "spring"
+      ]
     }
   },
   "requirements": [

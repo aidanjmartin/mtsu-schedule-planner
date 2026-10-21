@@ -21,7 +21,7 @@
       ]
     }
   ],
-  "notes": "Prerequisites come from the 2026-27 catalog course descriptions linked from the program page, read October 20, 2026. Term placement comes from the 2026-27 academic map. Every student starts in MATH 1910; precalculus starts are out of scope. Summer terms are out of scope. This file also models proposed Fall 2027 changes that are not in the published catalog: ENGR 3915 and ENGR 3970 move from required courses to elective options, ENGR 4570, ENGR 4600, and ENGR 4610 are added, and students choose 3 electives.",
+  "notes": "Prerequisites come from the 2026-27 catalog course descriptions linked from the program page, read October 20, 2026. Term placement comes from the 2026-27 academic map. Every student starts in MATH 1910; precalculus starts are out of scope. Summer terms are out of scope. This file also models proposed Fall 2027 changes that are not in the published catalog: ENGR 3915 and ENGR 3970 move from required courses to elective options, ENGR 4570, ENGR 4600, and ENGR 4610 are added, and students choose 3 electives. Course descriptions come from the 2026-27 catalog, read October 21, 2026.",
   "courses": {
     "ENGR 1100": {
       "title": "Engineering Fundamentals",
@@ -35,7 +35,8 @@
       },
       "standing": null,
       "suggested_term": "freshman-fall",
-      "notes": "Catalog lists MATH 1630, MATH 1730, or MATH 1910 as the prerequisite. Students take MATH 1910 and ENGR 1100 in the same term, as the academic map shows."
+      "notes": "Catalog lists MATH 1630, MATH 1730, or MATH 1910 as the prerequisite. Students take MATH 1910 and ENGR 1100 in the same term, as the academic map shows.",
+      "description": "Introduces various engineering fields. Emphasis on problem-solving techniques and the use of mathematics in analyzing technical problems. Topics such as graphical representation of data, estimation, dimensions, units, error estimates, statistics, and team work addressed. Engineering ethics and impact of engineering solutions on society and the environment."
     },
     "MATH 1910": {
       "title": "Calculus I",
@@ -46,7 +47,8 @@
       "prereqs": null,
       "standing": null,
       "suggested_term": "freshman-fall",
-      "notes": "Prerequisites from the 2026-27 catalog course description."
+      "notes": "Prerequisites from the 2026-27 catalog course description.",
+      "description": "An introduction to calculus with an emphasis on analysis of functions, multidisciplinary applications of calculus, and theoretical understanding of differentiation and integration. Topics include the definition of the derivative, differentiation techniques, and applications of the derivative. Calculus topics related to trigonometric, exponential, and logarithmic functions also included. Course concludes with the fundamental theorem of calculus; the definition of antidifferentiation and the definite integral; basic applications of integrations; and introductory techniques of integration. Graphing calculator required."
     },
     "CHEM 1110": {
       "title": "General Chemistry I and Lab",
@@ -58,7 +60,8 @@
       "prereqs": null,
       "standing": null,
       "suggested_term": "freshman-fall",
-      "notes": "Prerequisites from the 2026-27 catalog course description."
+      "notes": "Prerequisites from the 2026-27 catalog course description.",
+      "description": "Fundamental concepts of atomic structure, molecular structure and bonding, chemical reactions, stoichiometric relationships, periodic properties of the elements, thermochemistry, and properties of gases. Three hours of lecture and one three-hour laboratory."
     },
     "ENGR 2100": {
       "title": "Introduction to Engineering Design",
@@ -69,7 +72,8 @@
       "prereqs": null,
       "standing": null,
       "suggested_term": "freshman-spring",
-      "notes": "Prerequisites from the 2026-27 catalog course description."
+      "notes": "Prerequisites from the 2026-27 catalog course description.",
+      "description": "Introduction to computer-aided design (CAD) for product design, modeling, and prototyping. Individual use and team-based environment to design and prototype a functional and manufacturable marketable product. Application to design, manufacturing, and analysis using geometric tolerancing and dimensioning. Two hours lecture and three hours laboratory."
     },
     "MATH 1920": {
       "title": "Calculus II",
@@ -83,7 +87,8 @@
       },
       "standing": null,
       "suggested_term": "freshman-spring",
-      "notes": "Prerequisites from the 2026-27 catalog course description."
+      "notes": "Prerequisites from the 2026-27 catalog course description.",
+      "description": "A topics course providing a wide view of different techniques and applications of calculus in the plane. Techniques of integration and applications of integration fully developed. Power series and Taylor series included. Emphasis on multidisciplinary applications includes Taylor series approximation; applications of integration to physics, biology, and business; and geometric and power series applications. Graphing calculator required."
     },
     "PHYS 2110": {
       "title": "Calculus-Based Physics I and Laboratory I",
@@ -98,7 +103,8 @@
       },
       "standing": null,
       "suggested_term": "freshman-spring",
-      "notes": "Prerequisites from the 2026-27 catalog course description."
+      "notes": "Prerequisites from the 2026-27 catalog course description.",
+      "description": "A calculus-based introduction to mechanics and wave motion. One and one-half hours lecture. Lab: Experiments in mechanics, waves, and thermodynamics. Data reduction, error analysis, and report writing. Two three-hour sessions."
     },
     "ENGR 2110": {
       "title": "Statics",
@@ -115,7 +121,8 @@
       },
       "standing": null,
       "suggested_term": "sophomore-fall",
-      "notes": "Catalog prerequisite is PHYS 2111, the lab paired with PHYS 2110 in this planning unit. The academic map adds ENGR 1100 with C or better."
+      "notes": "Catalog prerequisite is PHYS 2111, the lab paired with PHYS 2110 in this planning unit. The academic map adds ENGR 1100 with C or better.",
+      "description": "Fundamental concepts and conditions of static equilibrium; their application to systems of forces and couples acting on rigid bodies; and the calculation of centers of gravity, centroids, and moments of inertia."
     },
     "ENGR 2210": {
       "title": "Introduction to Materials Science and Engineering",
@@ -126,7 +133,8 @@
       "prereqs": "CHEM 1110",
       "standing": null,
       "suggested_term": "sophomore-fall",
-      "notes": "Prerequisites from the 2026-27 catalog course description."
+      "notes": "Prerequisites from the 2026-27 catalog course description.",
+      "description": "Origin and behavior of materials. Classifications of materials. Physical metallurgy-mechanical and physical properties, crystalline structure, imperfections in solids, phase diagrams, failure mechanisms in materials, hardening and tempering, isothermal diagrams. Involves hands-on experiences through lab sessions in the use of metallurgical and mechanical testing equipment. Lecture and laboratory."
     },
     "MATH 3110": {
       "title": "Calculus III",
@@ -137,7 +145,8 @@
       "prereqs": "MATH 1920",
       "standing": null,
       "suggested_term": "sophomore-fall",
-      "notes": "Prerequisites from the 2026-27 catalog course description."
+      "notes": "Prerequisites from the 2026-27 catalog course description.",
+      "description": "Adjusts calculus techniques developed in the plane (Calculus I and II) to make them applicable in three-dimensional space. Introductory study of the nature of three-dimensional space and definition of the algebraic calculations in three-dimensional space. Differential and integral calculus definitions and techniques revised to appropriately transfer into this new space. Topics include multivariate functions, partial differentiation, partial integration, multiple integration, and multidisciplinary applications."
     },
     "PHYS 2120": {
       "title": "Calculus-Based Physics II and Laboratory II",
@@ -157,7 +166,8 @@
       },
       "standing": null,
       "suggested_term": "sophomore-fall",
-      "notes": "Catalog prerequisites are PHYS 2111 and MATH 1920 with C or better. The academic map lists only PHYS 2110."
+      "notes": "Catalog prerequisites are PHYS 2111 and MATH 1920 with C or better. The academic map lists only PHYS 2110.",
+      "description": "A lecture course that supplements the discussion in PHYS 2121. Topics include a microscopic view of electrical force and field, polarization, electric circuits, magnetic force and field, electric potential, symmetries of fields, Maxwell\u2019s equations, electromagnetic radiation, optics, and wave phenomena. One and one-half hours lecture. Lab: A laboratory-based course to accompany PHYS 2120. Includes discussions, group problem solving, and hands-on activities. Two three-hour sessions."
     },
     "ENGR 2120": {
       "title": "Dynamics",
@@ -173,7 +183,8 @@
       },
       "standing": null,
       "suggested_term": "sophomore-spring",
-      "notes": "Prerequisites from the 2026-27 catalog course description."
+      "notes": "Prerequisites from the 2026-27 catalog course description.",
+      "description": "Kinematics of particles in rectilinear and curvilinear motions. Kinetics of particles, Newton\u2019s second law, energy and momentum methods. Systems of particles, Kinematics and plane motion of rigid bodies, forces and accelerations, energy and momentum methods. Introduction to mechanical vibrations."
     },
     "ENGR 2130": {
       "title": "Electrical Circuit Analysis I",
@@ -193,7 +204,8 @@
       },
       "standing": null,
       "suggested_term": "sophomore-spring",
-      "notes": "PHYS 2121 may be taken concurrently (catalog). The academic map lists PHYS 2120/2121 as a completed prerequisite."
+      "notes": "PHYS 2121 may be taken concurrently (catalog). The academic map lists PHYS 2120/2121 as a completed prerequisite.",
+      "description": "Fundamentals of calculus-based electric circuit analysis. Topics include Ohm\u2019s law, resistors, Kirchhoff\u2019s current and voltage laws, Mesh and Nodal analysis, independent and dependent voltage and current sources, source transformations, Thevenin\u2019s and Norton\u2019s theorems, superposition, maximum power transfer theorem, capacitors, inductors, and steady-state and transient analysis for circuits with storage elements. Two hours of lecture and three hours of laboratory."
     },
     "MATH 3120": {
       "title": "Differential Equations I",
@@ -207,7 +219,8 @@
       },
       "standing": null,
       "suggested_term": "sophomore-spring",
-      "notes": "Prerequisites from the 2026-27 catalog course description."
+      "notes": "Prerequisites from the 2026-27 catalog course description.",
+      "description": "The solution and application of ordinary differential equations with emphasis on first order equations, second order linear equations, Laplace Transform method, systems of differential equations, and numerical methods."
     },
     "CSCI 1170": {
       "title": "Computer Science I",
@@ -218,7 +231,8 @@
       "prereqs": null,
       "standing": null,
       "suggested_term": "sophomore-spring",
-      "notes": "Catalog prerequisite is MATH 1730 or MATH 1810 with C or better, Math ACT 26, or a calculus placement score. Every student in this model places into MATH 1910, so no prerequisite applies."
+      "notes": "Catalog prerequisite is MATH 1730 or MATH 1810 with C or better, Math ACT 26, or a calculus placement score. Every student in this model places into MATH 1910, so no prerequisite applies.",
+      "description": "The first of a two-semester sequence using a high-level language; language constructs and simple data structures such as arrays and strings. Emphasis on problem solving using the language and principles of structured software development. Three lecture hours and two laboratory hour."
     },
     "ENGR 3510": {
       "title": "Electrical Circuit Analysis II",
@@ -234,7 +248,8 @@
       },
       "standing": null,
       "suggested_term": "junior-fall",
-      "notes": "Prerequisites from the 2026-27 catalog course description."
+      "notes": "Prerequisites from the 2026-27 catalog course description.",
+      "description": "Second course on circuit analysis. Topics covered include Sinusoidal Steady-State Analysis, Sinusoidal Steady-State Power Calculations, Balanced Three-Phase Circuits, Frequency Response and Filter Design, Magnetically Coupled Coils and Ideal Transformers. Two-hour lecture and three-hour lab."
     },
     "ENGR 3560": {
       "title": "Mechanics of Materials",
@@ -251,7 +266,8 @@
       },
       "standing": null,
       "suggested_term": "junior-fall",
-      "notes": "Prerequisites from the 2026-27 catalog course description."
+      "notes": "Prerequisites from the 2026-27 catalog course description.",
+      "description": "Plane stress, plane strain, and stress-strain laws. Application of stress and deformation analysis to members subjected to centric, torsional, flexural, and combined loading. Introduces theories of failure, buckling, and energy methods."
     },
     "ENGR 3590": {
       "title": "Kinematics and Dynamics of Machinery",
@@ -267,7 +283,8 @@
       },
       "standing": null,
       "suggested_term": "junior-fall",
-      "notes": "Prerequisites from the 2026-27 catalog course description."
+      "notes": "Prerequisites from the 2026-27 catalog course description.",
+      "description": "The kinematics and dynamics of machinery and its applications to mechatronic systems. Analysis of motion translation/rotation in machinery, energy of machine mechanisms. Involves projects, seminars, and workshops regarding graphical, analytical, and numerical techniques for dynamic analysis and synthesis of machines. Two hours lecture and three hours laboratory."
     },
     "MATH 2010": {
       "title": "Elements of Linear Algebra",
@@ -278,7 +295,8 @@
       "prereqs": "MATH 1910",
       "standing": null,
       "suggested_term": "junior-fall",
-      "notes": "Catalog prerequisite is MATH 1910. The academic map lists none."
+      "notes": "Catalog prerequisite is MATH 1910. The academic map lists none.",
+      "description": "Vectors and vector spaces, matrices and systems of linear equations, geometry of vector spaces and linear transformations in a vector space."
     },
     "ENGR 3520": {
       "title": "Digital Circuits Fundamentals",
@@ -294,7 +312,8 @@
       },
       "standing": null,
       "suggested_term": "junior-fall",
-      "notes": "Prerequisites from the 2026-27 catalog course description."
+      "notes": "Prerequisites from the 2026-27 catalog course description.",
+      "description": "Introduces logic design with emphasis on practical design techniques and circuit implementation. Topics include Boolean algebra; theory of logic functions; mapping techniques and function minimization; logic equivalent circuits and symbol transformations; transistor-transistor-logic (TTL)/metal oxide semi-conductor (MOS) logic into gate implementations; electrical characteristics; propagation delays; signed number notations and arithmetic. Digital design using random logic and programmable logic devices (FPGAs and CPLDs). Two hours lecture and three hours laboratory."
     },
     "ENGR 3970": {
       "title": "Engineering Economy",
@@ -309,7 +328,8 @@
       "season_override": [
         "fall",
         "spring"
-      ]
+      ],
+      "description": "Development of capital budgets. Justification of capital projects using time value of money concepts. Replacement analysis. Review of justification of actual capital projects and computer applications. Introduces economic risk assessment and Lean Six Sigma from an economic viewpoint."
     },
     "ENGR 3530": {
       "title": "Electronics and Instrumentation",
@@ -323,7 +343,8 @@
       },
       "standing": null,
       "suggested_term": "junior-spring",
-      "notes": "Prerequisites from the 2026-27 catalog course description."
+      "notes": "Prerequisites from the 2026-27 catalog course description.",
+      "description": "Introduces use and analysis of electronic circuits and input mechanism of various sensors, design of analog signal conditioning systems based on the system requirement, as well as understanding the theory and the art of modern instrumentation and measurements (I&M) systems. Topics include BJT and MOSFET circuit model and analysis; operational amplifier; instrumentation amplifier; survey of sensor input mechanisms; analog signal conditioning and sensor application; measurement system architecture; errors in measurement; standard used in measurement. Two hours lecture and three hours laboratory."
     },
     "ENGR 3550": {
       "title": "Fluid Mechanics",
@@ -339,7 +360,8 @@
       },
       "standing": null,
       "suggested_term": "junior-spring",
-      "notes": "Prerequisites from the 2026-27 catalog course description."
+      "notes": "Prerequisites from the 2026-27 catalog course description.",
+      "description": "Continuum, velocity field, fluid statics, manometers, basic conservation laws for systems and control volumes, dimensional analysis. Euler and Bernoulli equations, viscous flows, boundary layers, flow in channels and around submerged bodies, one-dimensional gas dynamics, turbo-machinery. Applications in hydraulic, pneumatic, and fluidics discussed. Two hours lecture and three hours laboratory."
     },
     "ENGR 3915": {
       "title": "Technical Project Management and Soft Skills",
@@ -354,7 +376,8 @@
       "season_override": [
         "fall",
         "spring"
-      ]
+      ],
+      "description": "Project management as sanctioned by the International Project Management Institute and how to assess and boost emotional intelligence or soft skills. Student successfully completing course will earn 20 Professional Development Units (PDUs) issued by the International Project Management Institute."
     },
     "ENGR 4540": {
       "title": "Thermodynamics for Engineers",
@@ -373,7 +396,8 @@
       "notes": "Catalog prerequisites are MATH 3110 and PHYS 2110/2111. Planned to run every spring. This replaces the offering history for planning.",
       "season_override": [
         "spring"
-      ]
+      ],
+      "description": "Introduction to applications of the first and second laws of thermodynamics to energy transformation processes. Study of heating/cooling systems, overview of various mechanisms of heat transfer. Application of thermodynamics to various gas and vapor power cycles."
     },
     "ENGR 4550": {
       "title": "Introduction to Robotics",
@@ -392,7 +416,8 @@
       "notes": "Prerequisites from the 2026-27 catalog course description. Planned to run every spring. This replaces the offering history for planning.",
       "season_override": [
         "spring"
-      ]
+      ],
+      "description": "Fundamentals of robots, applications in research and industrial robotics, homogeneous transformations, forward and inverse kinematics of serial manipulators. Additional topics include parallel robots, manipulator dynamics, controls, path planning, and optimization. Hands-on activities such as field trips, robot programming, and projects are incorporated."
     },
     "ENGR 4560": {
       "title": "Advanced Embedded Systems Programming",
@@ -406,7 +431,8 @@
       "notes": "Catalog prerequisite is ENGR 3520. Planned to run every fall. This replaces the offering history for planning.",
       "season_override": [
         "fall"
-      ]
+      ],
+      "description": "Advanced embedded systems programming using a mixture of low and high-level languages. Advanced language constructs, a focus on Object Oriented Programming (OOP) and abstraction techniques, interrupts, and communication with integrated peripherals. Emphasis on problem-solving, cyber-physical interaction, and structured software development."
     },
     "ENGR 4500": {
       "title": "FE Exam Preparation",
@@ -417,7 +443,8 @@
       "prereqs": null,
       "standing": "senior",
       "suggested_term": "senior-fall",
-      "notes": "Catalog prerequisite is senior standing or completion of all 3000-level courses; encoded as senior standing."
+      "notes": "Catalog prerequisite is senior standing or completion of all 3000-level courses; encoded as senior standing.",
+      "description": "Review of topics covered on the general session of the Fundamentals of Engineering exam. Covers all aspects of engineering curriculum including mathematics, engineering probability and statistics, chemistry, computers, ethics and business practices, engineering economics, engineering mechanics (statics and dynamics), strength of materials, material properties, fluid mechanics, electricity and magnetism, and thermodynamics."
     },
     "ENGR 4510": {
       "title": "Programmable Logic Controllers and Networks",
@@ -428,7 +455,8 @@
       "prereqs": "ENGR 3520",
       "standing": null,
       "suggested_term": "senior-fall",
-      "notes": "Catalog prerequisite is ENGR 3520 only. The academic map lists ENGR 3520 and ENGR 3530."
+      "notes": "Catalog prerequisite is ENGR 3520 only. The academic map lists ENGR 3520 and ENGR 3530.",
+      "description": "Introduces programmable logic controllers (PLCs). Emphasizes ladder diagrams and programming of PLC. Introduces network systems such as DeviceNet, ProfiNet, and ProfiBus. Emphasizes the integration of PLCs in automation systems. Two hours lecture and three hours laboratory."
     },
     "ENGR 3540": {
       "title": "Introduction to Feedback Control",
@@ -448,7 +476,8 @@
       },
       "standing": null,
       "suggested_term": "senior-fall",
-      "notes": "Prerequisites from the 2026-27 catalog course description."
+      "notes": "Prerequisites from the 2026-27 catalog course description.",
+      "description": "Introduces classical feedback control in electrical, mechanical, mechatronics, and other continuous-time dynamic systems. Discusses how to model, evaluate, and design SISO and linear control systems using differential equations, transfer function, root locus, and frequency response methods. Hands-on experiments involving Matlab, Labview, transducers (sensors), and actuators (motors) used to complement the theoretical aspects of the course. Embedded control also introduced. Two hours of lecture and three hours of laboratory."
     },
     "ENGR 4580": {
       "title": "Mechatronic System Design",
@@ -474,7 +503,8 @@
       "notes": "The published 2026-27 catalog also requires ENGR 3915. That prerequisite is dropped here per the proposed Fall 2027 change that makes ENGR 3915 an elective. Senior design I runs every fall only. This replaces the offering history for planning.",
       "season_override": [
         "fall"
-      ]
+      ],
+      "description": "Presents specifics in the mechanical design of mechatronic systems. Includes problem analysis, conceptualization, design/material selection, and performance analysis. Addresses mechanical subsystems, bill of materials, and economic analysis of the system. Two hours lecture and three hours laboratory."
     },
     "ENGR 4530": {
       "title": "Controls and Optimization",
@@ -485,7 +515,8 @@
       "prereqs": "ENGR 3540",
       "standing": null,
       "suggested_term": "senior-spring",
-      "notes": "Prerequisites from the 2026-27 catalog course description."
+      "notes": "Prerequisites from the 2026-27 catalog course description.",
+      "description": "Introduces modern control theory to the students. Topics include state-space analysis and design, nonlinear and optimal control, controllability, observability, robust control, and digital control. Introduces basics of discrete event dynamic systems. Two hours lecture and three hours lab."
     },
     "ENGR 4590": {
       "title": "Automation System Design",
@@ -504,7 +535,8 @@
       "notes": "Catalog prerequisites are ENGR 4580 and ENGR 4510. The academic map lists ENGR 4580 and an unnamed 3000-level course. Senior design II runs every spring only. This replaces the offering history for planning.",
       "season_override": [
         "spring"
-      ]
+      ],
+      "description": "Capstone design project. Design and analysis of a complete mechatronic system using controllers, sensors, and actuators. Advance systems programming with current industrial network programs and GUIs. Implementation of project and process management principles as well as professional documentation and presentation. Two hours lecture and three hours laboratory."
     },
     "ENGR 4520": {
       "title": "Electrical Power and Machinery",
@@ -515,7 +547,8 @@
       "prereqs": "ENGR 3510",
       "standing": null,
       "suggested_term": "senior-spring",
-      "notes": "Prerequisites from the 2026-27 catalog course description."
+      "notes": "Prerequisites from the 2026-27 catalog course description.",
+      "description": "Single- and three-phase power circuit calculations with phasor diagrams and electromagnetic laws. Magnetic field and circuit analysis. Variable frequency drives. Electromechanical energy conversion and rotating machinery modeling and analysis. Construction, equivalent circuit, and performance analysis of three-phase transformers and DC, induction, and synchronous motors. Two hours lecture and three hours laboratory."
     },
     "ENGR 4570": {
       "title": "Machine Vision and Applications in AI",
@@ -530,7 +563,8 @@
       "available_from": "2027FA",
       "season_override": [
         "fall"
-      ]
+      ],
+      "description": null
     },
     "ENGR 4600": {
       "title": "Mechatronics Engineering Internship",
@@ -545,7 +579,8 @@
       "season_override": [
         "fall",
         "spring"
-      ]
+      ],
+      "description": null
     },
     "ENGR 4610": {
       "title": "Mechatronics Engineering Research",
@@ -560,7 +595,8 @@
       "season_override": [
         "fall",
         "spring"
-      ]
+      ],
+      "description": null
     }
   },
   "requirements": [

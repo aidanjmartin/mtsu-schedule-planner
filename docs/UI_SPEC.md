@@ -58,13 +58,13 @@ The core circle sits in the center. The required circle and the four elective ci
 
 **Drawing.** The map is drawn in SVG by React, with animation by the Motion library. Animation respects the reduced-motion setting. The canvas uses the site's light theme and the logo blue as the accent, with the subject colors kept soft so the selected course and its arrows stand out.
 
-**Descriptions.** Catalog descriptions are stored in the catalog file as a `description` field for each course. ENGR 4570, 4600, and 4610 use descriptions supplied by the program owner until they appear in the catalog.
+**Descriptions.** Catalog descriptions are stored in the catalog file as a `description` field for each course. ENGR 4570, 4600, and 4610 have no catalog description yet; their panel reads "Proposed course. Description coming soon." until the program owner supplies one.
 
 ### 2. Plan my degree (`#/plan`)
 
 A guided walkthrough in a light theme. One question per screen, a progress bar with step names, Back and Continue buttons on every step, and answers kept when the student goes back.
 
-1. **Where are you in the program?** Year (1st, 2nd, 3rd, 4th, 5th or later) and semester (fall or spring). The answer is the student's current semester, the one in progress today, and the plan starts with the semester after it. A separate option reads "I'm starting my first semester" and asks which semester they start, with Fall 2027 selected and Spring 2027 as the other choice; that plan starts with the chosen semester.
+1. **Where are you in the program?** Year (1st, 2nd, 3rd, 4th, 5th or later). The site does not ask which semester: it works out the current semester from today's date and states it ("We count Fall 2026 as your current semester and plan the semesters after it."). The plan starts with the semester after the current one. A separate option reads "I'm starting my first semester" and asks which semester they start, with Fall 2027 selected and Spring 2027 as the other choice; that plan starts with the chosen semester.
 2. **Which courses have you finished?** A checklist of the Mechatronics and required math and science courses, grouped by the academic map's semesters. Every course the map places before the student's current semester starts checked. The student unchecks what they have not taken. A short line explains why: "We checked the courses most students have finished by now. Uncheck any you haven't taken."
 3. **What are you taking this semester?** The map's courses for the current semester start checked. The student adjusts. These count as finished for planning next semester.
 4. **Pick your electives.** Choose 3. Cards are grouped by career area. Each card shows the title, a one-sentence description, the semesters it runs, and what it requires. A card the student cannot take yet says when they can. A counter reads "2 of 3 chosen."

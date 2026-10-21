@@ -18,6 +18,7 @@ function readSaved(catalog) {
     const answers = {
       ...base,
       firstSemester: raw.answers?.firstSemester === true,
+      firstTerm: typeof raw.answers?.firstTerm === 'string' && /^\d{4}(FA|SP)$/.test(raw.answers.firstTerm) ? raw.answers.firstTerm : null,
       year: Number.isInteger(raw.answers?.year) && raw.answers.year >= 1 && raw.answers.year <= 5 ? raw.answers.year : null,
       season: ['fall', 'spring'].includes(raw.answers?.season) ? raw.answers.season : null,
       finished: list(raw.answers?.finished).filter(known),

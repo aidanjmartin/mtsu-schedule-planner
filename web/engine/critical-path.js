@@ -79,7 +79,11 @@ export function buildModel({ catalog, offerings = null, student, horizon = 24 })
   // Gen-ed placeholders: spread each one's hours across its preferred terms.
   const startIdx = termIndex(student.start_term);
   const suggestedOfTodo = [...todo, ...inProgress].map((c) => courses.get(c).suggestedPos).filter((p) => p !== null);
-  const basePosition = suggestedOfTodo.length ? Math.min(...suggestedOfTodo) : 0;
+  // The academic map position of the first planned term. A caller that knows the student's place on the map passes
+  // `start_position`. Otherwise the earliest map position among the courses still to take stands in for it.
+  const basePosition = Number.isInteger(student.start_position)
+    ? student.start_position
+    : suggestedOfTodo.length ? Math.min(...suggestedOfTodo) : 0;
   const warnings = [];
   const chunks = [];
   for (const p of reqs.placeholders) {
@@ -127,6 +131,22 @@ export function buildModel({ catalog, offerings = null, student, horizon = 24 })
     choose: reqs.choose, placeholders: reqs.placeholders, chunks, basePosition,
     added: closed.added, warnings, assumptions, unknownCompleted,
   };
+}
+
+/**
+ * The term on the plan's axis where the academic map puts a course for this student: the map position counted from
+ * the first planned term. `raw` is -1 for a course the map places before the first planned term (the student is
+ * behind on it) and null for a course that has no place on the map. `hold` is the earliest term the planner may use.
+ */
+export function mapTarget(model, id) {
+  const course = model.courses.get(id);
+  const pos = course?.suggestedPos ?? null;
+  if (pos === null) return { raw: null, hold: 0 };
+  if (pos < model.basePosition) return { raw: -1, hold: 0 };
+  let idx = termIndex(model.student.start_term) + (pos - model.basePosition);
+  while (((idx % 3) + 3) % 3 !== pos % 3) idx += 1;
+  const raw = ordinalOf(model.axis, termFromIndex(idx));
+  return { raw, hold: raw };
 }
 
 function seasonAllowed(model, id, ordinal) {

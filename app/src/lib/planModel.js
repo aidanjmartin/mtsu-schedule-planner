@@ -10,6 +10,8 @@ export const CATALOG_YEAR = '2026-27';
 export const ELECTIVE_REQUIREMENT = 'engr-elective';
 export const ELECTIVE_COUNT = 3;
 export const FIRST_TERM = '2026FA';
+/** The earliest "current semester" the planner uses. The 2026-27 catalog starts in Fall 2026. */
+const EARLIEST_CURRENT = '2026SP';
 
 /** Credit load choices. `max` is the most hours the planner puts in one semester. */
 export const LOADS = {
@@ -25,6 +27,7 @@ const ORDINAL = ['1st', '2nd', '3rd', '4th', '5th'];
 export function emptyAnswers() {
   return {
     firstSemester: false,
+    firstTerm: null,
     year: null,
     season: null,
     finished: [],
@@ -38,31 +41,60 @@ export function emptyAnswers() {
 
 // ---------------------------------------------------------------------- terms
 
-/** The semester in progress (or the next one to start), from today's date. Never earlier than Fall 2026. */
+/**
+ * The student's current semester, from today's date. August through December is fall, and January through May is
+ * spring. June and July count as preparation for the coming fall, so the current semester is the spring that just
+ * ended and the next semester is fall. Never earlier than Spring 2026, so the plan never starts before Fall 2026.
+ */
 export function referenceTerm(today = new Date()) {
   const month = today.getMonth() + 1;
   const year = today.getFullYear();
-  let term;
-  if (month >= 8) term = `${year}FA`;
-  else if (month <= 5) term = `${year}SP`;
-  else term = `${year}FA`;
-  return T.compareTerms(term, FIRST_TERM) < 0 ? FIRST_TERM : term;
+  const term = month >= 8 ? `${year}FA` : `${year}SP`;
+  return T.compareTerms(term, EARLIEST_CURRENT) < 0 ? EARLIEST_CURRENT : term;
 }
 
-function firstTermWithSeason(from, season) {
-  let term = from;
-  for (let i = 0; i < 6 && T.seasonOf(term) !== season; i += 1) term = T.nextTerm(term, { summer: false });
-  return term;
+/**
+ * The two semesters a first-semester student can choose from: the two after the current semester.
+ * The fall semester comes first and is the default.
+ */
+export function firstSemesterOptions(today = new Date()) {
+  const next = T.nextTerm(referenceTerm(today), { summer: false });
+  const later = T.nextTerm(next, { summer: false });
+  const fall = T.seasonOf(next) === 'fall' ? next : later;
+  const spring = fall === next ? later : next;
+  return { terms: [fall, spring], default: fall };
 }
 
-/** The semester the student is in. A student starting a first semester begins in the next fall. */
+/** The semester a first-semester student starts: their choice when it is still available, otherwise the default. */
+export function firstTermFor(answers, today = new Date()) {
+  const { terms, default: fall } = firstSemesterOptions(today);
+  return terms.includes(answers.firstTerm) ? answers.firstTerm : fall;
+}
+
+/** The season of the student's current semester, from today's date. */
+export function currentSeason(today = new Date()) {
+  return T.seasonOf(referenceTerm(today));
+}
+
+/**
+ * Set when the semester the student chose in step 1 is not the semester today's date puts them in.
+ * Returns { season, label } for the semester we expect, or null when the answer fits.
+ */
+export function seasonMismatch(answers, today = new Date()) {
+  if (answers.firstSemester || answers.season === null) return null;
+  const current = referenceTerm(today);
+  return T.seasonOf(current) === answers.season ? null : { season: T.seasonOf(current), term: current, label: T.termLabel(current) };
+}
+
+/**
+ * The semester the student is in. A first-semester student has not started, so this is the semester they start.
+ * Everyone else is in the semester today's date puts them in.
+ */
 export function currentTermFor(answers, today = new Date()) {
-  const ref = referenceTerm(today);
-  if (answers.firstSemester) return firstTermWithSeason(ref, 'fall');
-  return firstTermWithSeason(ref, answers.season ?? 'fall');
+  return answers.firstSemester ? firstTermFor(answers, today) : referenceTerm(today);
 }
 
-/** The first semester the plan schedules. Students in the middle of the program plan from the next semester. */
+/** The first semester the plan schedules: the chosen first semester, or the semester after the current one. */
 export function planStartTerm(answers, today = new Date()) {
   const current = currentTermFor(answers, today);
   return answers.firstSemester ? current : T.nextTerm(current, { summer: false });
@@ -79,6 +111,16 @@ export function mapPosition(answers) {
   if (answers.firstSemester) return 0;
   const year = Math.min(Math.max(answers.year ?? 1, 1), 5);
   return (year - 1) * 3 + (answers.season === 'spring' ? 1 : 0);
+}
+
+/**
+ * The academic map position of the first semester the plan schedules. Courses the map places earlier than this
+ * are catch-up courses, and the planner takes them as early as it can.
+ */
+export function startPosition(answers, today = new Date()) {
+  if (answers.firstSemester) return T.seasonOf(firstTermFor(answers, today)) === 'spring' ? 1 : 0;
+  const position = mapPosition(answers);
+  return position + (answers.season === 'spring' ? 2 : 1);
 }
 
 export function positionLabel(position) {
@@ -339,6 +381,7 @@ export function engineStudent(catalog, answers, loadKey, today = new Date(), ext
   const chosen = [...new Set([...answers.electivesDone, ...answers.electives])];
   return {
     start_term: planStartTerm(answers, today),
+    start_position: startPosition(answers, today),
     completed: completedIds(catalog, answers),
     in_progress: [],
     choices: { [ELECTIVE_REQUIREMENT]: chosen },
@@ -396,6 +439,8 @@ function termOrdinal(plan, term) {
 
 /** The semester the academic map would have the student start senior design and graduate. */
 export function mapPace(answers, today = new Date()) {
+  // A first semester that starts in spring begins mid-year on the map, so there is no fixed pace to compare with.
+  if (answers.firstSemester && T.seasonOf(firstTermFor(answers, today)) === 'spring') return null;
   const position = mapPosition(answers);
   const semester = Math.floor(position / 3) * 2 + (position % 3);
   if (semester > 7) return null;
@@ -565,6 +610,9 @@ export function computeResult(catalog, offerings, answers, { loadKey = answers.l
     });
   }
 
+  // The plan matches the academic map when every remaining course sits in its map semester for this student.
+  const matchesMap = !unplaced.length && (raw.off_map ?? []).length === 0;
+
   let status = 'on-track';
   if (alerts.some((a) => a.severity === 'warn' && !a.course) || unplaced.length) status = 'attention';
   if (((sdDelay ?? 0) > 0) || ((gradDelay ?? 0) > 0)) status = 'delayed';
@@ -583,7 +631,7 @@ export function computeResult(catalog, offerings, answers, { loadKey = answers.l
     } : null,
     electives: [...new Set([...answers.electivesDone, ...answers.electives])],
     genEd, alerts, status, unplaced, behind,
-    sdDelay, gradDelay,
+    sdDelay, gradDelay, matchesMap, offMap: raw.off_map ?? [],
   };
 }
 

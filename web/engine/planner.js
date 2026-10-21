@@ -1,10 +1,15 @@
 // Term-by-term planner.
 //
-// Each term, take every course that is offered, has its prerequisites met, and meets its standing rule.
-// Sort by the latest term each course can start without delaying graduation (earliest deadline first, which is
-// the same as least remaining slack in this term), then by the longest chain of courses that depend on it,
-// and fill the term up to the credit limit. A course's latest term already accounts for the courses that
-// need it, so a prerequisite of a tight course is itself tight.
+// Every course the student still needs has a place on the academic map (its suggested term), counted from the
+// student's own place on the map. The planner puts each course in that map semester. A course moves later only
+// when a prerequisite, an offering season, an available_from term, class standing, or the credit load requires it.
+// A course the map placed before the first planned term (the student is behind on it) goes in as early as it can.
+//
+// Each term, take every course that has reached its map semester, is offered, has its prerequisites met, and
+// meets its standing rule. Sort by the latest term each course can start without delaying graduation (earliest
+// deadline first, which is the same as least remaining slack in this term), then by the longest chain of courses
+// that depend on it, and fill the term up to the credit limit. A course's latest term already accounts for the
+// courses that need it, so a prerequisite of a tight course is itself tight.
 //
 // General education hours are reserved in their preferred terms first. A course with no room left (its latest
 // term is this term or earlier) may take reserved hours; the displaced general education hours move to the
@@ -12,12 +17,13 @@
 //
 // This rule produces a good plan. It does not guarantee the best plan.
 
-import { buildModel, analyze, firstOffered } from './critical-path.js';
+import { buildModel, analyze, firstOffered, mapTarget } from './critical-path.js';
 import { termIndex } from './terms.js';
 import { readyOrdinal, bindingLeaves } from './prereqs.js';
 import { termLabel } from './terms.js';
 
 const REASON_TEXT = {
+  map: 'Placed in its academic map semester.',
   prerequisite: 'Placed as soon as its prerequisites allow.',
   offering: 'Waited for the next term it is offered.',
   'credit limit': 'Pushed to a later term by the credit limit.',
@@ -76,6 +82,9 @@ export function planFromModel(model, analysis) {
     || (model.courses.get(a).suggestedPos ?? 99) - (model.courses.get(b).suggestedPos ?? 99)
     || a.localeCompare(b);
 
+  const targets = new Map(model.todo.map((id) => [id, mapTarget(model, id)]));
+  const holdOf = (id) => targets.get(id)?.hold ?? 0;
+
   const waiting = new Set(model.todo);
   for (let t = 0; t < n && waiting.size > 0; t += 1) {
     const cap = capacity(t);
@@ -85,6 +94,7 @@ export function planFromModel(model, analysis) {
       const order = [...waiting].sort(priority);
       for (const id of order) {
         const course = model.courses.get(id);
+        if (t < holdOf(id)) continue;
         if (!course.seasons.has(axis.seasons[t])) continue;
         if (course.availableFrom !== null && termIndex(axis.terms[t]) < course.availableFrom) continue;
         if (readyOrdinal(course.prereqs, termOf) > t) continue;
@@ -123,7 +133,10 @@ export function planFromModel(model, analysis) {
     const byStanding = standingReady(course);
     const ready = Math.max(byPrereq, byStanding);
     const offered = firstOffered(model, id, ready);
-    if (p > offered) return 'credit limit';
+    const hold = holdOf(id);
+    const allowed = firstOffered(model, id, Math.max(ready, hold));
+    if (p > allowed) return 'credit limit';
+    if (hold > ready) return allowed > hold ? 'offering' : 'map';
     if (offered > ready) return 'offering';
     return byStanding > byPrereq ? 'standing' : 'prerequisite';
   };
@@ -135,7 +148,7 @@ export function planFromModel(model, analysis) {
       seen.add(current);
       const reason = explain(current);
       steps.push({ course: current, term: axis.terms[placed.get(current)], reason });
-      if (reason === 'credit limit' || reason === 'standing' || reason === 'in progress') break;
+      if (reason === 'credit limit' || reason === 'standing' || reason === 'in progress' || reason === 'map') break;
       const leaves = bindingLeaves(model.courses.get(current).prereqs, termOf)
         .filter((l) => placed.has(l.course) && model.courses.get(l.course).status === 'todo');
       leaves.sort((a, b) => placed.get(b.course) - placed.get(a.course));
@@ -186,6 +199,15 @@ export function planFromModel(model, analysis) {
   const placements = {};
   for (const [id, p] of placed) placements[id] = axis.terms[p];
 
+  // Where the academic map puts each remaining course for this student, and the courses that sit somewhere else.
+  const mapTerms = {};
+  const offMap = [];
+  for (const id of model.todo) {
+    const raw = targets.get(id).raw;
+    mapTerms[id] = raw !== null && raw >= 0 && raw < n ? axis.terms[raw] : null;
+    if (raw !== null && placed.has(id) && placed.get(id) !== raw) offMap.push(id);
+  }
+
   const milestones = [];
   const milestoneDrivers = {};
   for (const m of catalog.milestones ?? []) {
@@ -232,6 +254,8 @@ export function planFromModel(model, analysis) {
     summer_allowed: options.summer_allowed,
     terms,
     placements,
+    map_terms: mapTerms,
+    off_map: offMap,
     graduation_term: gradOrdinal === null ? null : axis.terms[gradOrdinal],
     graduation_label: gradOrdinal === null ? null : termLabel(axis.terms[gradOrdinal]),
     last_course_term: lastCourse >= 0 ? axis.terms[lastCourse] : null,

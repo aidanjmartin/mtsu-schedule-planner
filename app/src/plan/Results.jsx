@@ -5,7 +5,7 @@ import ClassTimes, { useClassTimes } from './ClassTimes.jsx';
 import { listText, plural } from '../lib/format.js';
 
 const STATUS = {
-  'on-track': { label: 'On track', pill: 'pill-ok', text: 'Your plan matches the academic map.' },
+  'on-track': { label: 'On track', pill: 'pill-ok' },
   attention: { label: 'Needs attention', pill: 'pill-warn', text: 'Read the notes below before you register.' },
   delayed: { label: 'Delayed', pill: 'pill-bad', text: 'Your plan finishes later than the academic map.' },
 };
@@ -13,6 +13,8 @@ const STATUS = {
 function Summary({ result, answers }) {
   const status = STATUS[result.status];
   const sd = result.seniorDesign;
+  // The academic map statement appears only when every remaining course sits in its map semester.
+  const note = result.status === 'on-track' ? (result.matchesMap ? 'Your plan matches the academic map.' : '') : status.text;
   return (
     <section className="summary" aria-labelledby="summary-h">
       <div className="summary-top">
@@ -42,7 +44,7 @@ function Summary({ result, answers }) {
           <span className="tb-note">{LOADS[result.loadKey].range} a semester</span>
         </div>
       </div>
-      <p className="summary-note">{status.text}</p>
+      {note && <p className="summary-note">{note}</p>}
     </section>
   );
 }

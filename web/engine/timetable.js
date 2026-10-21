@@ -2,8 +2,10 @@
 //
 // A planning unit is a catalog course with its components (for example a lecture and its lab). Each component
 // needs one section. A component whose sections include both lecture-type and lab-type rows needs one of each.
-// The search returns every combination without time overlaps, ranked by fewest campus days and then fewest
-// classes that start before 9:00 a.m. When nothing fits, it names the smallest sets of courses that conflict.
+// The search returns every combination without time overlaps. It ranks them by fewest online or "time to be
+// announced" sections first, so a section with set meeting times is chosen whenever one fits, and then by fewest
+// campus days and fewest classes that start before 9:00 a.m. When nothing fits, it names the smallest sets of
+// courses that conflict.
 
 import { seasonOf } from './terms.js';
 
@@ -42,6 +44,11 @@ export function sectionsOverlap(s1, s2) {
 function isOnline(section) {
   return /online|virtual|asynchronous/i.test(section.instructional_method ?? '')
     || /^online/i.test(section.schedule_type ?? '');
+}
+
+/** A section has set meeting times when it is not online and lists at least one meeting with days and times. */
+function isTimed(section) {
+  return !isOnline(section) && (section.meetings ?? []).some((m) => m.days && m.start && m.end);
 }
 
 function kindOf(section) {
@@ -101,13 +108,15 @@ function enumerate(groups, { maxNodes = 1_000_000, maxSolutions = 200_000, stopA
   };
   const flat = [];
   const info = [];
-  const levels = ordered.map((g) => g.sections.map((s) => {
+  // Sections with set times come first in each group, so a search that stops early still sees them.
+  const levels = ordered.map((g) => [...g.sections].sort((a, b) => Number(!isTimed(a)) - Number(!isTimed(b))).map((s) => {
     const idx = flat.length;
     flat.push(s);
     const campus = !isOnline(s);
     info.push({
       days: campus ? new Set((s.meetings ?? []).flatMap((m) => [...m.days])) : new Set(),
       early: (s.meetings ?? []).some((m) => toMinutes(m.start) < 9 * 60) ? 1 : 0,
+      untimed: isTimed(s) ? 0 : 1,
     });
     return idx;
   }));
@@ -121,8 +130,9 @@ function enumerate(groups, { maxNodes = 1_000_000, maxSolutions = 200_000, stopA
     if (level === levels.length) {
       const days = new Set();
       let early = 0;
-      for (const idx of chosen) { info[idx].days.forEach((d) => days.add(d)); early += info[idx].early; }
-      solutions.push({ picks: [...chosen], days: [...days], early });
+      let untimed = 0;
+      for (const idx of chosen) { info[idx].days.forEach((d) => days.add(d)); early += info[idx].early; untimed += info[idx].untimed; }
+      solutions.push({ picks: [...chosen], days: [...days], early, untimed });
       if (solutions.length >= maxSolutions) truncated = true;
       return;
     }
@@ -178,10 +188,11 @@ export function planTimetables({ courses, catalog, schedule, limit = 10, movable
       r.choices.sort((a, b) => a.course.localeCompare(b.course) || a.component.localeCompare(b.component) || a.section.localeCompare(b.section));
       r.key = r.choices.map((c) => c.crn).join(',');
     }
-    ranked.sort((a, b) => a.days.length - b.days.length || a.early - b.early || a.key.localeCompare(b.key));
+    ranked.sort((a, b) => a.untimed - b.untimed || a.days.length - b.days.length || a.early - b.early || a.key.localeCompare(b.key));
     result.options = ranked.slice(0, limit).map((r) => ({
       campus_days: r.days.length,
       early_classes: r.early,
+      untimed_sections: r.untimed,
       days: [...r.days].sort((a, b) => DAY_ORDER.indexOf(a) - DAY_ORDER.indexOf(b)),
       choices: r.choices,
     }));

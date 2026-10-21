@@ -85,7 +85,7 @@ Accounts, sharing plans with advisors, summer terms, precalculus starts, catalog
 
 ## Acceptance checks
 
-1. A first-semester student finishes the walkthrough in under two minutes and sees graduation in Spring 2030 and senior design in Fall 2029.
+1. A first-semester student starting in Fall 2027 finishes the walkthrough in under two minutes and sees graduation in Spring 2031 and senior design in Fall 2030.
 2. A student in 2nd year fall with PHYS 2110 unchecked sees the effect on senior design and graduation, with an alert naming PHYS 2110.
 3. The elective step prevents choosing more than 3 and explains any elective the student cannot take yet.
 4. Export PDF downloads a readable plan that matches the screen.

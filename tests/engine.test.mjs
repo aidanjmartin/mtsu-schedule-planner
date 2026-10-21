@@ -304,11 +304,13 @@ test('planner: baseline plan for a student with nothing completed', () => {
   const plan = planTerms({ catalog, offerings, student: freshStudent() });
   assert.equal(plan.graduation_term, '2030SP');
   assert.deepEqual(plan.terms.map((t) => t.term), ['2026FA', '2027SP', '2027FA', '2028SP', '2028FA', '2029SP', '2029FA', '2030SP']);
+  // Every course sits in its academic map semester, counted from the first planned term.
   assert.equal(termOf(plan, 'MATH 1730'), '2026FA');
   assert.equal(termOf(plan, 'MATH 1910'), '2027SP');
-  assert.equal(termOf(plan, 'PHYS 2110'), '2027SP');
+  assert.equal(termOf(plan, 'PHYS 2110'), '2027FA');
   assert.equal(termOf(plan, 'CSCI 1170'), '2027SP');
   assert.equal(termOf(plan, 'ENGR 2100'), '2028SP');
+  assert.deepEqual(plan.off_map, []);
   assert.equal(termOf(plan, 'ENGR 4580'), '2029FA');
   assert.equal(plan.milestones[0].start_term, '2029FA');
   assert.deepEqual(plan.unplaced, []);
@@ -320,7 +322,7 @@ test('planner: general education hours are reserved in their preferred terms', (
   const reserved = plan.terms.filter((t) => t.placeholders.length).map((t) => [t.term, t.placeholders[0].hours]);
   assert.deepEqual(reserved, [['2027FA', 3], ['2028FA', 3]]);
   const fall27 = plan.terms.find((t) => t.term === '2027FA');
-  assert.equal(fall27.credits, 3);
+  assert.equal(fall27.credits, 4 + 3, 'PHYS 2110 (4 hours) plus the 3 reserved hours');
 });
 
 test('planner: a completed placeholder reserves nothing', () => {
@@ -339,13 +341,16 @@ test('planner: the credit limit pushes courses later and the reason says so', ()
 });
 
 test('planner: summer terms are used only when allowed', () => {
+  // A sophomore (map position 3) who is missing ENGR 2100, which this catalog offers only in summer.
   const off = clone(offerings);
-  off.courses['ENGR 2100'].regular_seasons = ['spring', 'summer'];
-  const without = planTerms({ catalog, offerings: off, student: freshStudent() });
+  off.courses['ENGR 2100'].regular_seasons = ['summer'];
+  const student = (options) => freshStudent({ completed: ['MATH 1730', 'MATH 1910', 'ENGR 1100', 'CSCI 1170'], start_position: 3, options });
+  const without = planTerms({ catalog, offerings: off, student: student({}) });
   assert.ok(without.terms.every((t) => t.season !== 'summer'));
-  const withSummer = planTerms({ catalog, offerings: off, student: freshStudent({ options: { summer_allowed: true } }) });
+  assert.ok(without.unplaced.some((u) => u.course === 'ENGR 2100'), 'no summer, so ENGR 2100 has no term');
+  const withSummer = planTerms({ catalog, offerings: off, student: student({ summer_allowed: true }) });
   assert.equal(termOf(withSummer, 'ENGR 2100'), '2027SU');
-  assert.ok(terms.termIndex(withSummer.graduation_term) <= terms.termIndex(without.graduation_term));
+  assert.deepEqual(withSummer.unplaced, []);
 });
 
 test('planner: choice of elective changes the plan', () => {
@@ -364,14 +369,15 @@ test('planner: courses in progress fill the first term', () => {
 });
 
 test('acceptance 5 (fixture): two starting points get plans and the difference is explained', () => {
+  // The second student has finished the freshman courses and starts as a sophomore (map position 3).
   const slow = planTerms({ catalog, offerings, student: freshStudent() });
-  const fast = planTerms({ catalog, offerings, student: freshStudent({ completed: ['MATH 1730'] }) });
+  const fast = planTerms({ catalog, offerings, student: freshStudent({ completed: ['MATH 1730', 'MATH 1910', 'ENGR 1100', 'CSCI 1170'], start_position: 3 }) });
   assert.equal(slow.milestones[0].start_term, '2029FA');
   assert.equal(fast.milestones[0].start_term, '2028FA');
   const diff = whatif.diffPlans(slow, fast);
   assert.equal(diff.milestones[0].delta_terms, -2);
   const names = diff.responsible['senior-design'].map((r) => r.course);
-  assert.ok(names.includes('MATH 1910') || names.includes('MATH 1730'), 'math sequence is named as responsible');
+  assert.ok(names.includes('ENGR 2100'), 'the course that anchors the chain is named as responsible');
   assert.ok(diff.moved.some((m) => m.course === 'MATH 1730' && m.to === null));
 });
 
@@ -387,9 +393,10 @@ test('planner: courses with no place inside the window are listed, not dropped',
 test('planner: the driving chain names the courses that set the senior design start', () => {
   const plan = planTerms({ catalog, offerings, student: freshStudent() });
   const chain = plan.drivers.milestones['senior-design'].map((s) => s.course);
-  assert.deepEqual(chain, ['MATH 1730', 'MATH 1910', 'ENGR 2100', 'ENGR 3520', 'ENGR 3530', 'ENGR 4580']);
+  // The chain starts at ENGR 2100, which waits for its academic map semester, not for a prerequisite.
+  assert.deepEqual(chain, ['ENGR 2100', 'ENGR 3520', 'ENGR 3530', 'ENGR 4580']);
   const reasons = Object.fromEntries(plan.drivers.milestones['senior-design'].map((s) => [s.course, s.reason]));
-  assert.equal(reasons['ENGR 2100'], 'offering');
+  assert.equal(reasons['ENGR 2100'], 'map');
 });
 
 // ---------------------------------------------------------------- timetable
@@ -477,6 +484,27 @@ test('timetable: online sections never conflict and sections in different date r
   halves.sections.find((x) => x.crn === '10003').meetings[0].end_date = '2026-10-09';
   halves.sections.find((x) => x.crn === '10011').meetings[0].start_date = '2026-10-12';
   assert.equal(timetable.planTimetables({ courses: ['MATH 1730', 'ENGR 1100'], catalog, schedule: halves }).total, 1);
+});
+
+test('timetable: sections with set meeting times rank before online or time-to-be-announced sections', () => {
+  const s = clone(schedule);
+  s.sections = s.sections.filter((x) => ['10001', '10002', '10003', '10011', '10012'].includes(x.crn));
+  // MATH 1730: 001 becomes online, 002 and 003 keep their times. ENGR 1100: 001 is announced later, 002 keeps its times.
+  const m1 = s.sections.find((x) => x.crn === '10001');
+  m1.meetings = [];
+  m1.instructional_method = 'Online';
+  s.sections.find((x) => x.crn === '10011').meetings = [];
+  const r = timetable.planTimetables({ courses: ['MATH 1730', 'ENGR 1100'], catalog, schedule: s, limit: 50 });
+  assert.ok(r.total >= 2);
+  const untimed = r.options.map((o) => o.untimed_sections);
+  assert.deepEqual(untimed, [...untimed].sort((a, b) => a - b), 'options run from fewest untimed sections to most');
+  assert.equal(r.options[0].untimed_sections, 0);
+  assert.deepEqual(r.options[0].choices.map((c) => c.crn).sort(), ['10003', '10012']);
+  // MATH 1730 section 002 overlaps ENGR 1100 section 002, so with section 003 gone an untimed section is the only way to fit.
+  const t = clone(s);
+  t.sections = t.sections.filter((x) => x.crn !== '10003');
+  const only = timetable.planTimetables({ courses: ['MATH 1730', 'ENGR 1100'], catalog, schedule: t, limit: 50 });
+  assert.equal(only.options[0].untimed_sections, 1, 'an untimed section is used only because no pair of timed sections fits');
 });
 
 test('timetable: courses with no sections are reported and a missing schedule is flagged', () => {
@@ -635,19 +663,56 @@ test('planner (real catalog, no offering data): electives with more slack do not
   for (const t of plan.terms) assert.ok(t.credits <= t.capacity, `${t.term} stays within its credit limit`);
 });
 
-test('planner (real catalog, no offering data): the default-elective plan does not change', () => {
+test('planner (real catalog, no offering data): the default-elective plan keeps every course in its academic map semester', () => {
   const plan = planTerms({ catalog: realCatalog, offerings: null, student: realStudent({}) });
   assert.equal(plan.graduation_term, '2030SP');
+  assert.deepEqual(plan.off_map, []);
   assert.deepEqual(coursesByTerm(plan), {
     '2026FA': ['CHEM 1110', 'ENGR 1100', 'MATH 1910'],
-    '2027SP': ['CSCI 1170', 'MATH 1920', 'PHYS 2110'],
+    '2027SP': ['ENGR 2100', 'MATH 1920', 'PHYS 2110'],
     '2027FA': ['ENGR 2110', 'ENGR 2210', 'MATH 3110', 'PHYS 2120'],
-    '2028SP': ['ENGR 2100', 'ENGR 2120', 'ENGR 2130', 'MATH 3120'],
+    '2028SP': ['CSCI 1170', 'ENGR 2120', 'ENGR 2130', 'MATH 3120'],
     '2028FA': ['ENGR 3510', 'ENGR 3520', 'ENGR 3560', 'ENGR 3590', 'MATH 2010'],
-    '2029SP': ['ENGR 3530', 'ENGR 3550', 'ENGR 3915', 'ENGR 3970', 'ENGR 4520', 'ENGR 4550'],
+    '2029SP': ['ENGR 3530', 'ENGR 3550', 'ENGR 3915', 'ENGR 3970', 'ENGR 4550'],
     '2029FA': ['ENGR 3540', 'ENGR 4500', 'ENGR 4510', 'ENGR 4580'],
-    '2030SP': ['ENGR 4530', 'ENGR 4590'],
+    '2030SP': ['ENGR 4520', 'ENGR 4530', 'ENGR 4590'],
   });
+});
+
+test('planner (real catalog): a first-semester student places every course in its map semester, shifted to the start term', () => {
+  const choices = { 'engr-elective': ['ENGR 3915', 'ENGR 3970', 'ENGR 4550'] };
+  const student = { start_term: '2027FA', completed: [], in_progress: [], choices, options: { max_credits: 18, summer_allowed: false } };
+  const plan = planTerms({ catalog: realCatalog, offerings: null, student });
+  assert.deepEqual(plan.unplaced, []);
+  assert.deepEqual(plan.off_map, []);
+  for (const [id, term] of Object.entries(plan.placements)) {
+    const pos = prereqs.suggestedPositionOf(realCatalog, id);
+    assert.equal(term, terms.termFromIndex(terms.termIndex('2027FA') + pos), `${id} sits in its map semester`);
+  }
+  assert.equal(plan.placements['CHEM 1110'], '2027FA', 'CHEM 1110 sits in the first fall');
+  assert.equal(plan.placements['ENGR 2100'], '2028SP', 'ENGR 2100 sits in the first spring');
+  assert.equal(plan.milestones[0].start_term, '2030FA');
+  assert.equal(plan.graduation_term, '2031SP');
+});
+
+test('planner (real catalog): a student behind the map takes the missing course as early as it fits, and a student ahead is not pulled forward', () => {
+  // A sophomore who starts Spring 2027 (map position 4) and has not finished PHYS 2110.
+  const done = ['CHEM 1110', 'ENGR 1100', 'MATH 1910', 'ENGR 2100', 'MATH 1920'];
+  const choices = { 'engr-elective': ['ENGR 3915', 'ENGR 4550', 'ENGR 4560'] };
+  const behind = planTerms({
+    catalog: realCatalog, offerings: null,
+    student: { start_term: '2027SP', completed: done, in_progress: [], choices, start_position: 4, options: { max_credits: 18, summer_allowed: false } },
+  });
+  assert.equal(behind.placements['PHYS 2110'], '2027SP', 'the missing course goes in the first term');
+  assert.ok(behind.off_map.includes('PHYS 2110'));
+  assert.ok(terms.termIndex(behind.placements['ENGR 2110']) > terms.termIndex('2027SP'), 'ENGR 2110 follows PHYS 2110');
+  const onTime = planTerms({
+    catalog: realCatalog, offerings: null,
+    student: { start_term: '2027SP', completed: [...done, 'PHYS 2110'], in_progress: [], choices, start_position: 4, options: { max_credits: 18, summer_allowed: false } },
+  });
+  // CSCI 1170 could go in the first term, but its map semester is the one after PHYS 2120 and MATH 3110, so it stays put.
+  assert.equal(onTime.placements['CSCI 1170'], '2027SP');
+  assert.equal(onTime.placements['ENGR 3520'], '2028FA', 'a course is not pulled earlier than its map semester');
 });
 
 test('planner: a course with no slack takes reserved general education hours, and those hours move to the next term', () => {

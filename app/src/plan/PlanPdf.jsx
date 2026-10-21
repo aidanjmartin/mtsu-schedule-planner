@@ -58,7 +58,7 @@ function Bullet({ children }) {
 export default function PlanPdf({ catalog, answers, result, name, logo, created, classTimes }) {
   const position = mapPosition(answers);
   const where = answers.firstSemester
-    ? `Starting the first semester (${T.termLabel(result.currentTerm)})`
+    ? `Starting in ${T.termLabel(result.currentTerm)}`
     : `${T.termLabel(result.currentTerm)} (${positionLabel(position)})`;
   const finished = answers.finished.map((id) => id);
   const sd = result.seniorDesign;
@@ -99,7 +99,7 @@ export default function PlanPdf({ catalog, answers, result, name, logo, created,
         </View>
 
         <Text style={s.h2}>Your answers</Text>
-        <View style={s.row}><Text style={s.key}>Current semester</Text><Text style={s.val}>{where}</Text></View>
+        <View style={s.row}><Text style={s.key}>{answers.firstSemester ? 'First semester' : 'Current semester'}</Text><Text style={s.val}>{where}</Text></View>
         <View style={s.row}>
           <Text style={s.key}>Finished courses</Text>
           <Text style={s.val}>{finished.length ? finished.join(', ') : 'None'}</Text>

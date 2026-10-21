@@ -82,6 +82,7 @@ button.progress-link:hover .progress-name { color: var(--blue); text-decoration:
 .or-line::before, .or-line::after { content: ""; flex: 1; height: 1px; background: var(--line); }
 
 .fieldset { border: 0; padding: 0; margin: 0 0 var(--s-5); min-width: 0; }
+.fieldset-after-card { margin-top: var(--s-5); margin-bottom: 0; }
 .fieldset legend { font-weight: 600; font-size: var(--t-m); padding: 0; margin-bottom: var(--s-2); }
 .seg { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--s-2); }
 .seg-two { grid-template-columns: repeat(2, 1fr); max-width: 360px; }

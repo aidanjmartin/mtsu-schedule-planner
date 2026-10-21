@@ -111,7 +111,12 @@ export default function StepElectives({ catalog, offerings, answers, setAnswers 
                     <input type="checkbox" checked={on} onChange={(e) => toggle(id, e.target.checked)} />
                     <span className="elective-text">
                       <span className="elective-title"><strong>{id}</strong> {c.title}</span>
-                      <span className="elective-desc">{c.description}</span>
+                      {c.unofficial ? (
+                        <span className="elective-desc is-unofficial">
+                          <span className="unofficial-label">Unofficial description</span>
+                          {c.unofficial}
+                        </span>
+                      ) : <span className="elective-desc">{c.description}</span>}
                       <span className="elective-facts">
                         <span><b>Credit hours:</b> {c.creditsText}{c.repeatable ? ', and you can take it again' : ''}</span>
                         <span><b>Runs in:</b> {seasonsText(c.seasons)}{catalog.courses[id].available_from ? `, starting ${T.termLabel(catalog.courses[id].available_from)}` : ''}</span>

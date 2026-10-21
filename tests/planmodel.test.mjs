@@ -252,3 +252,13 @@ test('a first-semester student has ENGR 1010 in Fall 2027 with ENGR 1100', () =>
   assert.ok(first.courses.some((c) => c.course === 'ENGR 1010' && c.credits === 1));
   assert.ok(first.courses.some((c) => c.course === 'ENGR 1100'));
 });
+
+test('elective cards show the program owner\'s placeholder description for ENGR 3600 and ENGR 4570, and nothing for ENGR 4600', () => {
+  const cards = Object.fromEntries(M.electiveCards(catalog, offerings, firstSemester(), today).map((c) => [c.id, c]));
+  assert.equal(cards['ENGR 3600'].unofficial, 'Undergraduate internship credit.');
+  assert.match(cards['ENGR 4570'].unofficial, /^Rules-based machine vision/);
+  assert.equal(cards['ENGR 4600'].unofficial, null);
+  assert.equal(cards['ENGR 3915'].unofficial, null);
+  assert.equal(cards['ENGR 3600'].creditsText, '1 to 3 hours a semester');
+  assert.equal(cards['ENGR 3915'].creditsText, '3 hours');
+});

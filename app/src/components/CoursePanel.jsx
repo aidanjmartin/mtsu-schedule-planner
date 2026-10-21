@@ -32,13 +32,13 @@ function electiveNote(catalog, id) {
 }
 
 /** Details for the selected course. On a phone this is a bottom sheet. */
-export default function CoursePanel({ catalog, offerings, courseId, onSelect, onClose }) {
+export default function CoursePanel({ catalog, offerings, courseId, onSelect, onClose, view = 'circle' }) {
   if (!courseId) {
     return (
       <div className="panel-empty">
         <h2>Course details</h2>
         <p>Select a course to see its catalog description, what to take first, and what it opens up.</p>
-        <p className="muted">Open an area first if you do not see any courses.</p>
+        {view === 'circle' && <p className="muted">Open an area first if you do not see any courses.</p>}
       </div>
     );
   }
@@ -70,7 +70,8 @@ export default function CoursePanel({ catalog, offerings, courseId, onSelect, on
 
       <section aria-labelledby="about-h">
         <h3 id="about-h">About this course</h3>
-        <p>{def.description ?? 'Proposed course. Description coming soon.'}</p>
+        {def.description && def.description_unofficial && <p className="unofficial-label">Unofficial description</p>}
+        <p className={def.description_unofficial ? 'is-unofficial' : undefined}>{def.description ?? 'Proposed course. Description coming soon.'}</p>
       </section>
 
       <section aria-labelledby="need-h">

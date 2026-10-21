@@ -4,4 +4,5 @@ if (Number(process.versions.node.split('.')[0]) >= 21) {
   import('./engine.test.mjs');
   import('./planmodel.test.mjs');
   import('./exploremodel.test.mjs');
+  import('./flowlayout.test.mjs');
 }

@@ -475,6 +475,7 @@ export function electiveCards(catalog, offerings, answers, today = new Date()) {
       repeatable: P.isRepeatable(def),
       range: P.creditRange(def),
       description: electiveDescription(id),
+      unofficial: def.description_unofficial === true && Boolean(def.description) ? def.description : null,
       seasons,
       requires: prereqSentences(def.prereqs),
       standing: def.standing,

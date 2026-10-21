@@ -5,7 +5,7 @@
 import { SUBJECT_OF } from './exploreModel.js';
 
 export const TILE_W = 176;
-export const TILE_H = 72;
+export const TILE_H = 84;
 export const GAP = 12;
 export const PAD = 14;
 export const HEADER = 40;

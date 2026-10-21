@@ -95,7 +95,7 @@ export default function Explore() {
           )}
         </section>
         <aside className={`side-panel${selected ? ' is-open' : ''}`} aria-label="Course details" aria-live="polite">
-          <CoursePanel catalog={catalog} offerings={offerings} courseId={selected} onSelect={pick} onClose={() => setSelected(null)} />
+          <CoursePanel catalog={catalog} offerings={offerings} courseId={selected} onSelect={pick} onClose={() => setSelected(null)} view={view} />
         </aside>
       </div>
     </div>

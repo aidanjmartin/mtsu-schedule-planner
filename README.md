@@ -5,7 +5,7 @@ A degree planner for MTSU Mechatronics Engineering B.S. students. It answers one
 The site has three pages:
 
 - **Course map** (`#/explore`, the home page). A map of every course in the degree, grouped by subject. Selecting a course highlights what the student needs first (solid lines) and what it opens up (dashed lines), and a side panel (a bottom sheet on phones) explains the course in plain words.
-- **Plan my degree** (`#/plan`). A six-step walkthrough: where the student is in the program, finished courses, courses taken this semester, three electives, credit hours per semester, and the plan. The plan lists every semester through graduation, explains anything that needs attention, shows next semester's class times, and exports a PDF.
+- **Plan my degree** (`#/plan`). A six-step walkthrough: where the student is in the program, finished courses, courses taken this semester, 10 hours of electives, credit hours per semester, and the plan. The plan lists every semester through graduation, explains anything that needs attention, shows next semester's class times, and exports a PDF.
 - **Advanced** (`#/advanced`, linked from the footer). Tools for the program owner: what-if edits with a baseline comparison, the critical path and slack table, and full section timetables.
 
 The site runs entirely in the browser. There is no server and no account. Answers save in the browser on that device only, and **Start over** clears them. The name a student types for the PDF is never stored. The interface specification is `docs/UI_SPEC.md`. The data formats are in `docs/DATA_FORMAT.md`.

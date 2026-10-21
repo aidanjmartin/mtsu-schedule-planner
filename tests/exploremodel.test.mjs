@@ -100,3 +100,20 @@ test('the hover label names the course, title, and academic map semester', () =>
   assert.equal(X.hoverLabel(catalog, 'ENGR 3540'), 'ENGR 3540, Introduction to Feedback Control, Year 4 Fall');
   assert.match(X.hoverLabel(catalog, 'ENGR 4550'), /, Elective$/);
 });
+
+test('the areas hold the curriculum update: ENGR 1010 in core, ENGR 4500 in systems, ENGR 3600 and 4600 in internship, no ENGR 4610', () => {
+  assert.ok(X.AREA_BY_ID.core.ids.includes('ENGR 1010'));
+  assert.ok(!X.AREA_BY_ID.required.ids.includes('ENGR 4500'));
+  assert.deepEqual(X.AREA_BY_ID.systems.ids, ['ENGR 3915', 'ENGR 3970', 'ENGR 4500']);
+  assert.deepEqual(X.AREA_BY_ID.internship.ids, ['ENGR 3600', 'ENGR 4600']);
+  assert.equal(X.AREA_OF['ENGR 4610'], undefined);
+  assert.equal(X.SUBJECT_OF['ENGR 1010'].label, 'Engineering Foundations');
+  assert.equal(X.SUBJECT_OF['ENGR 3600'].label, 'Electives');
+});
+
+test('hours text shows a range for a course whose hours change by semester', () => {
+  assert.equal(X.hoursText(catalog.courses['ENGR 3600']), '1 to 3');
+  assert.equal(X.hoursText(catalog.courses['ENGR 3540']), '3');
+  assert.equal(X.areaHoursText(catalog, X.AREA_BY_ID.internship), '2 to 6 credit hours');
+  assert.equal(X.areaHoursText(catalog, X.AREA_BY_ID.robotics), '6 credit hours');
+});

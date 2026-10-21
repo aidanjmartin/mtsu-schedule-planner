@@ -1,0 +1,6375 @@
+{
+  "derived_at": "2026-10-21T00:33:54Z",
+  "terms_covered": [
+    "2018FA",
+    "2027SP"
+  ],
+  "windows": {
+    "fall": [
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "spring": [
+      2024,
+      2025,
+      2026,
+      2027
+    ],
+    "summer": []
+  },
+  "rule": "regular = offered in the season in at least 3 of the last 4 years; occasional = 1 or 2",
+  "courses": {
+    "CHEM 1000": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2023
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 1010": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 1011": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 1020": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 1021": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 1030": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 1031": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 1110": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 1111": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 1120": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 1121": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 2030": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 2031": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 2230": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 2231": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 2880": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 3000": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 3010": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 3011": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 3020": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 3021": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 3080": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 3090": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 3530": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 3531": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 3570": {
+      "fall": [],
+      "spring": [
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 3880": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 3890": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 3980": {
+      "fall": [
+        2019,
+        2022
+      ],
+      "spring": [
+        2023
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "CHEM 4000": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 4100": {
+      "fall": [],
+      "spring": [
+        2019,
+        2021,
+        2023,
+        2025,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "CHEM 4105": {
+      "fall": [
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 4110": {
+      "fall": [],
+      "spring": [
+        2024,
+        2026
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "CHEM 4125": {
+      "fall": [
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "CHEM 4126": {
+      "fall": [
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "CHEM 4150": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "CHEM 4230": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 4231": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 4330": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 4331": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 4340": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "CHEM 4341": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "CHEM 4350": {
+      "fall": [
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 4351": {
+      "fall": [
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 4360": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 4361": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 4400": {
+      "fall": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 4410": {
+      "fall": [],
+      "spring": [
+        2022,
+        2024,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 4500": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 4510": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 4520": {
+      "fall": [
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2022,
+        2023,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "CHEM 4530": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 4540": {
+      "fall": [],
+      "spring": [
+        2022
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "CHEM 4550": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 4551": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 4570": {
+      "fall": [
+        2026
+      ],
+      "spring": [
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "CHEM 4600": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 4610": {
+      "fall": [],
+      "spring": [
+        2019,
+        2021,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "CHEM 4700": {
+      "fall": [
+        2021,
+        2023
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "CHEM 4740": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022
+      ],
+      "spring": [
+        2020,
+        2021,
+        2025,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "CHEM 4780": {
+      "fall": [
+        2024
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "CHEM 4880": {
+      "fall": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2025
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "CHEM 5100": {
+      "fall": [],
+      "spring": [
+        2019,
+        2021,
+        2025,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "CHEM 5700": {
+      "fall": [
+        2023
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "CHEM 6100": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 6110": {
+      "fall": [],
+      "spring": [
+        2020,
+        2024,
+        2026
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "CHEM 6150": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "CHEM 6200": {
+      "fall": [
+        2018,
+        2023
+      ],
+      "spring": [
+        2021
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "CHEM 6210": {
+      "fall": [
+        2022,
+        2024,
+        2025
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "CHEM 6230": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 6231": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 6300": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 6400": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 6410": {
+      "fall": [],
+      "spring": [
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "CHEM 6420": {
+      "fall": [],
+      "spring": [
+        2019
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "CHEM 6500": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 6510": {
+      "fall": [
+        2018,
+        2023,
+        2024,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2022,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "CHEM 6520": {
+      "fall": [
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "CHEM 6530": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 6540": {
+      "fall": [],
+      "spring": [
+        2022
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "CHEM 6610": {
+      "fall": [],
+      "spring": [
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "CHEM 6640": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 6720": {
+      "fall": [],
+      "spring": [
+        2019
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "CHEM 6780": {
+      "fall": [
+        2024
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "CHEM 6800": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 6870": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CHEM 7110": {
+      "fall": [],
+      "spring": [
+        2020
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "CHEM 7720": {
+      "fall": [],
+      "spring": [
+        2019
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "CHEM 7800": {
+      "fall": [
+        2018
+      ],
+      "spring": [
+        2022,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "CSCI 1010": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 1150": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 1170": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 2170": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 3033": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 3037": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 3080": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 3110": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 3130": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 3160": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "CSCI 3180": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 3200": {
+      "fall": [],
+      "spring": [
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 3210": {
+      "fall": [
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 3222": {
+      "fall": [
+        2018,
+        2019,
+        2020
+      ],
+      "spring": [
+        2019,
+        2020
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "CSCI 3240": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 3350": {
+      "fall": [
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "CSCI 4017": {
+      "fall": [
+        2018,
+        2019,
+        2020
+      ],
+      "spring": [
+        2019,
+        2020
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "CSCI 4160": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 4250": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 4280": {
+      "fall": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "spring": [
+        2022,
+        2023,
+        2026
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "CSCI 4300": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 4330": {
+      "fall": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 4350": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 4360": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "CSCI 4400": {
+      "fall": [],
+      "spring": [
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 4410": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 4450": {
+      "fall": [
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "CSCI 4560": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 4600": {
+      "fall": [
+        2019,
+        2020,
+        2021,
+        2023,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 4700": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 4710": {
+      "fall": [],
+      "spring": [
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 4820": {
+      "fall": [
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 4850": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 4860": {
+      "fall": [
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "CSCI 4900": {
+      "fall": [
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2024
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "CSCI 4910": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 5160": {
+      "fall": [
+        2018,
+        2020
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "CSCI 5250": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 5300": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 5350": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 5360": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "CSCI 5400": {
+      "fall": [],
+      "spring": [
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 5410": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 5450": {
+      "fall": [
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "CSCI 5560": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 5600": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "spring": [
+        2020,
+        2021
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "CSCI 5700": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 5710": {
+      "fall": [],
+      "spring": [
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 5820": {
+      "fall": [
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 5850": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 5860": {
+      "fall": [
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "CSCI 6017": {
+      "fall": [
+        2018,
+        2020
+      ],
+      "spring": [
+        2019
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "CSCI 6020": {
+      "fall": [
+        2018,
+        2019,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 6050": {
+      "fall": [
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 6100": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 6180": {
+      "fall": [
+        2019,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 6250": {
+      "fall": [
+        2018,
+        2020
+      ],
+      "spring": [
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 6300": {
+      "fall": [],
+      "spring": [
+        2020,
+        2021,
+        2022,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "CSCI 6330": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 6350": {
+      "fall": [],
+      "spring": [
+        2020,
+        2022,
+        2024,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 6430": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2023
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "CSCI 6450": {
+      "fall": [],
+      "spring": [
+        2019,
+        2021
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "CSCI 6560": {
+      "fall": [],
+      "spring": [
+        2019,
+        2021,
+        2023,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 6600": {
+      "fall": [
+        2020,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2024
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "CSCI 6620": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 6640": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 6700": {
+      "fall": [
+        2019
+      ],
+      "spring": [
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "CSCI 6900": {
+      "fall": [
+        2025,
+        2026
+      ],
+      "spring": [
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall",
+        "spring"
+      ]
+    },
+    "CSCI 7300": {
+      "fall": [],
+      "spring": [
+        2024
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "CSCI 7350": {
+      "fall": [
+        2020
+      ],
+      "spring": [
+        2024,
+        2026
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "CSCI 7400": {
+      "fall": [],
+      "spring": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "CSCI 7850": {
+      "fall": [
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "ENGR 1100": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "ENGR 2100": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "ENGR 2110": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "ENGR 2120": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "ENGR 2130": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "ENGR 2210": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "ENGR 3510": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "ENGR 3520": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "ENGR 3530": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "ENGR 3540": {
+      "fall": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "ENGR 3550": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "ENGR 3560": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "ENGR 3590": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "ENGR 3915": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "ENGR 3920": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "ENGR 3970": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "ENGR 4500": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "ENGR 4501": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall",
+        "spring"
+      ]
+    },
+    "ENGR 4510": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "ENGR 4520": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "ENGR 4530": {
+      "fall": [
+        2018,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "ENGR 4540": {
+      "fall": [
+        2025
+      ],
+      "spring": [
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall",
+        "spring"
+      ]
+    },
+    "ENGR 4550": {
+      "fall": [],
+      "spring": [
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "ENGR 4560": {
+      "fall": [
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "ENGR 4580": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "ENGR 4590": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "ENGR 6010": {
+      "fall": [
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "ENGR 6030": {
+      "fall": [],
+      "spring": [
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "MATH 1000": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 1010": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 1410": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 1420": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 1530": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 1630": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 1710": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 1720": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 1730": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 1810": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 1910": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 1920": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 2010": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 2050": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 2110": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 2530": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 3070": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 3080": {
+      "fall": [
+        2018,
+        2020,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 3110": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 3120": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 3180": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 3260": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 3320": {
+      "fall": [
+        2018
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 3330": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 3340": {
+      "fall": [],
+      "spring": [
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 3460": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 4010": {
+      "fall": [
+        2019,
+        2021,
+        2022,
+        2024
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "MATH 4200": {
+      "fall": [
+        2018,
+        2019,
+        2023
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "MATH 4230": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 4250": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2021
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 4251": {
+      "fall": [],
+      "spring": [
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "MATH 4270": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2024,
+        2026
+      ],
+      "spring": [
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall",
+        "spring"
+      ]
+    },
+    "MATH 4280": {
+      "fall": [
+        2018
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "MATH 4310": {
+      "fall": [],
+      "spring": [
+        2021,
+        2022,
+        2023,
+        2025,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "MATH 4320": {
+      "fall": [
+        2025
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "MATH 4420": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "MATH 4510": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 4530": {
+      "fall": [
+        2020,
+        2021,
+        2022,
+        2023,
+        2026
+      ],
+      "spring": [
+        2019
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "MATH 4540": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 4600": {
+      "fall": [
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "MATH 4602": {
+      "fall": [
+        2022,
+        2025
+      ],
+      "spring": [
+        2019,
+        2020,
+        2023,
+        2025,
+        2026
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall",
+        "spring"
+      ]
+    },
+    "MATH 4620": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 4700": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 4740": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 4990": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 5200": {
+      "fall": [
+        2020
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "MATH 5250": {
+      "fall": [
+        2024,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "MATH 5251": {
+      "fall": [],
+      "spring": [
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 5270": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2024
+      ],
+      "spring": [
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall",
+        "spring"
+      ]
+    },
+    "MATH 5310": {
+      "fall": [],
+      "spring": [
+        2021,
+        2022,
+        2025,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "MATH 5420": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "MATH 5510": {
+      "fall": [
+        2018,
+        2019,
+        2023,
+        2024
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall",
+        "spring"
+      ]
+    },
+    "MATH 5530": {
+      "fall": [
+        2020,
+        2021,
+        2022,
+        2023,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 5620": {
+      "fall": [
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "MATH 5700": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 6120": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 6140": {
+      "fall": [],
+      "spring": [
+        2022,
+        2024
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "MATH 6142": {
+      "fall": [
+        2018
+      ],
+      "spring": [
+        2024
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "MATH 6170": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 6190": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "MATH 6200": {
+      "fall": [
+        2019,
+        2020,
+        2022,
+        2023,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 6210": {
+      "fall": [
+        2022,
+        2023,
+        2026
+      ],
+      "spring": [
+        2019,
+        2025
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall",
+        "spring"
+      ]
+    },
+    "MATH 6250": {
+      "fall": [],
+      "spring": [
+        2020,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "MATH 6260": {
+      "fall": [
+        2018
+      ],
+      "spring": [
+        2020,
+        2022,
+        2023,
+        2024,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 6300": {
+      "fall": [
+        2024,
+        2025
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "MATH 6330": {
+      "fall": [
+        2021,
+        2025
+      ],
+      "spring": [
+        2019
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "MATH 6340": {
+      "fall": [],
+      "spring": [
+        2020,
+        2022,
+        2024
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "MATH 6400": {
+      "fall": [],
+      "spring": [
+        2024,
+        2025
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "MATH 6510": {
+      "fall": [],
+      "spring": [
+        2019
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "MATH 6602": {
+      "fall": [
+        2018,
+        2025
+      ],
+      "spring": [
+        2023
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "MATH 6603": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "MATH 6604": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2025,
+        2026
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "MATH 6607": {
+      "fall": [
+        2018
+      ],
+      "spring": [
+        2019,
+        2024,
+        2025
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "MATH 6611": {
+      "fall": [
+        2021,
+        2024,
+        2026
+      ],
+      "spring": [
+        2023
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "MATH 6612": {
+      "fall": [
+        2019,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2023,
+        2024
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "MATH 6640": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "MATH 6700": {
+      "fall": [
+        2018,
+        2022,
+        2023,
+        2024
+      ],
+      "spring": [
+        2021
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "MATH 6900": {
+      "fall": [
+        2018,
+        2020,
+        2022,
+        2024,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "MATH 7060": {
+      "fall": [
+        2019,
+        2020,
+        2021,
+        2023,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2024
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "MATH 7330": {
+      "fall": [
+        2019,
+        2021,
+        2023,
+        2025
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "MATH 7340": {
+      "fall": [],
+      "spring": [
+        2020,
+        2022,
+        2026
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "MATH 7900": {
+      "fall": [],
+      "spring": [
+        2019,
+        2021,
+        2023,
+        2025,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "PHYS 1010": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "PHYS 1110": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "PHYS 1600": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "PHYS 2010": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "PHYS 2011": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "PHYS 2020": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "PHYS 2021": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "PHYS 2110": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "PHYS 2111": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "PHYS 2120": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "PHYS 2121": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "PHYS 2270": {
+      "fall": [
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "PHYS 3050": {
+      "fall": [
+        2020,
+        2023,
+        2025
+      ],
+      "spring": [
+        2021,
+        2023,
+        2024,
+        2025
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall",
+        "spring"
+      ]
+    },
+    "PHYS 3100": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "PHYS 3110": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "PHYS 3111": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "PHYS 3150": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [
+        "fall"
+      ],
+      "occasional_seasons": []
+    },
+    "PHYS 3160": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "PHYS 3200": {
+      "fall": [],
+      "spring": [
+        2019,
+        2021,
+        2023,
+        2025,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "PHYS 3300": {
+      "fall": [
+        2019,
+        2021,
+        2023,
+        2025
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "PHYS 3350": {
+      "fall": [],
+      "spring": [
+        2019
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "PHYS 3370": {
+      "fall": [
+        2025
+      ],
+      "spring": [
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall",
+        "spring"
+      ]
+    },
+    "PHYS 3400": {
+      "fall": [],
+      "spring": [
+        2019,
+        2021,
+        2023,
+        2025,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "PHYS 3520": {
+      "fall": [],
+      "spring": [
+        2020,
+        2022,
+        2024
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "PHYS 3610": {
+      "fall": [
+        2018,
+        2020,
+        2022,
+        2024,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "PHYS 3800": {
+      "fall": [],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "PHYS 3900": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "PHYS 3930": {
+      "fall": [],
+      "spring": [
+        2019,
+        2021,
+        2022
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "PHYS 3950": {
+      "fall": [
+        2018,
+        2020,
+        2021,
+        2022
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "PHYS 3960": {
+      "fall": [],
+      "spring": [
+        2019,
+        2021,
+        2022,
+        2023
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": []
+    },
+    "PHYS 4310": {
+      "fall": [
+        2019,
+        2021,
+        2023,
+        2025
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "PHYS 4330": {
+      "fall": [],
+      "spring": [
+        2020,
+        2022,
+        2024,
+        2026
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "PHYS 4380": {
+      "fall": [
+        2018,
+        2020,
+        2022,
+        2024,
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "PHYS 4390": {
+      "fall": [],
+      "spring": [
+        2019,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "PHYS 4740": {
+      "fall": [
+        2021,
+        2022,
+        2025
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    },
+    "PHYS 4800": {
+      "fall": [],
+      "spring": [
+        2020,
+        2022,
+        2024,
+        2026
+      ],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "spring"
+      ]
+    },
+    "PHYS 4850": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "PHYS 4900": {
+      "fall": [
+        2018,
+        2019,
+        2020,
+        2022,
+        2024,
+        2025,
+        2026
+      ],
+      "spring": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "summer": [],
+      "regular_seasons": [
+        "fall",
+        "spring"
+      ],
+      "occasional_seasons": []
+    },
+    "PHYS 6420": {
+      "fall": [
+        2026
+      ],
+      "spring": [],
+      "summer": [],
+      "regular_seasons": [],
+      "occasional_seasons": [
+        "fall"
+      ]
+    }
+  }
+}

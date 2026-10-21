@@ -18,7 +18,7 @@ A course map in the style of UofT ECE Iris.
 - A legend explains the line styles and group colors. A "Plan my degree" button leads to page 2.
 - The map supports pan and zoom on desktop and phone.
 
-Course groups (draft for review):
+Course groups:
 
 | Group | Courses |
 |---|---|
@@ -65,7 +65,7 @@ The current proof of concept's tools, kept for the program owner: what-if edits 
 
 ## Visual direction
 
-Light theme throughout, white surfaces, MTSU blue from the logo as the single accent, near-black text, and one neutral gray family tinted toward that blue. Large, readable type, generous spacing, and one primary button per screen. Status colors (on track, needs attention, delayed) are separate from the accent. The logo file comes from `public/et-logo.png`. Layout works at phone width with no sideways scrolling.
+Light theme throughout, white surfaces, MTSU blue from the logo as the single accent, near-black text, and one neutral gray family tinted toward that blue. Large, readable type, generous spacing, and one primary button per screen. Status colors (on track, needs attention, delayed) are separate from the accent. The logo file is `app/public/et-logo.png` (the Engineering & Technology gear logo, 508 by 393 pixels, white background; its blue is #0266BB). Layout works at phone width with no sideways scrolling.
 
 ## Technology
 

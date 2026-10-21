@@ -37,7 +37,7 @@ Course groups:
 
 A guided walkthrough in a light theme. One question per screen, a progress bar with step names, Back and Continue buttons on every step, and answers kept when the student goes back.
 
-1. **Where are you in the program?** Year (1st, 2nd, 3rd, 4th, 5th or later) and semester (fall or spring). A separate option reads "I'm starting my first semester."
+1. **Where are you in the program?** Year (1st, 2nd, 3rd, 4th, 5th or later) and semester (fall or spring). The answer is the student's current semester, the one in progress today, and the plan starts with the semester after it. A separate option reads "I'm starting my first semester" and asks which semester they start, with Fall 2027 selected and Spring 2027 as the other choice; that plan starts with the chosen semester.
 2. **Which courses have you finished?** A checklist of the Mechatronics and required math and science courses, grouped by the academic map's semesters. Every course the map places before the student's current semester starts checked. The student unchecks what they have not taken. A short line explains why: "We checked the courses most students have finished by now. Uncheck any you haven't taken."
 3. **What are you taking this semester?** The map's courses for the current semester start checked. The student adjusts. These count as finished for planning next semester.
 4. **Pick your electives.** Choose 3. Cards are grouped by career area. Each card shows the title, a one-sentence description, the semesters it runs, and what it requires. A card the student cannot take yet says when they can. A counter reads "2 of 3 chosen."
@@ -48,10 +48,12 @@ Non-STEM general education courses are not asked about and not scheduled, becaus
 
 ### Plan results
 
+The planner keeps each course in its academic map semester whenever the student's situation allows, and moves a course only when a prerequisite, an offering season, or the credit load requires it. A statement that the plan matches the academic map appears only when every remaining course sits in its map semester.
+
 - **Summary at the top:** projected graduation semester, senior design start (ENGR 4580, fall) and finish (ENGR 4590, spring), and the chosen electives.
 - **Semester cards** in order through graduation. Each card lists its courses with credit hours, total hours, and open general education hours. Senior design courses are visually marked.
 - **Plain-language alerts**, only where they apply, for example: "ENGR 3540 must be taken by Fall 2028, or senior design moves to Fall 2029." "ENGR 4570 is first offered in Fall 2027."
-- **Next semester's class times:** a weekly calendar with one set of sections that fit together without time overlaps, plus alternatives. When the next semester's schedule is not published yet, the calendar uses the same semester from the previous year and says so.
+- **Next semester's class times:** a weekly calendar for the first semester of the plan, with one set of sections that fit together without time overlaps, plus alternatives. Sections with set meeting times come before online or "time to be announced" sections. When the next semester's schedule is not published yet, the calendar uses the same semester from the previous year and says so.
 - **Export PDF** downloads a file named like `mechatronics-plan-fall-2026.pdf`.
 - **Start over** and **Edit answers** buttons.
 

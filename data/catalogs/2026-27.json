@@ -1,7 +1,7 @@
 {
   "catalog_year": "2026-27",
   "program": "Mechatronics Engineering, B.S.",
-  "total_hours": 128,
+  "total_hours": 129,
   "sources": [
     "https://www.mtsu.edu/program/mechatronics-engineering-b-s/ (Requirements section, 2026-27 catalog course descriptions)",
     "https://catalog.mtsu.edu/mime/media/view/49/12672/"
@@ -21,7 +21,7 @@
       ]
     }
   ],
-  "notes": "Prerequisites come from the 2026-27 catalog course descriptions linked from the program page, read October 20, 2026. Term placement comes from the 2026-27 academic map. Every student starts in MATH 1910; precalculus starts are out of scope. Summer terms are out of scope. This file also models proposed Fall 2027 changes that are not in the published catalog: ENGR 3915 and ENGR 3970 move from required courses to elective options, ENGR 4570, ENGR 4600, and ENGR 4610 are added, and students choose 3 electives. Course descriptions come from the 2026-27 catalog, read October 21, 2026.",
+  "notes": "Prerequisites come from the 2026-27 catalog course descriptions linked from the program page, read October 20, 2026. Term placement comes from the 2026-27 academic map. Every student starts in MATH 1910; precalculus starts are out of scope. Summer terms are out of scope. This file also models proposed Fall 2027 changes that are not in the published catalog: ENGR 3915 and ENGR 3970 move from required courses to elective options, ENGR 4570, ENGR 4600, and ENGR 4610 are added, and students choose 3 electives. Course descriptions come from the 2026-27 catalog, read October 21, 2026. Further proposed changes: ENGR 1010 (1 hour, first semester) is added and required, ENGR 4500 becomes an elective, ENGR 3600 (internship) and ENGR 4600 (research) carry 1 to 3 hours per semester with a combined 6-hour limit, ENGR 4610 is removed, students choose 10 elective hours, and the program totals 129 hours.",
   "courses": {
     "ENGR 1100": {
       "title": "Engineering Fundamentals",
@@ -30,12 +30,20 @@
         "ENGR 1100"
       ],
       "prereqs": {
-        "course": "MATH 1910",
-        "concurrent_ok": true
+        "all": [
+          {
+            "course": "MATH 1910",
+            "concurrent_ok": true
+          },
+          {
+            "course": "ENGR 1010",
+            "concurrent_ok": true
+          }
+        ]
       },
       "standing": null,
       "suggested_term": "freshman-fall",
-      "notes": "Catalog lists MATH 1630, MATH 1730, or MATH 1910 as the prerequisite. Students take MATH 1910 and ENGR 1100 in the same term, as the academic map shows.",
+      "notes": "Catalog lists MATH 1630, MATH 1730, or MATH 1910 as the prerequisite. Students take MATH 1910 and ENGR 1100 in the same term, as the academic map shows. Proposed change: ENGR 1010 is a prerequisite or corequisite.",
       "description": "Introduces various engineering fields. Emphasis on problem-solving techniques and the use of mathematics in analyzing technical problems. Topics such as graphical representation of data, estimation, dimensions, units, error estimates, statistics, and team work addressed. Engineering ethics and impact of engineering solutions on society and the environment."
     },
     "MATH 1910": {
@@ -443,7 +451,7 @@
       "prereqs": null,
       "standing": "senior",
       "suggested_term": "senior-fall",
-      "notes": "Catalog prerequisite is senior standing or completion of all 3000-level courses; encoded as senior standing.",
+      "notes": "Catalog prerequisite is senior standing or completion of all 3000-level courses; encoded as senior standing. Proposed change: ENGR 4500 becomes a 1-hour elective option.",
       "description": "Review of topics covered on the general session of the Fundamentals of Engineering exam. Covers all aspects of engineering curriculum including mathematics, engineering probability and statistics, chemistry, computers, ethics and business practices, engineering economics, engineering mechanics (statics and dynamics), strength of materials, material properties, fluid mechanics, electricity and magnetism, and thermodynamics."
     },
     "ENGR 4510": {
@@ -567,36 +575,61 @@
       "description": null
     },
     "ENGR 4600": {
-      "title": "Mechatronics Engineering Internship",
-      "credits": 3,
+      "title": "Mechatronics Engineering Research",
+      "credits": {
+        "min": 1,
+        "max": 3
+      },
       "components": [
         "ENGR 4600"
       ],
       "prereqs": null,
       "standing": "junior",
       "suggested_term": "junior-spring",
-      "notes": "Proposed course; 3 hours of internship credit; not in the published 2026-27 catalog. Open to juniors and seniors. Offered every fall and spring.",
+      "notes": "Proposed course; not in the published 2026-27 catalog. 1 to 3 credit hours per semester, repeatable. ENGR 3600 and ENGR 4600 together count for at most 6 hours. Open to juniors and seniors. Offered every fall and spring.",
       "season_override": [
         "fall",
         "spring"
       ],
-      "description": null
+      "description": null,
+      "repeatable": true
     },
-    "ENGR 4610": {
-      "title": "Mechatronics Engineering Research",
-      "credits": 3,
+    "ENGR 3600": {
+      "title": "Mechatronics Engineering Internship",
+      "credits": {
+        "min": 1,
+        "max": 3
+      },
+      "repeatable": true,
       "components": [
-        "ENGR 4610"
+        "ENGR 3600"
       ],
       "prereqs": null,
       "standing": "junior",
-      "suggested_term": "junior-spring",
-      "notes": "Proposed course; 3 hours of research credit; not in the published 2026-27 catalog. Open to juniors and seniors. Offered every fall and spring.",
       "season_override": [
         "fall",
         "spring"
       ],
-      "description": null
+      "suggested_term": "junior-spring",
+      "description": null,
+      "notes": "Proposed course; not in the published 2026-27 catalog. 1 to 3 credit hours per semester, repeatable. ENGR 3600 and ENGR 4600 together count for at most 6 hours. Open to juniors and seniors. Offered every fall and spring."
+    },
+    "ENGR 1010": {
+      "title": "Engineering Colloquium",
+      "credits": 1,
+      "components": [
+        "ENGR 1010"
+      ],
+      "prereqs": null,
+      "standing": null,
+      "first_semester": true,
+      "season_override": [
+        "fall",
+        "spring"
+      ],
+      "suggested_term": "freshman-fall",
+      "description": null,
+      "notes": "Proposed course; not in the published 2026-27 catalog. 1 credit hour. No prerequisites. Taken in the student's first semester. Offered every fall and spring."
     }
   },
   "requirements": [
@@ -619,6 +652,7 @@
       "id": "engr-core",
       "type": "all",
       "courses": [
+        "ENGR 1010",
         "ENGR 1100",
         "ENGR 2100",
         "ENGR 2110",
@@ -631,7 +665,6 @@
         "ENGR 3520",
         "ENGR 3530",
         "ENGR 3550",
-        "ENGR 4500",
         "ENGR 4510",
         "ENGR 3540",
         "ENGR 4580",
@@ -642,20 +675,30 @@
     },
     {
       "id": "engr-elective",
-      "type": "choose",
-      "count": 3,
+      "type": "choose_hours",
+      "hours": 10,
+      "label": "Mechatronics electives (10 hours)",
       "options": [
+        "ENGR 3600",
         "ENGR 3915",
         "ENGR 3970",
-        "ENGR 4550",
+        "ENGR 4500",
         "ENGR 4540",
+        "ENGR 4550",
         "ENGR 4560",
         "ENGR 4570",
-        "ENGR 4600",
-        "ENGR 4610"
+        "ENGR 4600"
       ],
-      "suggested_term": "junior-spring",
-      "label": "Mechatronics electives (choose 3)"
+      "limits": [
+        {
+          "courses": [
+            "ENGR 3600",
+            "ENGR 4600"
+          ],
+          "max_hours": 6
+        }
+      ],
+      "suggested_term": "junior-spring"
     },
     {
       "id": "tbc-information-literacy",

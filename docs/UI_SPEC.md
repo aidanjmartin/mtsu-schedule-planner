@@ -10,18 +10,22 @@ The site has three pages, reached from a top bar that is present on every page. 
 
 ### 1. Explore (home, `#/explore`)
 
-An interactive course map that works the way UofT ECE Iris works: the program starts as a few labeled circles, a student opens the ones they care about, and each opened circle becomes a ring of courses they can click.
+**Two views.** A switch at the top of the map offers **Circle view** (described below, the default) and **Flow view**. The page remembers the student's last choice on that device. Both views use the same course data, subject colors, details panel, and search.
+
+**Flow view** is the earlier flow chart: every course as a tile in its subject group, with prerequisite lines drawn when a course is selected. Group boxes follow the subject table below, with each elective career area as its own box. Tiles show the full course title (wrapping to two lines when needed, with the full title on hover). At phone width the chart opens fitted to the screen width, with a "Drag to move, pinch to zoom" hint.
+
+**Circle view** is an interactive course map that works the way UofT ECE Iris works: the program starts as a few labeled circles, a student opens the ones they care about, and each opened circle becomes a ring of courses they can click.
 
 **Starting view.** Six area circles on a light canvas, each labeled above it:
 
 | Area circle | Courses inside | Ring order |
 |---|---|---|
-| Core: Years 1 and 2 (center) | MATH 1910, 1920, 3110, 3120; PHYS 2110/2111, 2120/2121; CHEM 1110/1111; CSCI 1170; ENGR 1100, 2100, 2110, 2120, 2130, 2210 | By academic map semester, Year 1 Fall to Year 2 Spring, clockwise from the top |
-| Required: Years 3 and 4 | ENGR 3510, 3520, 3530, 3540, 3550, 3560, 3590, 4500, 4510, 4520, 4530, 4580, 4590; MATH 2010 | By academic map semester, Year 3 Fall to Year 4 Spring, clockwise from the top |
-| Elective: Systems Engineering & Management | ENGR 3915, 3970 | By course number |
+| Core: Years 1 and 2 (center) | MATH 1910, 1920, 3110, 3120; PHYS 2110/2111, 2120/2121; CHEM 1110/1111; CSCI 1170; ENGR 1010, 1100, 2100, 2110, 2120, 2130, 2210 | By academic map semester, Year 1 Fall to Year 2 Spring, clockwise from the top |
+| Required: Years 3 and 4 | ENGR 3510, 3520, 3530, 3540, 3550, 3560, 3590, 4510, 4520, 4530, 4580, 4590; MATH 2010 | By academic map semester, Year 3 Fall to Year 4 Spring, clockwise from the top |
+| Elective: Systems Engineering & Management | ENGR 3915, 3970, 4500 | By course number |
 | Elective: Robotics & Embedded Systems | ENGR 4550, 4560 | By course number |
 | Elective: Advanced Study | ENGR 4540, 4570 | By course number |
-| Elective: Internship & Research | ENGR 4600, 4610 | By course number |
+| Elective: Internship & Research | ENGR 3600 (internship), 4600 (research) | By course number |
 
 The core circle sits in the center. The required circle and the four elective circles sit around it. A short line under the page title reads: "Open an area to see its courses. Select a course to see what it needs and what it opens up."
 
@@ -45,12 +49,12 @@ The core circle sits in the center. The required circle and the four elective ci
 | Subject color | Courses |
 |---|---|
 | Math & Science | MATH 1910, 1920, 2010, 3110, 3120; PHYS 2110/2111, 2120/2121; CHEM 1110/1111; CSCI 1170 |
-| Engineering Foundations | ENGR 1100, 2100, 2210, 4500 |
+| Engineering Foundations | ENGR 1010, 1100, 2100, 2210 |
 | Mechanics | ENGR 2110, 2120, 3550, 3560, 3590 |
 | Circuits, Electronics & Automation | ENGR 2130, 3510, 3520, 3530, 4510, 4520 |
 | Controls | ENGR 3540, 4530 |
 | Senior Design | ENGR 4580, 4590 |
-| Electives | ENGR 3915, 3970, 4540, 4550, 4560, 4570, 4600, 4610 |
+| Electives | ENGR 3600, 3915, 3970, 4500, 4540, 4550, 4560, 4570, 4600 |
 
 **Controls**, stacked at the bottom right: zoom in, zoom out, fit to screen, search (type a course number or title, then the map opens its area and selects it), and help (a short walkthrough of the steps above). A "Plan my degree" button sits at the top right.
 
@@ -58,7 +62,7 @@ The core circle sits in the center. The required circle and the four elective ci
 
 **Drawing.** The map is drawn in SVG by React, with animation by the Motion library. Animation respects the reduced-motion setting. The canvas uses the site's light theme and the logo blue as the accent, with the subject colors kept soft so the selected course and its arrows stand out.
 
-**Descriptions.** Catalog descriptions are stored in the catalog file as a `description` field for each course. ENGR 4570, 4600, and 4610 have no catalog description yet; their panel reads "Proposed course. Description coming soon." until the program owner supplies one.
+**Descriptions.** Catalog descriptions are stored in the catalog file as a `description` field for each course. ENGR 1010, 3600, 4570, and 4600 have no catalog description yet; their panel reads "Proposed course. Description coming soon." until the program owner supplies one.
 
 ### 2. Plan my degree (`#/plan`)
 
@@ -67,7 +71,7 @@ A guided walkthrough in a light theme. One question per screen, a progress bar w
 1. **Where are you in the program?** Year (1st, 2nd, 3rd, 4th, 5th or later). The site does not ask which semester: it works out the current semester from today's date and states it ("We count Fall 2026 as your current semester and plan the semesters after it."). The plan starts with the semester after the current one. A separate option reads "I'm starting my first semester" and asks which semester they start, with Fall 2027 selected and Spring 2027 as the other choice; that plan starts with the chosen semester.
 2. **Which courses have you finished?** A checklist of the Mechatronics and required math and science courses, grouped by the academic map's semesters. Every course the map places before the student's current semester starts checked. The student unchecks what they have not taken. A short line explains why: "We checked the courses most students have finished by now. Uncheck any you haven't taken."
 3. **What are you taking this semester?** The map's courses for the current semester start checked. The student adjusts. These count as finished for planning next semester.
-4. **Pick your electives.** Choose 3. Cards are grouped by career area. Each card shows the title, a one-sentence description, the semesters it runs, and what it requires. A card the student cannot take yet says when they can. A counter reads "2 of 3 chosen."
+4. **Pick your electives.** Choose 10 elective credit hours, in any mix: for example three 3-hour courses and ENGR 4500 (1 hour). Cards are grouped by career area. Each card shows the title, credit hours, a one-sentence description, the semesters it runs, and what it requires. A card the student cannot take yet says when they can. ENGR 3600 (internship) and ENGR 4600 (research) let the student pick 1, 2, or 3 hours per semester and repeat across semesters; together they count for at most 6 hours. A counter reads "7 of 10 hours chosen." Continue is enabled at exactly 10 hours; the step explains how to reach 10 when the student is over or under.
 5. **How many credit hours per semester?** Light (12 to 14), Standard (15 to 17), or Heavy (18), with a sentence on what each means for graduation.
 6. **Your plan.** Described below.
 
@@ -114,7 +118,9 @@ Accounts, sharing plans with advisors, summer terms, precalculus starts, catalog
 
 1. A first-semester student starting in Fall 2027 finishes the walkthrough in under two minutes and sees graduation in Spring 2031 and senior design in Fall 2030.
 2. A student in 2nd year fall with PHYS 2110 unchecked sees the effect on senior design and graduation, with an alert naming PHYS 2110.
-3. The elective step prevents choosing more than 3 and explains any elective the student cannot take yet.
+3. The elective step accepts exactly 10 elective hours, enforces the 6-hour combined limit on ENGR 3600 and ENGR 4600, and explains any elective the student cannot take yet.
 4. Export PDF downloads a readable plan that matches the screen.
 5. On the Explore map, every area opens and closes, every course can be selected, its prerequisites and the courses it opens up are linked across open areas, and the map works at phone width.
 6. The site loads from GitHub Pages with no console errors.
+7. Both Explore views work at desktop and phone width, the switch remembers the last view, and Circle view opens by default.
+8. A first-semester student's plan places ENGR 1010 in the first semester, in the same semester as ENGR 1100 or earlier.

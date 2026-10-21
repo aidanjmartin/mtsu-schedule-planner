@@ -21,7 +21,7 @@
       ]
     }
   ],
-  "notes": "Prerequisites come from the 2026-27 catalog course descriptions linked from the program page, read October 20, 2026. Term placement comes from the 2026-27 academic map. Every student starts in MATH 1910; precalculus starts are out of scope. Summer terms are out of scope.",
+  "notes": "Prerequisites come from the 2026-27 catalog course descriptions linked from the program page, read October 20, 2026. Term placement comes from the 2026-27 academic map. Every student starts in MATH 1910; precalculus starts are out of scope. Summer terms are out of scope. This file also models proposed Fall 2027 changes that are not in the published catalog: ENGR 3915 and ENGR 3970 move from required courses to elective options, ENGR 4570, ENGR 4600, and ENGR 4610 are added, and students choose 3 electives.",
   "courses": {
     "ENGR 1100": {
       "title": "Engineering Fundamentals",
@@ -305,7 +305,7 @@
       "prereqs": null,
       "standing": "junior",
       "suggested_term": "junior-spring",
-      "notes": "Catalog prerequisite is junior standing or permission of instructor."
+      "notes": "Catalog prerequisite is junior standing or permission of instructor. Required in the published 2026-27 catalog; modeled as an elective option per the proposed Fall 2027 change."
     },
     "ENGR 3530": {
       "title": "Electronics and Instrumentation",
@@ -346,7 +346,7 @@
       "prereqs": null,
       "standing": "junior",
       "suggested_term": "junior-spring",
-      "notes": "Catalog prerequisite is junior standing or permission of instructor."
+      "notes": "Catalog prerequisite is junior standing or permission of instructor. Required in the published 2026-27 catalog; modeled as an elective option per the proposed Fall 2027 change."
     },
     "ENGR 4540": {
       "title": "Thermodynamics for Engineers",
@@ -494,6 +494,39 @@
       "standing": null,
       "suggested_term": "senior-spring",
       "notes": "Prerequisites from the 2026-27 catalog course description."
+    },
+    "ENGR 4570": {
+      "title": "Machine Vision and Applications in AI",
+      "credits": 3,
+      "components": [
+        "ENGR 4570"
+      ],
+      "prereqs": null,
+      "standing": null,
+      "suggested_term": "senior-fall",
+      "notes": "CHECK: Proposed course, first offered Fall 2027; not in the published 2026-27 catalog. Prerequisites not yet set."
+    },
+    "ENGR 4600": {
+      "title": "Mechatronics Engineering Internship",
+      "credits": 3,
+      "components": [
+        "ENGR 4600"
+      ],
+      "prereqs": null,
+      "standing": null,
+      "suggested_term": "junior-spring",
+      "notes": "CHECK: Proposed course; 3 hours of internship credit; not in the published 2026-27 catalog. Prerequisites and offered terms not yet set."
+    },
+    "ENGR 4610": {
+      "title": "Mechatronics Engineering Research",
+      "credits": 3,
+      "components": [
+        "ENGR 4610"
+      ],
+      "prereqs": null,
+      "standing": null,
+      "suggested_term": "junior-spring",
+      "notes": "CHECK: Proposed course; 3 hours of research credit; not in the published 2026-27 catalog. Prerequisites and offered terms not yet set."
     }
   },
   "requirements": [
@@ -526,10 +559,8 @@
         "ENGR 3560",
         "ENGR 3590",
         "ENGR 3520",
-        "ENGR 3970",
         "ENGR 3530",
         "ENGR 3550",
-        "ENGR 3915",
         "ENGR 4500",
         "ENGR 4510",
         "ENGR 3540",
@@ -542,13 +573,19 @@
     {
       "id": "engr-elective",
       "type": "choose",
-      "count": 1,
+      "count": 3,
       "options": [
-        "ENGR 4540",
+        "ENGR 3915",
+        "ENGR 3970",
         "ENGR 4550",
-        "ENGR 4560"
+        "ENGR 4540",
+        "ENGR 4560",
+        "ENGR 4570",
+        "ENGR 4600",
+        "ENGR 4610"
       ],
-      "suggested_term": "junior-spring"
+      "suggested_term": "junior-spring",
+      "label": "Mechatronics electives (choose 3)"
     },
     {
       "id": "tbc-information-literacy",

@@ -1,0 +1,74 @@
+/* Design tokens. Light theme only.
+   The interface follows an engineer's drawing sheet: white paper, fine blue rules, part callouts, and a title block.
+   MTSU blue (the logo color) is the only accent. Status colors are separate so a red or green never reads as "selected". */
+
+:root {
+  /* Accent: the blue in the department logo */
+  --blue: #0266bb;
+  --blue-ink: #014a8c;
+  --blue-tint: #e3eef9;
+  --blue-wash: #f1f6fc;
+
+  /* One neutral family, tinted toward the blue */
+  --ink: #14202e;
+  --ink-2: #364559;
+  --ink-3: #566579;
+  --line: #d3dce7;
+  --line-strong: #a9b8cb;
+  --ground: #f2f5f9;
+  --paper: #ffffff;
+  --grid: #dfe7f1;
+
+  /* Status */
+  --ok: #1b7448;
+  --ok-tint: #e2f2ea;
+  --warn: #8f5500;
+  --warn-tint: #fbf0d9;
+  --bad: #b3261e;
+  --bad-tint: #fbe6e4;
+
+  /* Map group colors: cool for the core areas, warm for the elective career groups */
+  --g-math: #3b7bc4;      --g-math-bg: #e4edf8;
+  --g-found: #2a8a8c;     --g-found-bg: #dff0ef;
+  --g-mech: #5a67bd;      --g-mech-bg: #e7eaf7;
+  --g-circ: #2f8f69;      --g-circ-bg: #e1f0e9;
+  --g-ctrl: #7a5bbd;      --g-ctrl-bg: #ebe7f6;
+  --g-senior: #0266bb;    --g-senior-bg: #d9e8f8;
+  --g-systems: #b0802a;   --g-systems-bg: #f6edd9;
+  --g-robotics: #bf6a2c;  --g-robotics-bg: #f7e8dc;
+  --g-advanced: #7b8c28;  --g-advanced-bg: #ecf0d8;
+  --g-internship: #b3506c; --g-internship-bg: #f6e5ec;
+
+  /* Type */
+  --font-body: "Barlow", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Barlow Semi Condensed", "Barlow", system-ui, sans-serif;
+  --t-xs: 0.8125rem;
+  --t-s: 0.9375rem;
+  --t-m: 1.0625rem;
+  --t-l: 1.25rem;
+  --t-xl: 1.625rem;
+  --t-2xl: 2.25rem;
+  --t-3xl: 3.25rem;
+
+  /* Space and shape */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 72px;
+  --r-s: 4px;
+  --r-m: 8px;
+  --r-l: 14px;
+  --gutter: 16px;
+  --page: 1180px;
+  --topbar-h: 68px;
+
+  --focus: 0 0 0 3px #fff, 0 0 0 6px var(--blue);
+}
+
+@media (min-width: 700px) {
+  :root { --gutter: 28px; }
+}

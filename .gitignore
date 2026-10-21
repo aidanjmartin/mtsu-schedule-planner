@@ -3,3 +3,7 @@ __pycache__/
 node_modules/
 *.pyc
 dist/
+
+app/node_modules/
+app/dist/
+app/public/data/

@@ -1,26 +1,45 @@
 # MTSU Degree Planner
 
-A proof of concept that helps Mechatronics Engineering B.S. students at MTSU plan the prerequisite chain into senior design. It answers four questions:
+A degree planner for MTSU Mechatronics Engineering B.S. students. It answers one question for a student: "What do I take each semester to graduate, and when do I start senior design?"
 
-1. Which courses are on the critical path to senior design and graduation, and how many terms can each one slip?
-2. Given the courses a student has finished, what term-by-term plan reaches graduation soonest?
-3. For the next term, which section combinations fit without time overlaps, and which course pairs can never fit together?
-4. If the department changes a course, how do the answers to 1 through 3 change?
+The site has three pages:
 
-The page runs entirely in the browser. There is no server and no account, and nothing a student enters leaves the device. The full specification is in `docs/SPEC.md` and the file formats are in `docs/DATA_FORMAT.md`.
+- **Course map** (`#/explore`, the home page). A map of every course in the degree, grouped by subject. Selecting a course highlights what the student needs first (solid lines) and what it opens up (dashed lines), and a side panel (a bottom sheet on phones) explains the course in plain words.
+- **Plan my degree** (`#/plan`). A six-step walkthrough: where the student is in the program, finished courses, courses taken this semester, three electives, credit hours per semester, and the plan. The plan lists every semester through graduation, explains anything that needs attention, shows next semester's class times, and exports a PDF.
+- **Advanced** (`#/advanced`, linked from the footer). Tools for the program owner: what-if edits with a baseline comparison, the critical path and slack table, and full section timetables.
+
+The site runs entirely in the browser. There is no server and no account. Answers save in the browser on that device only, and **Start over** clears them. The name a student types for the PDF is never stored. The interface specification is `docs/UI_SPEC.md`. The data formats are in `docs/DATA_FORMAT.md`.
 
 ## What is in the repository
 
 | Folder or file | What it holds |
 | --- | --- |
-| `data/catalogs/` | One hand-encoded catalog file per catalog year. |
-| `data/schedule/` | Parsed class schedules, one file per term, plus `index.json` that lists them. `raw/` keeps the saved web pages. |
+| `app/` | The React site (Vite and JavaScript). `app/src/pages/` holds the three pages, `app/src/plan/` the walkthrough steps, results, and PDF, and `app/src/lib/` the plan model, the map layout, and data loading. |
+| `web/engine/` | The planning engine. It is plain JavaScript with no dependencies, and the site imports it unchanged. |
+| `data/catalogs/` | One hand-encoded catalog file per catalog year (2026-27). |
+| `data/schedule/` | Parsed class schedules, one file per term, plus `index.json` that lists them. `raw/` keeps the saved web pages and is not published. |
 | `data/offerings.json` | Which seasons each course regularly runs, derived from the schedules. |
 | `importer/` | Python code that reads MTSU's public class schedule and derives offering patterns. |
-| `web/` | The page (`index.html`, `app.js`, `styles.css`) and the planning engine in `web/engine/`. |
-| `tests/` | Node tests for the engine and pytest tests for the importer and build script. |
-| `tools/build.py` | Builds one self-contained page, `dist/planner.html`. |
+| `tests/` | Node tests for the engine and the plan model, and pytest tests for the importer. |
+| `docs/` | The specifications. |
 | `.github/workflows/import-schedule.yml` | Runs the importer on GitHub and commits the results. |
+| `.github/workflows/deploy-pages.yml` | Builds the site and publishes it to GitHub Pages. |
+
+## Run the site on your computer
+
+You need Node 20 or newer.
+
+```
+cd app
+npm install
+npm run dev
+```
+
+Open the address that Vite prints. `npm run build` writes the finished site to `app/dist/`, and `npm run preview` serves it.
+
+Before every `dev` and `build`, `app/scripts/copy-data.mjs` copies `data/catalogs/`, `data/offerings.json`, and `data/schedule/*.json` (not `raw/`) into `app/public/data/`. That folder is generated and is not committed. The engine is not copied. Vite reads it from `web/engine/`, so there is one engine and no fork.
+
+The site is served from `/mtsu-schedule-planner/` on GitHub Pages, which is the `base` setting in `app/vite.config.js`. Change it if the repository name changes.
 
 ## Run the tests
 
@@ -32,32 +51,30 @@ node --test tests/
 python3 -m pytest tests/
 ```
 
-On Node 21 and newer, `node --test tests/` works through a small helper, `tests/index.js`. You can also run `npm test` or `node --test tests/*.test.mjs`.
+On Node 21 and newer, `node --test tests/` works through a small helper, `tests/index.js`. You can also run `npm test` from the repository root.
 
-The engine tests use a small synthetic catalog in `tests/fixtures/catalog-small.json`. The importer tests use synthetic HTML in `tests/fixtures/` that copies the layout of MTSU's Banner 8 class listing. Each of those files says it is synthetic. Replace them with saved real pages once the importer has run.
+The engine tests use a small synthetic catalog in `tests/fixtures/catalog-small.json`. The plan model tests use the real 2026-27 catalog with a fixed date, and check the two walkthroughs in the interface specification: a first-semester student graduates in Spring 2030 and starts senior design in Fall 2029, and a 2nd year fall student who has not finished PHYS 2110 gets an alert naming it. The importer tests use synthetic HTML in `tests/fixtures/` that copies the layout of MTSU's Banner 8 class listing.
 
-## Open the page while you work on it
+## Publish the site
 
-Serve the repository root with any static web server, then open `web/index.html`:
+`.github/workflows/deploy-pages.yml` builds `app/` and deploys it with GitHub Pages. In the repository settings, set Pages to the **GitHub Actions** source once. After that the workflow runs:
 
-```
-python3 -m http.server 8000
-```
+- on every push to `main`, and
+- when the "Import class schedule" workflow finishes successfully. A commit made with the built-in `GITHUB_TOKEN` does not start other workflows, so this second trigger makes new schedule data reach the site.
 
-Open `http://localhost:8000/web/index.html`. The page loads `data/catalogs/*.json`, `data/schedule/*.json`, and `data/offerings.json` when they exist.
+You can also start it by hand from the Actions tab.
 
-- Without offering data, the page treats every course as regularly offered in its suggested season and says so at the top.
-- Without schedule data, the Next term view explains that section times are missing. The other views still work.
-- The graph libraries (Cytoscape.js, dagre, and cytoscape-dagre) load from `cdnjs.cloudflare.com`. If they cannot load, the Graph view shows a list instead.
+## How the plan page works
 
-## The four views
+`app/src/lib/planModel.js` turns the student's answers into the engine's input and turns the engine's output into the plan on screen. It holds no page code, so the Node tests run it directly.
 
-- **Graph.** Courses appear in columns by suggested term. Arrows point from a prerequisite to the course that needs it, and a dashed arrow means the prerequisite may be taken at the same time. Each course shows its slack. Courses with zero slack form the critical path and have a red outline.
-- **Plan.** Check off finished courses, choose a start term, and set the credit limits. The page shows the term-by-term plan, the projected graduation term, the senior design start term, and the courses that set those dates. A comparison panel plans two starting points side by side, for example a student who starts with MATH 1730 and one who starts with MATH 1910, and names the courses responsible for any difference.
-- **Next term.** A weekly grid shows the best section combination. Other combinations, course pairs that cannot fit, and conflict explanations appear below it.
-- **What-if.** Add edits (change prerequisites, offered seasons, or credit hours, move a course between required and elective, or replace a meeting pattern). Every view then shows the difference from the unchanged baseline.
-
-Your choices save in the browser's storage. If storage is blocked, the page still works but forgets your choices when you close it. Use **Export** to save your state as a JSON file and **Import** to load it again.
+- **Position and pre-checked courses.** Each semester has a place on the academic map. Courses the map puts before the student's current semester start checked as finished, and the courses in the current semester start checked as "taking now." Unchecking a course also unchecks the finished courses that need it.
+- **The first planned semester.** A student in the middle of the program gets a plan that starts with the semester after the current one. The current semester shows as a separate "in progress" card. A student starting a first semester gets a plan that starts with that semester. Dates come from today's date, and the earliest start is Fall 2026.
+- **General education.** The planner schedules only the catalog's courses (Mechatronics, math, science, and CSCI). It leaves room in each semester for general education, shows the open hours, and warns when the open hours before graduation are fewer than the general education hours the student still needs.
+- **Credit load.** Light, Standard, and Heavy set the most hours the planner puts in one semester (14, 17, and 18).
+- **Alerts.** "X must be taken by Fall 2028, or senior design moves to Fall 2029" comes from planning again with that course held back one semester. "X is holding up your plan" appears when a course the academic map expects the student to have finished is not finished and the dates move later than the map's.
+- **Class times.** Next semester's class times come from `web/engine/timetable.js`. When the semester has no schedule file yet, the page uses the same semester from an earlier year and says so.
+- **PDF.** `@react-pdf/renderer` builds the PDF in the browser when the student chooses Export PDF. The library loads only then.
 
 ## How the planning engine works
 
@@ -99,17 +116,10 @@ All knowledge of MTSU's site sits in `importer/banner8.py`. MTSU plans to move t
 - **What it does.** It installs the importer's packages, runs `importer/run_import.py` for ENGR, MATH, PHYS, CHEM, and CSCI, and commits any changed files under `data/` to the repository.
 - **If GitHub cannot reach MTSU.** Run the importer on your own computer with the commands above, then commit the changed files under `data/`.
 
-## Build one self-contained page
-
-```
-python3 tools/build.py
-```
-
-This writes `dist/planner.html`. The file carries its own scripts, styles, and data, so you can publish it as a single file. The three graph library tags stay as links to `cdnjs.cloudflare.com`. Use `--schedule-terms 8` to include only the newest eight schedule files, which keeps the file small.
-
 ## Known limits
 
-- The planner follows prerequisites, offered seasons, class standing hours, and credit limits. It does not model grade rules, transfer credit, minors, or career-track electives.
-- General education requirements are placeholders. They reserve hours in their preferred terms and are not scheduled by section.
+- The planner follows prerequisites, offered seasons, class standing hours, and credit limits. It does not model grade rules, transfer credit, or minors.
+- The student plan does not schedule general education courses. It reports open hours instead. The Advanced page still reserves the catalog's general education blocks.
+- Summer terms, precalculus starts, and catalog years other than 2026-27 are out of scope.
 - Slack and critical path ignore the credit limit. The planner applies the credit limit afterward, so a plan can finish later than the critical path alone suggests.
 - Offering patterns come from past terms. They do not promise that a course runs in a future term.

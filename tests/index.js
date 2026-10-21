@@ -2,4 +2,5 @@
 // directory argument. Older versions expand the directory themselves and find the test files directly.
 if (Number(process.versions.node.split('.')[0]) >= 21) {
   import('./engine.test.mjs');
+  import('./planmodel.test.mjs');
 }

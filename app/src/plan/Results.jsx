@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { computeResult, LOADS } from '../lib/planModel.js';
 import { terms as T } from '../lib/engine.js';
 import ClassTimes, { useClassTimes } from './ClassTimes.jsx';
-import { listText, plural } from '../lib/format.js';
+import { listText, plural, isNewCourse } from '../lib/format.js';
 
 const STATUS = {
   'on-track': { label: 'On track', pill: 'pill-ok' },
@@ -113,7 +113,7 @@ export default function Results({ catalog, offerings, scheduleTerms, answers, on
       const chosen = info.times?.options?.[Math.min(pick, (info.times.options.length || 1) - 1)] ?? null;
       await downloadPlanPdf({
         catalog, answers, result, name: name.trim(),
-        classTimes: info.times ? { term: info.target, used: info.load.used, option: chosen, noSections: info.times.no_sections } : null,
+        classTimes: info.times ? { term: info.target, used: info.load.used, option: chosen, noSections: info.times.no_sections.map((n) => ({ ...n, isNew: isNewCourse(catalog, n.course) })) } : null,
       });
       setExporting('done');
     } catch (error) {

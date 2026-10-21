@@ -18,3 +18,18 @@ export function listText(items, joiner = 'and') {
   if (items.length === 2) return `${items[0]} ${joiner} ${items[1]}`;
   return `${items.slice(0, -1).join(', ')}, ${joiner} ${items[items.length - 1]}`;
 }
+
+/** A proposed course has no official catalog description yet, so it has no class times either. */
+export function isNewCourse(catalog, id) {
+  const def = catalog?.courses?.[id];
+  return !!def && (!def.description || !!def.description_unofficial);
+}
+
+/** Sentence for new courses that have no published class times. */
+export function newCourseTimesText(ids) {
+  if (ids.length === 0) return '';
+  const names = ids.length === 1 ? ids[0] : `${ids.slice(0, -1).join(', ')} and ${ids[ids.length - 1]}`;
+  return ids.length === 1
+    ? `${names} is a new course, so its class times aren't published yet.`
+    : `${names} are new courses, so their class times aren't published yet.`;
+}

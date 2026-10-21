@@ -3,7 +3,7 @@ import WeekGrid from '../components/WeekGrid.jsx';
 import { loadSchedule } from '../lib/data.js';
 import { classTimes, scheduleCandidates } from '../lib/planModel.js';
 import { terms as T } from '../lib/engine.js';
-import { meetingText, plural } from '../lib/format.js';
+import { meetingText, plural, isNewCourse, newCourseTimesText } from '../lib/format.js';
 
 /** Finds the class schedule to use for a planned semester: its own, or the same season in an earlier year. */
 export function useClassTimes(catalog, result, scheduleTerms) {
@@ -58,12 +58,25 @@ export default function ClassTimes({ catalog, result, info, pick, setPick }) {
         </div>
       )}
 
-      {times && times.no_sections.length > 0 && (
-        <div className="notice notice-warn">
-          <p>These courses have no sections in the schedule we used, so they are left out of the calendar:</p>
-          <ul className="plain-list">{times.no_sections.map((n) => <li key={n.course}><strong>{n.course}</strong> {n.title}</li>)}</ul>
-        </div>
-      )}
+      {times && (() => {
+        const fresh = times.no_sections.filter((n) => isNewCourse(catalog, n.course));
+        const missing = times.no_sections.filter((n) => !isNewCourse(catalog, n.course));
+        return (
+          <>
+            {fresh.length > 0 && (
+              <div className="notice">
+                <p>{newCourseTimesText(fresh.map((n) => n.course))}</p>
+              </div>
+            )}
+            {missing.length > 0 && (
+              <div className="notice notice-warn">
+                <p>These courses have no sections in the schedule we used, so they are left out of the calendar:</p>
+                <ul className="plain-list">{missing.map((n) => <li key={n.course}><strong>{n.course}</strong> {n.title}</li>)}</ul>
+              </div>
+            )}
+          </>
+        );
+      })()}
 
       {times && times.options.length > 0 && (() => {
         const chosen = times.options[Math.min(pick, times.options.length - 1)];

@@ -2,7 +2,7 @@ import React from 'react';
 import { Document, Page, Text, View, Image, StyleSheet, Font } from '@react-pdf/renderer';
 import { terms as T } from '../lib/engine.js';
 import { LOADS, positionLabel, mapPosition } from '../lib/planModel.js';
-import { meetingText, listText } from '../lib/format.js';
+import { meetingText, listText, newCourseTimesText } from '../lib/format.js';
 
 // Never split a word across lines.
 Font.registerHyphenationCallback((word) => [word]);
@@ -180,8 +180,11 @@ export default function PlanPdf({ catalog, answers, result, name, logo, created,
                 {c.course} {c.title}{c.component !== c.course ? ` (${c.component})` : ''}: section {c.section}, {c.meetings.length ? c.meetings.map(meetingText).join('; ') : (c.online ? 'online, no set time' : 'time to be announced')}
               </Bullet>
             )) : <Text>No class times are available for this semester yet.</Text>}
-            {classTimes.noSections?.length > 0 && (
-              <Text style={s.small}>No sections found for: {listText(classTimes.noSections.map((n) => n.course))}.</Text>
+            {classTimes.noSections?.some((n) => n.isNew) && (
+              <Text style={s.small}>{newCourseTimesText(classTimes.noSections.filter((n) => n.isNew).map((n) => n.course))}</Text>
+            )}
+            {classTimes.noSections?.some((n) => !n.isNew) && (
+              <Text style={s.small}>No sections found for: {listText(classTimes.noSections.filter((n) => !n.isNew).map((n) => n.course))}.</Text>
             )}
           </View>
         )}

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { compareLoads, LOAD_ORDER } from '../lib/planModel.js';
+import { compareLoads, loadNotes, LOAD_ORDER } from '../lib/planModel.js';
 import { semestersBetween, delayText } from '../lib/planModel.js';
 import { terms as T } from '../lib/engine.js';
 
@@ -15,6 +15,7 @@ export default function StepLoad({ catalog, offerings, answers, setAnswers }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [catalog, offerings, answers.finished, answers.taking, answers.electives, answers.electivesDone, answers.firstSemester, answers.year, answers.season],
   );
+  const notes = loadNotes(results);
   const best = results.reduce((a, b) => (a.graduation && b.graduation && T.compareTerms(b.graduation, a.graduation) < 0 ? b : a), results[0]);
 
   return (
@@ -40,6 +41,11 @@ export default function StepLoad({ catalog, offerings, answers, setAnswers }) {
           );
         })}
       </div>
+      {notes.length > 0 && (
+        <div className="load-notes" role="status">
+          {notes.map((n) => <p key={n}>{n}</p>)}
+        </div>
+      )}
     </div>
   );
 }

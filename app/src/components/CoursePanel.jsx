@@ -1,30 +1,48 @@
 import React from 'react';
-import { offeredText, needText, directUnlocks, tileLabel } from '../lib/courseGraph.js';
-import { GROUP_BY_COURSE } from '../lib/mapLayout.js';
-import { positionLabel } from '../lib/planModel.js';
-import { prereqs as P } from '../lib/engine.js';
+import { offeredText, needText, tileLabel } from '../lib/courseGraph.js';
+import { AREA_BY_ID, AREA_OF, SUBJECT_OF, linksFor, mapPositionOf, semesterLabel } from '../lib/exploreModel.js';
 
+function Chips({ catalog, items, onSelect, label }) {
+  return (
+    <ul className="chip-list" aria-label={label}>
+      {items.map((item) => (
+        <li key={item.id}>
+          <button
+            type="button" className="chip" onClick={() => onSelect(item.id)} style={{ '--c': `var(--g-${SUBJECT_OF[item.id].css})` }}
+            aria-label={`${tileLabel(catalog, item.id)}, ${catalog.courses[item.id].title}${item.together ? '. You may take it in the same semester.' : ''}`}
+          >
+            <span className="chip-dot" aria-hidden="true" />
+            <span className="chip-id">{tileLabel(catalog, item.id)}</span>
+            {item.together && <span className="chip-note">same semester</span>}
+          </button>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** Details for the selected course. On a phone this is a bottom sheet. */
 export default function CoursePanel({ catalog, offerings, courseId, onSelect, onClose }) {
   if (!courseId) {
     return (
       <div className="panel-empty">
-        <h2>Pick a course</h2>
-        <p>Select a course on the map to see what you need first and what it opens up.</p>
-        <p className="muted">Drag the map to move it. Use the plus and minus buttons, a mouse wheel, or two fingers to zoom.</p>
+        <h2>Course details</h2>
+        <p>Select a course to see its catalog description, what to take first, and what it opens up.</p>
+        <p className="muted">Open an area first if you do not see any courses.</p>
       </div>
     );
   }
   const def = catalog.courses[courseId];
-  const group = GROUP_BY_COURSE[courseId];
+  const subject = SUBJECT_OF[courseId];
+  const area = AREA_BY_ID[AREA_OF[courseId]];
   const needs = needText(catalog, courseId);
-  const unlocks = directUnlocks(catalog, courseId);
-  const position = P.suggestedPositionOf(catalog, courseId);
-  const elective = group.kind === 'elective';
+  const links = linksFor(catalog, courseId);
+  const position = mapPositionOf(catalog, courseId);
   return (
-    <div className="panel-body" style={{ '--g': `var(--g-${group.cssKey})`, '--gbg': `var(--g-${group.cssKey}-bg)` }}>
+    <div className="panel-body" style={{ '--c': `var(--g-${subject.css})` }}>
       <div className="panel-head">
         <div>
-          <p className="panel-group"><span className="swatch" aria-hidden="true" />{group.short ?? group.label}</p>
+          <p className="panel-group"><span className="swatch" aria-hidden="true" />{subject.label}</p>
           <h2 id="course-title">{tileLabel(catalog, courseId)}</h2>
           <p className="panel-title">{def.title}</p>
         </div>
@@ -35,32 +53,25 @@ export default function CoursePanel({ catalog, offerings, courseId, onSelect, on
         <div><dt>Credit hours</dt><dd>{def.credits}</dd></div>
         <div><dt>Runs in</dt><dd>{offeredText(catalog, offerings, courseId)}</dd></div>
         <div>
-          <dt>{elective ? 'Requirement' : 'On the academic map'}</dt>
-          <dd>{elective ? 'Elective. Choose 3 of 8 electives.' : position !== null ? positionLabel(position) : 'Required'}</dd>
+          <dt>Academic map</dt>
+          <dd>{area.semesters && position !== null ? semesterLabel(position) : 'Elective. Choose 3 of the 8 electives.'}</dd>
         </div>
       </dl>
 
+      <section aria-labelledby="about-h">
+        <h3 id="about-h">About this course</h3>
+        <p>{def.description ?? 'Proposed course. Description coming soon.'}</p>
+      </section>
+
       <section aria-labelledby="need-h">
         <h3 id="need-h">What you need first</h3>
-        {needs.length === 0 ? <p>Nothing. You can take this course at any time it runs.</p> : needs.map((line) => <p key={line}>{line}</p>)}
+        {needs.length === 0 ? <p>Nothing. You can take this course any semester it runs.</p> : needs.map((line) => <p key={line}>{line}</p>)}
+        {links.needs.length > 0 && <Chips catalog={catalog} items={links.needs} onSelect={onSelect} label="Courses you need first" />}
       </section>
 
       <section aria-labelledby="open-h">
         <h3 id="open-h">What it opens up</h3>
-        {unlocks.length === 0 ? (
-          <p>No other course needs this one.</p>
-        ) : (
-          <ul className="unlock-list">
-            {unlocks.map((u) => (
-              <li key={u.id}>
-                <button type="button" className="link-button" onClick={() => onSelect(u.id)}>
-                  <strong>{tileLabel(catalog, u.id)}</strong> {catalog.courses[u.id].title}
-                </button>
-                {u.together && <span className="muted small"> (you can take it with {courseId})</span>}
-              </li>
-            ))}
-          </ul>
-        )}
+        {links.opens.length === 0 ? <p>No other course needs this one.</p> : <Chips catalog={catalog} items={links.opens} onSelect={onSelect} label="Courses this one opens up" />}
       </section>
     </div>
   );

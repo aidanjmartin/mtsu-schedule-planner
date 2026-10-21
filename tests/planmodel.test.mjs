@@ -170,3 +170,41 @@ test('a lighter credit load graduates later than the standard load', () => {
 test('class times fall back to the same season in an earlier year', () => {
   assert.deepEqual(M.scheduleCandidates('2027SP').slice(0, 3), ['2027SP', '2026SP', '2025SP']);
 });
+
+test('the credit load step says how a heavier load changes the graduation date, and only says it does not when the dates match', () => {
+  const loads = M.compareLoads(catalog, offerings, firstSemester(), today);
+  assert.deepEqual(M.loadNotes(loads), [
+    'Standard moves your graduation to Spring 2031.',
+    "Heavy doesn't move your graduation date. It gives you more room for general education.",
+  ]);
+  const behind = { ...secondYearFall() };
+  const finished = [...M.closeFinished(catalog, behind.finished.filter((id) => id !== 'PHYS 2110'))];
+  const sameDates = M.compareLoads(catalog, offerings, { ...behind, finished, taking: M.closeTaking(catalog, finished, behind.taking) }, today);
+  assert.deepEqual(M.loadNotes(sameDates), ["A heavier load doesn't move your graduation date. It gives you more room for general education."]);
+  // Made-up dates: a load that moves the date says where.
+  const fake = (grad, label, key) => ({ graduation: grad, graduationLabel: label, load: M.LOADS[key] });
+  assert.deepEqual(M.loadNotes([fake('2029FA', 'Fall 2029', 'light'), fake('2029FA', 'Fall 2029', 'standard'), fake('2029SP', 'Spring 2029', 'heavy')]), [
+    "Standard doesn't move your graduation date. It gives you more room for general education.",
+    'Heavy moves your graduation to Spring 2029.',
+  ]);
+});
+
+test('the delay alert names the course, the next semester it runs, and the date the plan keeps', () => {
+  const base = secondYearFall();
+  const finished = [...M.closeFinished(catalog, base.finished.filter((id) => id !== 'PHYS 2110'))];
+  const result = M.computeResult(catalog, offerings, { ...base, finished, taking: M.closeTaking(catalog, finished, base.taking) }, { today, withSlips: false });
+  const alert = result.alerts.find((a) => a.severity === 'bad');
+  assert.equal(alert.text, 'PHYS 2110 is holding up your plan. Take it in Spring 2027, the next time it is offered, to keep senior design in Fall 2029.');
+  // The term in the sentence is where the plan puts the course.
+  assert.equal(result.raw.placements['PHYS 2110'], '2027SP');
+});
+
+test('a course that runs in only one season gets that season in the delay alert', () => {
+  const only = JSON.parse(JSON.stringify(catalog));
+  only.courses['PHYS 2110'].season_override = ['fall'];
+  const base = secondYearFall();
+  const finished = [...M.closeFinished(only, base.finished.filter((id) => id !== 'PHYS 2110'))];
+  const result = M.computeResult(only, offerings, { ...base, finished, taking: M.closeTaking(only, finished, base.taking) }, { today, withSlips: false });
+  const alert = result.alerts.find((a) => a.severity === 'bad');
+  assert.match(alert.text, /^PHYS 2110 is holding up your plan\. Take it in Fall 2027, the next time it is offered, to keep senior design in Fall 20\d\d\.$/);
+});

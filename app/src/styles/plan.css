@@ -164,3 +164,6 @@ button.progress-link:hover .progress-name { color: var(--blue); text-decoration:
 .load-range { color: var(--ink-2); font-size: var(--t-s); }
 .load-result { margin-top: var(--s-2); font-size: var(--t-m); }
 .load-result strong { display: inline; font-size: inherit; font-family: inherit; font-weight: 600; }
+.load-notes { margin-top: var(--s-4); padding: var(--s-3) var(--s-4); border-left: 4px solid var(--blue); background: var(--blue-wash); border-radius: 0 var(--r-m) var(--r-m) 0; }
+.load-notes p { margin: 0; }
+.load-notes p + p { margin-top: var(--s-2); }

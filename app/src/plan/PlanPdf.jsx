@@ -49,6 +49,17 @@ const s = StyleSheet.create({
 
 const STATUS_TEXT = { 'on-track': 'On track', attention: 'Needs attention', delayed: 'Delayed' };
 
+function TableHead() {
+  return (
+    <View style={s.tHead}>
+      <Text style={s.c1}>Semester</Text>
+      <Text style={s.c2}>Courses</Text>
+      <Text style={s.c3}>Hours</Text>
+      <Text style={s.c4}>Open hours</Text>
+    </View>
+  );
+}
+
 function Bullet({ children }) {
   return (
     <View style={s.bullet} wrap={false}>
@@ -58,7 +69,11 @@ function Bullet({ children }) {
   );
 }
 
-export default function PlanPdf({ catalog, answers, result, name, logo, created, classTimes }) {
+/**
+ * The plan as a PDF. headingBefore lists the table rows that start a new page, so they repeat the column headings.
+ * trackRow reports the page of each row, which the exporter uses to build that list.
+ */
+export default function PlanPdf({ catalog, answers, result, name, logo, created, classTimes, headingBefore = [], trackRow = null }) {
   const position = mapPosition(answers);
   const where = answers.firstSemester
     ? `Starting in ${T.termLabel(result.currentTerm)}`
@@ -117,16 +132,15 @@ export default function PlanPdf({ catalog, answers, result, name, logo, created,
         <View style={s.row}><Text style={s.key}>Credit load</Text><Text style={s.val}>{LOADS[result.loadKey].label}, {LOADS[result.loadKey].range} a semester</Text></View>
 
         <Text style={s.h2}>Semester by semester</Text>
-        <View style={s.tHead}>
-          <Text style={s.c1}>Semester</Text>
-          <Text style={s.c2}>Courses</Text>
-          <Text style={s.c3}>Hours</Text>
-          <Text style={s.c4}>Open hours</Text>
-        </View>
-        {rows.map((t) => {
+        <TableHead />
+        {rows.map((t, i) => {
           const hasSenior = t.courses.some((c) => c.kind === 'senior-design');
           return (
-            <View key={t.term} style={hasSenior ? [s.tRow, s.tRowSenior] : s.tRow} wrap={false}>
+            <View key={t.term} wrap={false}>
+              {/* An empty marker that reports which page this row landed on. The exporter uses it to find where the table continues. */}
+              {trackRow ? <View style={{ height: 0 }} render={({ pageNumber }) => { trackRow(i, pageNumber); return null; }} /> : null}
+              {headingBefore.includes(i) ? <TableHead /> : null}
+              <View style={hasSenior ? [s.tRow, s.tRowSenior] : s.tRow}>
               <Text style={s.c1}>{t.label}{t.inProgress ? '\n(in progress)' : ''}</Text>
               <View style={s.c2}>
                 {t.courses.map((c) => (
@@ -137,6 +151,7 @@ export default function PlanPdf({ catalog, answers, result, name, logo, created,
               </View>
               <Text style={s.c3}>{t.hours}</Text>
               <Text style={s.c4}>{t.inProgress ? '' : `${t.open} hr`}</Text>
+              </View>
             </View>
           );
         })}

@@ -563,16 +563,37 @@ export function computeResult(catalog, offerings, answers, { loadKey = answers.l
     const chain = (raw.drivers.milestones['senior-design'] ?? []).map((s) => s.course);
     const onChain = roots.filter((id) => chain.includes(id));
     const named = onChain.length ? onChain : roots.length ? roots : behind;
-    const parts = [];
-    if ((sdDelay ?? 0) > 0) parts.push(`Senior design starts in ${T.termLabel(sd.start_term)}, ${delayText(sdDelay)} after the academic map's ${T.termLabel(pace.seniorDesignStart)}.`);
-    if ((gradDelay ?? 0) > 0) parts.push(`You graduate in ${T.termLabel(graduation)}, ${delayText(gradDelay)} after the map's ${T.termLabel(pace.graduation)}.`);
-    if (named.length) {
+    const when = (id) => {
+      const placed = raw.placements[id];
+      const earliest = raw.analysis.courses[id]?.earliest_term ?? placed;
+      return { id, term: placed, label: placed ? T.termLabel(placed) : null, next: placed === earliest };
+    };
+    const takes = named.map(when).filter((x) => x.term);
+    const keeps = (sdDelay ?? 0) > 0 && sd?.start_term
+      ? `senior design in ${T.termLabel(sd.start_term)}`
+      : graduation ? `graduation in ${T.termLabel(graduation)}` : null;
+    if (takes.length && keeps) {
       const names = named.length === 1 ? named[0] : `${named.slice(0, -1).join(', ')} and ${named[named.length - 1]}`;
+      const one = named.length === 1;
+      const allNext = takes.every((x) => x.next);
+      const labels = [...new Set(takes.map((x) => x.label))];
+      const take = labels.length === 1
+        ? `Take ${one ? 'it' : 'them'} in ${labels[0]}`
+        : `Take ${takes.map((x) => `${x.id} in ${x.label}`).join(', ').replace(/, ([^,]*)$/, ' and $1')}`;
+      const why = allNext
+        ? `the next time ${one ? 'it is' : 'each is'} offered`
+        : `the earliest ${one ? 'semester' : 'semesters'} your plan has room for ${one ? 'it' : 'them'}`;
       alerts.push({
         severity: 'bad', course: named[0], courses: named,
-        text: `${names} ${named.length === 1 ? 'is' : 'are'} holding up your plan. ${parts.join(' ')} Take ${named.length === 1 ? 'it' : 'them'} as soon as ${named.length === 1 ? 'it is' : 'they are'} offered.`,
+        text: `${names} ${one ? 'is' : 'are'} holding up your plan. ${take}, ${why}, to keep ${keeps}.`,
       });
+    } else if (named.length) {
+      const names = named.length === 1 ? named[0] : `${named.slice(0, -1).join(', ')} and ${named[named.length - 1]}`;
+      alerts.push({ severity: 'bad', course: named[0], courses: named, text: `${names} ${named.length === 1 ? 'is' : 'are'} holding up your plan.` });
     } else {
+      const parts = [];
+      if ((sdDelay ?? 0) > 0) parts.push(`Senior design starts in ${T.termLabel(sd.start_term)}, ${delayText(sdDelay)} after the academic map's ${T.termLabel(pace.seniorDesignStart)}.`);
+      if ((gradDelay ?? 0) > 0) parts.push(`You graduate in ${T.termLabel(graduation)}, ${delayText(gradDelay)} after the map's ${T.termLabel(pace.graduation)}.`);
       alerts.push({
         severity: 'bad',
         text: `${parts.join(' ')} A credit load of up to ${load.max} hours a semester adds time. A heavier load can bring the dates back.`,
@@ -637,6 +658,29 @@ export function compareLoads(catalog, offerings, answers, today = new Date()) {
       seniorDesign: result.seniorDesign, unplaced: result.unplaced,
     };
   });
+}
+
+/**
+ * Sentences that say what a heavier load does to the graduation date, from the results of compareLoads.
+ * Each load is compared with the next lighter one. A sentence about a date that does not move appears only when
+ * the dates match, and a load that moves the date says where it moves it.
+ */
+export function loadNotes(results) {
+  const dates = results.map((r) => r.graduation);
+  if (dates.some((d) => !d)) return [];
+  const same = 'It gives you more room for general education.';
+  if (dates.every((d) => d === dates[0])) return [`A heavier load doesn't move your graduation date. ${same}`];
+  const notes = [];
+  for (let i = 1; i < results.length; i += 1) {
+    const now = results[i];
+    const before = results[i - 1];
+    if (now.graduation === before.graduation) {
+      notes.push(`${now.load.label} doesn't move your graduation date. ${same}`);
+    } else if (T.compareTerms(now.graduation, before.graduation) < 0) {
+      notes.push(`${now.load.label} moves your graduation to ${now.graduationLabel}.`);
+    }
+  }
+  return notes;
 }
 
 // ------------------------------------------------------------ class times

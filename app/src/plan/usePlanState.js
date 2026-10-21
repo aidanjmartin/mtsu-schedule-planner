@@ -1,11 +1,26 @@
 import { useCallback, useEffect, useState } from 'react';
-import { emptyAnswers, seedAnswers, seedKey, hasPosition, currentSeason, LOADS, ELECTIVE_COUNT } from '../lib/planModel.js';
+import { emptyAnswers, seedAnswers, seedKey, hasPosition, currentSeason, LOADS } from '../lib/planModel.js';
+import { prereqs } from '../lib/engine.js';
 import { storageGet, storageSet, storageRemove } from '../lib/storage.js';
 
 const KEY = 'mtsu-mechatronics-plan-v1';
 export const STEP_COUNT = 6;
 
 const list = (v) => (Array.isArray(v) ? v.filter((x) => typeof x === 'string') : []);
+
+/** Saved hours for each repeatable elective: a list of whole numbers inside the course's range. Anything else is dropped. */
+function readHours(value, catalog) {
+  const out = {};
+  if (!value || typeof value !== 'object') return out;
+  for (const [id, hours] of Object.entries(value)) {
+    const def = catalog.courses[id];
+    if (!def || !Array.isArray(hours)) continue;
+    const { min, max } = prereqs.creditRange(def);
+    const clean = hours.filter((h) => Number.isInteger(h) && h >= min && h <= max).slice(0, 6);
+    if (clean.length && min !== max) out[id] = prereqs.isRepeatable(def) ? clean : clean.slice(0, 1);
+  }
+  return out;
+}
 
 /** Read saved answers. Anything that does not look right is dropped, so old or edited data cannot break the page. */
 function readSaved(catalog) {
@@ -23,8 +38,9 @@ function readSaved(catalog) {
       season: null,
       finished: list(raw.answers?.finished).filter(known),
       taking: list(raw.answers?.taking).filter(known),
-      electives: list(raw.answers?.electives).filter(known).slice(0, ELECTIVE_COUNT),
-      electivesDone: list(raw.answers?.electivesDone).filter(known).slice(0, ELECTIVE_COUNT),
+      electives: [...new Set(list(raw.answers?.electives).filter(known))],
+      electiveHours: readHours(raw.answers?.electiveHours, catalog),
+      electivesDone: [...new Set(list(raw.answers?.electivesDone).filter(known))],
       load: LOADS[raw.answers?.load] ? raw.answers.load : 'standard',
       seededFor: typeof raw.answers?.seededFor === 'string' ? raw.answers.seededFor : null,
     };

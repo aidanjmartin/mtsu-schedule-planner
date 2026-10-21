@@ -9,12 +9,12 @@ import { tileLabel, directUnlocks } from './courseGraph.js';
 /** Subject colors, from the interface specification. `css` names a color token pair in tokens.css. */
 export const SUBJECTS = [
   { key: 'math', css: 'math', label: 'Math & Science', ids: ['MATH 1910', 'MATH 1920', 'MATH 2010', 'MATH 3110', 'MATH 3120', 'PHYS 2110', 'PHYS 2120', 'CHEM 1110', 'CSCI 1170'] },
-  { key: 'found', css: 'found', label: 'Engineering Foundations', ids: ['ENGR 1100', 'ENGR 2100', 'ENGR 2210', 'ENGR 4500'] },
+  { key: 'found', css: 'found', label: 'Engineering Foundations', ids: ['ENGR 1010', 'ENGR 1100', 'ENGR 2100', 'ENGR 2210'] },
   { key: 'mech', css: 'mech', label: 'Mechanics', ids: ['ENGR 2110', 'ENGR 2120', 'ENGR 3550', 'ENGR 3560', 'ENGR 3590'] },
   { key: 'circ', css: 'circ', label: 'Circuits, Electronics & Automation', ids: ['ENGR 2130', 'ENGR 3510', 'ENGR 3520', 'ENGR 3530', 'ENGR 4510', 'ENGR 4520'] },
   { key: 'ctrl', css: 'ctrl', label: 'Controls', ids: ['ENGR 3540', 'ENGR 4530'] },
   { key: 'senior', css: 'senior', label: 'Senior Design', ids: ['ENGR 4580', 'ENGR 4590'] },
-  { key: 'elective', css: 'elective', label: 'Electives', ids: ['ENGR 3915', 'ENGR 3970', 'ENGR 4540', 'ENGR 4550', 'ENGR 4560', 'ENGR 4570', 'ENGR 4600', 'ENGR 4610'] },
+  { key: 'elective', css: 'elective', label: 'Electives', ids: ['ENGR 3600', 'ENGR 3915', 'ENGR 3970', 'ENGR 4500', 'ENGR 4540', 'ENGR 4550', 'ENGR 4560', 'ENGR 4570', 'ENGR 4600'] },
 ];
 
 export const SUBJECT_OF = Object.fromEntries(SUBJECTS.flatMap((s) => s.ids.map((id) => [id, s])));
@@ -27,17 +27,17 @@ export const AREAS = [
   {
     id: 'core', kind: 'core', semesters: true, tone: 'blue', closedR: 104,
     label: [{ text: 'Core' }, { text: 'Years 1 and 2', muted: true }], name: 'Core, Years 1 and 2',
-    ids: ['MATH 1910', 'MATH 1920', 'MATH 3110', 'MATH 3120', 'PHYS 2110', 'PHYS 2120', 'CHEM 1110', 'CSCI 1170', 'ENGR 1100', 'ENGR 2100', 'ENGR 2110', 'ENGR 2120', 'ENGR 2130', 'ENGR 2210'],
+    ids: ['MATH 1910', 'MATH 1920', 'MATH 3110', 'MATH 3120', 'PHYS 2110', 'PHYS 2120', 'CHEM 1110', 'CSCI 1170', 'ENGR 1010', 'ENGR 1100', 'ENGR 2100', 'ENGR 2110', 'ENGR 2120', 'ENGR 2130', 'ENGR 2210'],
   },
   {
     id: 'required', kind: 'required', semesters: true, tone: 'blue', closedR: 88,
     label: [{ text: 'Required' }, { text: 'Years 3 and 4', muted: true }], name: 'Required, Years 3 and 4',
-    ids: ['ENGR 3510', 'ENGR 3520', 'ENGR 3530', 'ENGR 3540', 'ENGR 3550', 'ENGR 3560', 'ENGR 3590', 'ENGR 4500', 'ENGR 4510', 'ENGR 4520', 'ENGR 4530', 'ENGR 4580', 'ENGR 4590', 'MATH 2010'],
+    ids: ['ENGR 3510', 'ENGR 3520', 'ENGR 3530', 'ENGR 3540', 'ENGR 3550', 'ENGR 3560', 'ENGR 3590', 'ENGR 4510', 'ENGR 4520', 'ENGR 4530', 'ENGR 4580', 'ENGR 4590', 'MATH 2010'],
   },
   {
     id: 'systems', kind: 'elective', semesters: false, tone: 'gold', closedR: 80,
     label: [{ text: 'Systems Engineering' }, { text: '& Management' }, { text: 'Elective', muted: true }], name: 'Elective: Systems Engineering & Management',
-    ids: ['ENGR 3915', 'ENGR 3970'],
+    ids: ['ENGR 3915', 'ENGR 3970', 'ENGR 4500'],
   },
   {
     id: 'robotics', kind: 'elective', semesters: false, tone: 'gold', closedR: 80,
@@ -52,7 +52,7 @@ export const AREAS = [
   {
     id: 'internship', kind: 'elective', semesters: false, tone: 'gold', closedR: 80,
     label: [{ text: 'Internship & Research' }, { text: 'Elective', muted: true }], name: 'Elective: Internship & Research',
-    ids: ['ENGR 4600', 'ENGR 4610'],
+    ids: ['ENGR 3600', 'ENGR 4600'],
   },
 ];
 
@@ -290,6 +290,24 @@ export function linkedByArea(links) {
 }
 
 // ------------------------------------------------------------- labels, search
+
+/** Credit hours as short text: "3", or "1 to 3" for a course whose hours change by semester. */
+export function hoursText(def) {
+  const { min, max } = P.creditRange(def);
+  return min === max ? `${min}` : `${min} to ${max}`;
+}
+
+/** The hours in an area's courses: "6 credit hours", or "2 to 6 credit hours" when some courses vary. */
+export function areaHoursText(catalog, area) {
+  let min = 0;
+  let max = 0;
+  for (const id of area.ids) {
+    const range = P.creditRange(catalog.courses[id]);
+    min += range.min;
+    max += range.max;
+  }
+  return `${min === max ? min : `${min} to ${max}`} credit hours`;
+}
 
 /** The label shown when hovering a course: "ENGR 3540, Introduction to Feedback Control, Year 4 Fall". */
 export function hoverLabel(catalog, id) {

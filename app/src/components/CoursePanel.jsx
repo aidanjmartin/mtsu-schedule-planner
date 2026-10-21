@@ -1,6 +1,7 @@
 import React from 'react';
 import { offeredText, needText, tileLabel } from '../lib/courseGraph.js';
-import { AREA_BY_ID, AREA_OF, SUBJECT_OF, linksFor, mapPositionOf, semesterLabel } from '../lib/exploreModel.js';
+import { AREA_BY_ID, AREA_OF, SUBJECT_OF, linksFor, mapPositionOf, semesterLabel, hoursText } from '../lib/exploreModel.js';
+import { prereqs as P } from '../lib/engine.js';
 
 function Chips({ catalog, items, onSelect, label }) {
   return (
@@ -19,6 +20,15 @@ function Chips({ catalog, items, onSelect, label }) {
       ))}
     </ul>
   );
+}
+
+/** What the elective rule says about this course: the 10 hours, and the combined limit for internship and research. */
+function electiveNote(catalog, id) {
+  const req = catalog.requirements.find((r) => r.type === 'choose_hours' && r.options.includes(id));
+  if (!req) return 'Elective.';
+  const limit = (req.limits ?? []).find((l) => l.courses.includes(id));
+  const base = `Elective. Choose ${req.hours} hours of electives.`;
+  return limit ? `${base} ${limit.courses.join(' and ')} together count for at most ${limit.max_hours} hours.` : base;
 }
 
 /** Details for the selected course. On a phone this is a bottom sheet. */
@@ -50,11 +60,11 @@ export default function CoursePanel({ catalog, offerings, courseId, onSelect, on
       </div>
 
       <dl className="facts">
-        <div><dt>Credit hours</dt><dd>{def.credits}</dd></div>
+        <div><dt>Credit hours</dt><dd>{hoursText(def)}{P.hasVariableCredits(def) ? ' a semester' : ''}{P.isRepeatable(def) ? ', repeatable' : ''}</dd></div>
         <div><dt>Runs in</dt><dd>{offeredText(catalog, offerings, courseId)}</dd></div>
         <div>
           <dt>Academic map</dt>
-          <dd>{area.semesters && position !== null ? semesterLabel(position) : 'Elective. Choose 3 of the 8 electives.'}</dd>
+          <dd>{area.semesters && position !== null ? semesterLabel(position) : electiveNote(catalog, courseId)}</dd>
         </div>
       </dl>
 

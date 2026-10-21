@@ -652,14 +652,14 @@ const realStudent = (choices) => ({
 const coursesByTerm = (plan) => Object.fromEntries(plan.terms.map((t) => [t.term, t.courses.map((c) => c.course).sort()]));
 
 test('planner (real catalog, no offering data): electives with more slack do not push out courses that set graduation', () => {
-  const choices = { 'engr-elective': ['ENGR 4550', 'ENGR 4570', 'ENGR 4610'] };
+  const choices = { 'engr-elective': ['ENGR 4550', 'ENGR 4570', { course: 'ENGR 4600', hours: [3] }] };
   const plan = planTerms({ catalog: realCatalog, offerings: null, student: realStudent(choices) });
   assert.equal(plan.graduation_term, '2030SP');
   assert.deepEqual(plan.unplaced, []);
-  // MATH 2010 is fall-only and leads to ENGR 4550, so it keeps its Fall 2028 slot over ENGR 4610.
+  // MATH 2010 is fall-only and leads to ENGR 4550, so it keeps its Fall 2028 slot over ENGR 4600.
   assert.equal(plan.placements['MATH 2010'], '2028FA');
   assert.equal(plan.placements['ENGR 4550'], '2029SP');
-  assert.equal(plan.placements['ENGR 4610'], '2029SP');
+  assert.equal(plan.placements['ENGR 4600'], '2029SP');
   for (const t of plan.terms) assert.ok(t.credits <= t.capacity, `${t.term} stays within its credit limit`);
 });
 
@@ -668,7 +668,7 @@ test('planner (real catalog, no offering data): the default-elective plan keeps 
   assert.equal(plan.graduation_term, '2030SP');
   assert.deepEqual(plan.off_map, []);
   assert.deepEqual(coursesByTerm(plan), {
-    '2026FA': ['CHEM 1110', 'ENGR 1100', 'MATH 1910'],
+    '2026FA': ['CHEM 1110', 'ENGR 1010', 'ENGR 1100', 'MATH 1910'],
     '2027SP': ['ENGR 2100', 'MATH 1920', 'PHYS 2110'],
     '2027FA': ['ENGR 2110', 'ENGR 2210', 'MATH 3110', 'PHYS 2120'],
     '2028SP': ['CSCI 1170', 'ENGR 2120', 'ENGR 2130', 'MATH 3120'],
@@ -754,9 +754,115 @@ test('a course with available_from is never planned before that term', async () 
   const completed = ['MATH 1910', 'ENGR 1100', 'CHEM 1110', 'MATH 1920', 'PHYS 2110', 'CSCI 1170', 'PHYS 2120', 'ENGR 2110',
     'MATH 3110', 'ENGR 2210', 'ENGR 2130', 'MATH 3120', 'ENGR 2120', 'ENGR 2100', 'ENGR 3520'];
   const plan = planTerms({ catalog, student: { catalog_year: '2026-27', start_term: '2026FA', completed, in_progress: [],
-    choices: { 'engr-elective': ['ENGR 4570', 'ENGR 4600', 'ENGR 4610'] },
+    choices: { 'engr-elective': ['ENGR 4570', 'ENGR 4600'] },
     options: { summer_allowed: false, max_credits: 18 }, edits: [] } });
   const term = plan.terms.find((t) => t.courses.some((c) => c.course === 'ENGR 4570'))?.term;
   assert.ok(term, 'ENGR 4570 is placed');
   assert.ok(term >= '2027FA' && term !== '2027SP', `ENGR 4570 placed in ${term}`);
+});
+
+// ------------------------------------------ hour-based electives, repeatable courses, first-semester course
+
+const elective = realCatalog.requirements.find((r) => r.id === 'engr-elective');
+const hoursOf = (picks) => picks.reduce((sum, p) => sum + p.hours.reduce((a, b) => a + b, 0), 0);
+const electivePicks = (choices) => prereqs.resolveRequirements(realCatalog, { choices: { 'engr-elective': choices } }).hourPicks['engr-elective'];
+
+test('the real catalog validates with no errors and no warnings', () => {
+  const result = validate.validateCatalog(realCatalog);
+  assert.deepEqual(result.errors, []);
+  assert.deepEqual(result.warnings, []);
+  assert.equal(realCatalog.total_hours, 129);
+});
+
+test('choose_hours: picking nothing gives ENGR 3915, 3970, 4550, and 4500, which add up to 10 hours', () => {
+  const picks = electivePicks([]);
+  assert.deepEqual(picks.map((p) => p.course).sort(), ['ENGR 3915', 'ENGR 3970', 'ENGR 4500', 'ENGR 4550']);
+  assert.equal(hoursOf(picks), 10);
+});
+
+test('choose_hours: the student\'s picks come first and hours add up across a repeatable course', () => {
+  const picks = electivePicks(['ENGR 4550', 'ENGR 4570', { course: 'ENGR 3600', hours: [2, 2] }]);
+  assert.deepEqual(picks.map((p) => p.course), ['ENGR 4550', 'ENGR 4570', 'ENGR 3600']);
+  assert.deepEqual(picks.find((p) => p.course === 'ENGR 3600').hours, [2, 2]);
+  assert.equal(hoursOf(picks), 10);
+  const check = prereqs.checkHourPicks(realCatalog, elective, ['ENGR 4550', 'ENGR 4570', { course: 'ENGR 3600', hours: [2, 2] }]);
+  assert.equal(check.total, 10);
+  assert.equal(check.status, 'exact');
+  assert.equal(check.ok, true);
+});
+
+test('choose_hours: ENGR 3600 and ENGR 4600 together stop at 6 hours', () => {
+  const choices = [{ course: 'ENGR 3600', hours: [3, 3] }, { course: 'ENGR 4600', hours: [2] }];
+  const check = prereqs.checkHourPicks(realCatalog, elective, choices);
+  assert.equal(check.total, 8);
+  assert.equal(check.limits[0].used, 8);
+  assert.equal(check.limits[0].over, true);
+  assert.equal(check.ok, false);
+  // The planner keeps the first 6 hours and fills the rest from the other options.
+  const picks = electivePicks(choices);
+  const internshipAndResearch = picks.filter((p) => ['ENGR 3600', 'ENGR 4600'].includes(p.course));
+  assert.equal(hoursOf(internshipAndResearch), 6);
+  assert.equal(hoursOf(picks), 10);
+});
+
+test('choose_hours: a total over or under 10 is reported', () => {
+  assert.equal(prereqs.checkHourPicks(realCatalog, elective, ['ENGR 4550', 'ENGR 4570']).status, 'under');
+  assert.equal(prereqs.checkHourPicks(realCatalog, elective, ['ENGR 4550', 'ENGR 4570', 'ENGR 3915', 'ENGR 3970']).status, 'over');
+  assert.equal(prereqs.checkHourPicks(realCatalog, elective, ['ENGR 4550', 'ENGR 4570', 'ENGR 3915', 'ENGR 4500']).status, 'exact');
+});
+
+test('choose_hours: hours outside a course\'s range move inside it, and a course that does not repeat counts once', () => {
+  const picks = electivePicks([{ course: 'ENGR 3600', hours: [9, 0] }, { course: 'ENGR 4550', hours: [1, 1] }]);
+  assert.deepEqual(picks.find((p) => p.course === 'ENGR 3600').hours, [3, 1]);
+  assert.deepEqual(picks.find((p) => p.course === 'ENGR 4550').hours, [3]);
+});
+
+test('a repeatable course in two semesters is two placements, each with its own hours', () => {
+  const choices = { 'engr-elective': ['ENGR 4550', 'ENGR 4570', { course: 'ENGR 3600', hours: [2, 2] }] };
+  const student = { start_term: '2027FA', completed: [], in_progress: [], choices, options: { max_credits: 18, summer_allowed: false } };
+  const plan = planTerms({ catalog: realCatalog, offerings: null, student });
+  assert.deepEqual(plan.unplaced, []);
+  const rows = plan.terms.flatMap((t) => t.courses.filter((c) => c.course === 'ENGR 3600').map((c) => ({ term: t.term, hours: c.credits })));
+  assert.equal(rows.length, 2);
+  assert.notEqual(rows[0].term, rows[1].term);
+  assert.deepEqual(rows.map((r) => r.hours), [2, 2]);
+  assert.deepEqual(plan.enrollments['ENGR 3600'].map((e) => e.hours), [2, 2]);
+  assert.equal(plan.placements['ENGR 3600'], rows[0].term, 'placements names the first semester');
+  assert.equal(terms.compareTerms(plan.enrollments['ENGR 3600'][0].term, plan.enrollments['ENGR 3600'][1].term) < 0, true);
+  for (const t of plan.terms) assert.ok(t.credits <= t.capacity, `${t.term} stays within its credit limit`);
+  const total = plan.terms.reduce((sum, t) => sum + t.courses.filter((c) => ['ENGR 3600', 'ENGR 4550', 'ENGR 4570'].includes(c.course)).reduce((a, c) => a + c.credits, 0), 0);
+  assert.equal(total, 10 - 0, 'the three electives add up to 10 hours');
+});
+
+test('ENGR 1010 goes in the first semester, in the same semester as ENGR 1100 or earlier', () => {
+  for (const start of ['2027FA', '2027SP']) {
+    const student = { start_term: start, start_position: start.endsWith('SP') ? 1 : 0, completed: [], in_progress: [], choices: {}, options: { max_credits: 14, summer_allowed: false } };
+    const plan = planTerms({ catalog: realCatalog, offerings: null, student });
+    assert.equal(plan.placements['ENGR 1010'], start, `ENGR 1010 in ${start}`);
+    assert.ok(terms.compareTerms(plan.placements['ENGR 1010'], plan.placements['ENGR 1100']) <= 0, 'ENGR 1100 is no earlier than ENGR 1010');
+    assert.deepEqual(plan.unplaced, []);
+  }
+  // ENGR 1100 runs in the fall, so a fall start puts both courses in the first semester.
+  const fall = planTerms({ catalog: realCatalog, offerings: null, student: { start_term: '2027FA', completed: [], in_progress: [], choices: {}, options: { max_credits: 14, summer_allowed: false } } });
+  assert.equal(fall.placements['ENGR 1100'], '2027FA');
+});
+
+test('ENGR 1010 is not planned for a student who finished it', () => {
+  const student = { start_term: '2027SP', completed: ['ENGR 1010', 'ENGR 1100', 'MATH 1910', 'CHEM 1110'], in_progress: [], choices: {}, options: { max_credits: 17, summer_allowed: false } };
+  const plan = planTerms({ catalog: realCatalog, offerings: null, student });
+  assert.equal(plan.placements['ENGR 1010'], undefined);
+});
+
+test('validateCatalog: credit ranges, repeatable flags, and choose_hours rules are checked', () => {
+  const bad = clone(realCatalog);
+  bad.courses['ENGR 3600'].credits = { min: 3, max: 1 };
+  assert.ok(validate.validateCatalog(bad).errors.some((e) => e.code === 'bad_credits' && e.course === 'ENGR 3600'));
+
+  const noWay = clone(realCatalog);
+  noWay.requirements.find((r) => r.id === 'engr-elective').hours = 40;
+  assert.ok(validate.validateCatalog(noWay).errors.some((e) => e.code === 'unsatisfiable_requirement'));
+
+  const badLimit = clone(realCatalog);
+  badLimit.requirements.find((r) => r.id === 'engr-elective').limits = [{ courses: ['ENGR 9999'], max_hours: 6 }];
+  assert.ok(validate.validateCatalog(badLimit).errors.some((e) => e.code === 'bad_limit'));
 });

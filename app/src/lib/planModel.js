@@ -8,7 +8,8 @@ import { terms as T, prereqs as P, critical as C, planner as PL, timetable as TT
 
 export const CATALOG_YEAR = '2026-27';
 export const ELECTIVE_REQUIREMENT = 'engr-elective';
-export const ELECTIVE_COUNT = 3;
+/** Elective hours the student chooses, and the courses that share a limit. Both come from the catalog. */
+export const ELECTIVE_HOURS = 10;
 export const FIRST_TERM = '2026FA';
 /** The earliest "current semester" the planner uses. The 2026-27 catalog starts in Fall 2026. */
 const EARLIEST_CURRENT = '2026SP';
@@ -33,6 +34,7 @@ export function emptyAnswers() {
     finished: [],
     taking: [],
     electives: [],
+    electiveHours: {},
     electivesDone: [],
     load: 'standard',
     seededFor: null,
@@ -154,8 +156,24 @@ export function semestersBetween(from, to) {
 
 // -------------------------------------------------------------------- catalog
 
+export function electiveRequirement(catalog) {
+  return catalog.requirements.find((r) => r.id === ELECTIVE_REQUIREMENT);
+}
+
 export function electiveOptions(catalog) {
-  return catalog.requirements.find((r) => r.id === ELECTIVE_REQUIREMENT)?.options ?? [];
+  return electiveRequirement(catalog)?.options ?? [];
+}
+
+/** Hours a course counts for when the student has not picked: its fixed hours, or the least a semester can carry. */
+export function courseHours(def) {
+  return P.minCredits(def);
+}
+
+/** The range of hours a course carries, in words: "3 hours", "1 hour", or "1 to 3 hours a semester". */
+export function creditsText(def) {
+  const { min, max } = P.creditRange(def);
+  if (min === max) return `${min} ${min === 1 ? 'hour' : 'hours'}`;
+  return `${min} to ${max} hours a semester`;
 }
 
 /** Courses every student must take, in academic map order. The elective options are not included. */
@@ -247,7 +265,7 @@ export function closeFinished(catalog, finished) {
 
 export function finishedHours(catalog, completed, position) {
   let hours = 0;
-  for (const id of completed) hours += catalog.courses[id]?.credits ?? 0;
+  for (const id of completed) hours += catalog.courses[id] ? courseHours(catalog.courses[id]) : 0;
   for (const g of genEdDone(catalog, position - 1)) hours += g.hours;
   return hours;
 }
@@ -342,19 +360,20 @@ export function prereqSentences(expr) {
 const DESCRIPTIONS = {
   'ENGR 3915': 'Learn to plan an engineering project, keep it on schedule, and work well with a team.',
   'ENGR 3970': 'Compare the costs and benefits of engineering choices, such as which design is worth building.',
+  'ENGR 4500': 'Review the topics on the Fundamentals of Engineering exam, the first step toward an engineering license.',
   'ENGR 4550': 'Study how robot arms and mobile robots move, sense their surroundings, and follow commands.',
   'ENGR 4560': 'Write programs for the small computers built into machines, sensors, and smart devices.',
   'ENGR 4540': 'Study how heat and energy move through engines, power systems, and machines.',
   'ENGR 4570': 'Use cameras and artificial intelligence so machines can see, inspect parts, and guide automation.',
-  'ENGR 4600': 'Earn credit for engineering work experience with an employer.',
-  'ENGR 4610': 'Join a faculty research project and earn credit for the work.',
+  'ENGR 3600': 'Earn credit for engineering work experience with an employer.',
+  'ENGR 4600': 'Join a faculty research project and earn credit for the work.',
 };
 
 export const ELECTIVE_GROUPS = [
-  { id: 'systems', label: 'Systems Engineering & Management', blurb: 'For students headed toward leading projects and teams.', courses: ['ENGR 3915', 'ENGR 3970'] },
+  { id: 'systems', label: 'Systems Engineering & Management', blurb: 'For students headed toward leading projects and teams.', courses: ['ENGR 3915', 'ENGR 3970', 'ENGR 4500'] },
   { id: 'robotics', label: 'Robotics & Embedded Systems', blurb: 'For students headed toward robots, controllers, and smart devices.', courses: ['ENGR 4550', 'ENGR 4560'] },
   { id: 'advanced', label: 'Advanced Study', blurb: 'For students headed toward graduate school or specialized technical work.', courses: ['ENGR 4540', 'ENGR 4570'] },
-  { id: 'internship', label: 'Internship & Research', blurb: 'For students who want real-world or lab experience for credit.', courses: ['ENGR 4600', 'ENGR 4610'] },
+  { id: 'internship', label: 'Internship & Research', blurb: 'For students who want real-world or lab experience for credit.', courses: ['ENGR 3600', 'ENGR 4600'] },
 ];
 
 export function electiveDescription(id) {
@@ -368,17 +387,57 @@ export function completedIds(catalog, answers) {
   return [...new Set([...answers.finished, ...answers.taking, ...answers.electivesDone, ...gen])];
 }
 
+/**
+ * The student's elective picks in the form the engine reads: a course with fixed hours is { course }, and a course
+ * with a range of hours is { course, hours } with the hours for each semester.
+ */
+export function electivePicks(catalog, answers) {
+  const chosen = [...new Set([...answers.electivesDone, ...answers.electives])];
+  return chosen.filter((id) => catalog.courses[id]).map((id) => {
+    const def = catalog.courses[id];
+    if (!P.hasVariableCredits(def)) return { course: id };
+    const hours = answers.electiveHours?.[id];
+    return { course: id, hours: Array.isArray(hours) && hours.length ? hours : [P.minCredits(def)] };
+  });
+}
+
 export function engineStudent(catalog, answers, loadKey, today = new Date(), extra = {}) {
   const load = LOADS[loadKey ?? answers.load] ?? LOADS.standard;
-  const chosen = [...new Set([...answers.electivesDone, ...answers.electives])];
   return {
     start_term: planStartTerm(answers, today),
     start_position: startPosition(answers, today),
     completed: completedIds(catalog, answers),
     in_progress: [],
-    choices: { [ELECTIVE_REQUIREMENT]: chosen },
+    choices: { [ELECTIVE_REQUIREMENT]: electivePicks(catalog, answers) },
     options: { max_credits: load.max, summer_allowed: false, ...extra },
   };
+}
+
+/**
+ * How the student's elective picks add up against the 10 hours and the combined limit.
+ * Returns { total, hours, status, limits, ok, message } where `message` says in plain words what to do next.
+ */
+export function electiveStatus(catalog, answers) {
+  const req = electiveRequirement(catalog);
+  const check = P.checkHourPicks(catalog, req, electivePicks(catalog, answers));
+  const { total, hours } = check;
+  const hourWord = (n) => `${n} ${n === 1 ? 'hour' : 'hours'}`;
+  const over = check.limits.find((l) => l.over);
+  const limitWords = (l) => `${l.courses.join(' and ')} can add up to ${hourWord(l.max_hours)}`;
+  let message;
+  if (over) {
+    message = `${limitWords(over)}. You have chosen ${hourWord(over.used)}. Lower the hours or remove one of them.`;
+  } else if (check.status === 'over') {
+    message = `You have chosen ${hourWord(total)}, which is ${hourWord(total - hours)} too many. Remove a course or lower the hours for ${req.limits?.[0]?.courses?.[0] ?? 'a course'}.`;
+  } else if (check.status === 'under') {
+    const left = hours - total;
+    message = total === 0
+      ? `Choose ${hours} hours of electives. For example, three 3-hour courses and ENGR 4500.`
+      : `Choose ${hourWord(left)} more.`;
+  } else {
+    message = `You have chosen all ${hours} hours. Remove a course to pick a different one.`;
+  }
+  return { ...check, message };
 }
 
 /**
@@ -410,7 +469,11 @@ export function electiveCards(catalog, offerings, answers, today = new Date()) {
     return {
       id,
       title: def.title,
-      credits: def.credits,
+      credits: courseHours(def),
+      creditsText: creditsText(def),
+      variable: P.hasVariableCredits(def),
+      repeatable: P.isRepeatable(def),
+      range: P.creditRange(def),
       description: electiveDescription(id),
       seasons,
       requires: prereqSentences(def.prereqs),
@@ -512,6 +575,20 @@ function slipAlerts(catalog, offerings, answers, loadKey, today, base, shapedBas
   return alerts.slice(0, 5);
 }
 
+/** The elective picks the plan used, each with the hours for every semester and a line of text such as "ENGR 3600, 2 hr and 2 hr". */
+function electiveLines(catalog, raw) {
+  const picks = raw.choices.find((c) => c.id === ELECTIVE_REQUIREMENT)?.picks ?? [];
+  return picks.map((p) => {
+    const variable = P.hasVariableCredits(catalog.courses[p.course]);
+    return {
+      course: p.course,
+      hours: p.hours,
+      variable,
+      text: variable ? `${p.course}, ${p.hours.join(' hr and ')} hr` : p.course,
+    };
+  });
+}
+
 /**
  * Everything the Results page needs for one set of answers.
  * `loadKey` defaults to the load the student chose.
@@ -533,7 +610,7 @@ export function computeResult(catalog, offerings, answers, { loadKey = answers.l
     term: currentTerm,
     label: T.termLabel(currentTerm),
     courses: answers.taking.map((id) => ({
-      course: id, title: catalog.courses[id].title, credits: catalog.courses[id].credits, critical: false, kind: courseKind(catalog, id),
+      course: id, title: catalog.courses[id].title, credits: courseHours(catalog.courses[id]), critical: false, kind: courseKind(catalog, id),
     })),
   };
   if (inProgress) {
@@ -547,7 +624,9 @@ export function computeResult(catalog, offerings, answers, { loadKey = answers.l
 
   // Unplaced courses
   for (const u of unplaced) {
-    alerts.push({ severity: 'bad', course: u.course, text: `We could not find a semester for ${u.course}. ${plainReason(u.reason)}` });
+    const base = C.baseOf(u.course);
+    const again = C.repeatOf(u.course) > 1 ? ' (another semester of it)' : '';
+    alerts.push({ severity: 'bad', course: base, text: `We could not find a semester for ${base}${again}. ${plainReason(u.reason)}` });
   }
 
   // Later than the map
@@ -642,7 +721,8 @@ export function computeResult(catalog, offerings, answers, { loadKey = answers.l
       start: sd.start_term, end: sd.end_term,
       startLabel: T.termLabel(sd.start_term), endLabel: T.termLabel(sd.end_term),
     } : null,
-    electives: [...new Set([...answers.electivesDone, ...answers.electives])],
+    electives: electiveLines(catalog, raw).map((e) => e.course),
+    electiveLines: electiveLines(catalog, raw),
     genEd, alerts, status, unplaced, behind,
     sdDelay, gradDelay, matchesMap, offMap: raw.off_map ?? [],
   };

@@ -12,8 +12,23 @@ import {
 } from './terms.js';
 import {
   normalizePrereqs, readyOrdinal, dependencyLeaves, effectiveSeasons,
-  resolveRequirements, closeOverPrereqs, suggestedPositionOf,
+  resolveRequirements, closeOverPrereqs, suggestedPositionOf, minCredits,
 } from './prereqs.js';
+
+/** A repeatable course taken in a later semester is a separate planning unit named "ENGR 3600#2". */
+export const UNIT_MARK = '#';
+
+/** The catalog course a planning unit belongs to. */
+export function baseOf(id) {
+  const at = id.indexOf(UNIT_MARK);
+  return at === -1 ? id : id.slice(0, at);
+}
+
+/** Which semester of a repeatable course a planning unit is: 1 for the course itself, 2 for "ENGR 3600#2". */
+export function repeatOf(id) {
+  const at = id.indexOf(UNIT_MARK);
+  return at === -1 ? 1 : Number(id.slice(at + 1));
+}
 
 export const DEFAULT_OPTIONS = {
   summer_allowed: false,
@@ -52,10 +67,13 @@ export function buildModel({ catalog, offerings = null, student, horizon = 24 })
     else if (inProgress.has(id)) status = 'in_progress';
     else if (closed.required.has(id)) status = 'todo';
     const pos = suggestedPositionOf(catalog, id);
+    // The hours a student plans to take: their pick for a course with a range of hours, otherwise the fixed hours.
+    const picked = reqs.hourPicks ? Object.values(reqs.hourPicks).flat().find((p) => p.course === id) : null;
     courses.set(id, {
       id,
       title: def.title,
-      credits: def.credits,
+      credits: picked ? picked.hours[0] : minCredits(def),
+      firstSemester: def.first_semester === true,
       prereqs: normalizePrereqs(def.prereqs),
       standing: def.standing ?? null,
       seasons: seasonInfo.seasons,
@@ -67,6 +85,21 @@ export function buildModel({ catalog, offerings = null, student, horizon = 24 })
       added: closed.added.includes(id),
       status,
     });
+  }
+  // Each extra semester of a repeatable course is its own unit. It waits for the semester before it.
+  for (const pick of Object.values(reqs.hourPicks ?? {}).flat()) {
+    const first = courses.get(pick.course);
+    if (!first || first.status !== 'todo') continue;
+    for (let k = 2; k <= pick.hours.length; k += 1) {
+      const previous = k === 2 ? pick.course : `${pick.course}${UNIT_MARK}${k - 1}`;
+      const after = { type: 'course', course: previous, concurrent_ok: false, min_grade: null };
+      courses.set(`${pick.course}${UNIT_MARK}${k}`, {
+        ...first,
+        id: `${pick.course}${UNIT_MARK}${k}`,
+        credits: pick.hours[k - 1],
+        prereqs: first.prereqs ? { type: 'all', items: [first.prereqs, after] } : after,
+      });
+    }
   }
   const byPosition = (a, b) =>
     (courses.get(a).suggestedPos ?? 99) - (courses.get(b).suggestedPos ?? 99) || a.localeCompare(b);

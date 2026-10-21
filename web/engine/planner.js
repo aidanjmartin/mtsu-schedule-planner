@@ -17,7 +17,7 @@
 //
 // This rule produces a good plan. It does not guarantee the best plan.
 
-import { buildModel, analyze, firstOffered, mapTarget } from './critical-path.js';
+import { buildModel, analyze, firstOffered, mapTarget, baseOf, repeatOf } from './critical-path.js';
 import { termIndex } from './terms.js';
 import { readyOrdinal, bindingLeaves } from './prereqs.js';
 import { termLabel } from './terms.js';
@@ -75,8 +75,11 @@ export function planFromModel(model, analysis) {
 
   const latestOf = (id) => analysis.courses[id].latest ?? Infinity;
   const slackOf = (id) => analysis.courses[id].slack ?? Infinity;
+  // A first-semester course (ENGR 1010) goes in the first planned term ahead of everything else.
+  const firstOf = (id) => (model.courses.get(id).firstSemester ? 0 : 1);
   const priority = (a, b) =>
-    latestOf(a) - latestOf(b)
+    firstOf(a) - firstOf(b)
+    || latestOf(a) - latestOf(b)
     || analysis.courses[b].chain - analysis.courses[a].chain
     || slackOf(a) - slackOf(b)
     || (model.courses.get(a).suggestedPos ?? 99) - (model.courses.get(b).suggestedPos ?? 99)
@@ -99,7 +102,7 @@ export function planFromModel(model, analysis) {
         if (course.availableFrom !== null && termIndex(axis.terms[t]) < course.availableFrom) continue;
         if (readyOrdinal(course.prereqs, termOf) > t) continue;
         if (course.standing && hoursBefore(t) < (catalog.standing_hours?.[course.standing] ?? 0)) continue;
-        const urgent = latestOf(id) <= t;
+        const urgent = latestOf(id) <= t || course.firstSemester;
         if (courseHours[t] + course.credits + (urgent ? 0 : reservedAt(t)) > cap) continue;
         placed.set(id, t);
         courseHours[t] += course.credits;
@@ -184,7 +187,9 @@ export function planFromModel(model, analysis) {
       capacity: capacity(t),
       credits: used[t],
       courses: list.map((id) => ({
-        course: id,
+        course: baseOf(id),
+        unit: id,
+        repeat: repeatOf(id),
         title: model.courses.get(id).title,
         credits: model.courses.get(id).credits,
         slack: analysis.courses[id].slack,
@@ -196,13 +201,19 @@ export function planFromModel(model, analysis) {
     });
   }
 
+  // `placements` names the first semester of each course. `enrollments` lists every semester of a repeatable course.
   const placements = {};
-  for (const [id, p] of placed) placements[id] = axis.terms[p];
+  const enrollments = {};
+  for (const [id, p] of [...placed].sort((a, b) => repeatOf(a[0]) - repeatOf(b[0]))) {
+    const base = baseOf(id);
+    if (!(base in placements)) placements[base] = axis.terms[p];
+    (enrollments[base] ??= []).push({ term: axis.terms[p], hours: model.courses.get(id).credits });
+  }
 
   // Where the academic map puts each remaining course for this student, and the courses that sit somewhere else.
   const mapTerms = {};
   const offMap = [];
-  for (const id of model.todo) {
+  for (const id of model.todo.filter((u) => baseOf(u) === u)) {
     const raw = targets.get(id).raw;
     mapTerms[id] = raw !== null && raw >= 0 && raw < n ? axis.terms[raw] : null;
     if (raw !== null && placed.has(id) && placed.get(id) !== raw) offMap.push(id);
@@ -254,6 +265,7 @@ export function planFromModel(model, analysis) {
     summer_allowed: options.summer_allowed,
     terms,
     placements,
+    enrollments,
     map_terms: mapTerms,
     off_map: offMap,
     graduation_term: gradOrdinal === null ? null : axis.terms[gradOrdinal],

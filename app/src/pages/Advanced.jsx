@@ -27,11 +27,13 @@ function readState() {
     const raw = JSON.parse(text);
     const base = defaultState();
     const list = (v) => (Array.isArray(v) ? v.filter((x) => typeof x === 'string') : []);
+    // A pick is a course id, or { course, hours } for a course whose hours the student chooses each semester.
+    const picks = (v) => (Array.isArray(v) ? v.filter((x) => typeof x === 'string' || (x && typeof x.course === 'string')).map((x) => (typeof x === 'string' ? x : { course: x.course, hours: Array.isArray(x.hours) ? x.hours.filter(Number.isInteger) : undefined })) : []);
     const o = raw.options ?? {};
     return {
       start_term: typeof raw.start_term === 'string' && T.isTerm(raw.start_term) ? raw.start_term : base.start_term,
       completed: list(raw.completed), in_progress: list(raw.in_progress),
-      choices: raw.choices && typeof raw.choices === 'object' ? Object.fromEntries(Object.entries(raw.choices).map(([k, v]) => [k, list(v)])) : {},
+      choices: raw.choices && typeof raw.choices === 'object' ? Object.fromEntries(Object.entries(raw.choices).map(([k, v]) => [k, picks(v)])) : {},
       options: {
         ...base.options,
         max_credits: Number.isFinite(o.max_credits) && o.max_credits > 0 ? o.max_credits : base.options.max_credits,
@@ -46,6 +48,8 @@ function readState() {
 }
 
 const termName = (t) => (t ? T.termLabel(t) : 'none');
+/** A later semester of a repeatable course has an internal id such as "ENGR 3600#2". Show it in words. */
+const unitName = (id) => id.replace(/#(\d+)/g, ' (semester $1)');
 const label = (catalog, id) => (catalog.courses[id] ? `${id}  ${catalog.courses[id].title}` : id);
 
 function Notice({ kind = 'info', children }) {
@@ -76,7 +80,7 @@ function UnplacedNotice({ plan }) {
   return (
     <Notice kind="bad">
       <p><strong>No graduation term: the plan cannot place every course.</strong></p>
-      <ul>{plan.unplaced.map((u) => <li key={u.course}><strong>{u.course}</strong>: {u.reason}</li>)}</ul>
+      <ul>{plan.unplaced.map((u) => <li key={u.course}><strong>{unitName(u.course)}</strong>: {u.reason}</li>)}</ul>
       <p className="small">Change the start term, or check the course data and the what-if edits that affect these courses.</p>
     </Notice>
   );
@@ -113,7 +117,7 @@ function Drivers({ plan }) {
     <div key={title}>
       <h3>{title}</h3>
       <ol className="chain">
-        {steps.map((s) => <li key={s.course}><strong>{s.course}</strong> {termName(s.term)}<span className="why"> {PL.reasonText(s.reason)}</span></li>)}
+        {steps.map((s) => <li key={s.course}><strong>{unitName(s.course)}</strong> {termName(s.term)}<span className="why"> {PL.reasonText(s.reason)}</span></li>)}
       </ol>
     </div>
   ) : null);
@@ -160,6 +164,63 @@ function TermCard({ t, plan, basePlan }) {
 }
 
 // ------------------------------------------------------------------------ plan tab
+
+/** The elective rule that counts hours: pick courses, and for a repeatable course the hours for each semester. */
+function HoursChoice({ catalog, choice, state, update }) {
+  const req = catalog.requirements.find((r) => r.id === choice.id);
+  const picks = choice.picks;
+  const check = P.checkHourPicks(catalog, req, picks);
+  const hoursOf = (opt) => picks.find((p) => p.course === opt)?.hours ?? null;
+  // Writing a pick keeps every other pick the planner is using, so one change never drops the rest.
+  const write = (s, next) => { s.choices[choice.id] = next.map((p) => ({ course: p.course, hours: p.hours })); };
+  return (
+    <section className="adv-panel">
+      <h2>Choose {choice.hours} hours: {choice.id}</h2>
+      <p className="small muted">
+        {check.total} of {choice.hours} hours chosen.
+        {check.status === 'under' ? ` Choose ${choice.hours - check.total} more.` : ''}
+        {check.status === 'over' ? ` That is ${check.total - choice.hours} too many.` : ''}
+        {check.limits.map((l) => ` ${l.courses.join(' and ')} count for ${l.used} of at most ${l.max_hours} hours.`).join('')}
+      </p>
+      {choice.options.map((opt) => {
+        const def = catalog.courses[opt];
+        const hours = hoursOf(opt);
+        const variable = P.hasVariableCredits(def);
+        const { min, max } = P.creditRange(def);
+        return (
+          <div key={opt} className="adv-course-row">
+            <input
+              type="checkbox" checked={Boolean(hours)} aria-label={`${opt} chosen`}
+              onChange={(e) => update((s) => {
+                const rest = picks.filter((p) => p.course !== opt);
+                write(s, e.target.checked ? [...rest, { course: opt, hours: [min] }] : rest);
+              })}
+            />
+            <span><strong>{opt}</strong> {def.title}, {min === max ? `${min} hr` : `${min} to ${max} hr a semester`}</span>
+            {hours && variable && hours.map((h, i) => (
+              <label className="small adv-now" key={i}>
+                Semester {i + 1}{' '}
+                <input
+                  className="input" type="number" min={min} max={max} value={h} style={{ width: '4.5rem' }}
+                  aria-label={`${opt} hours in semester ${i + 1}`}
+                  onChange={(e) => update((s) => write(s, picks.map((p) => (p.course === opt ? { ...p, hours: p.hours.map((x, j) => (j === i ? Math.min(max, Math.max(min, Number(e.target.value) || min)) : x)) } : p))))}
+                />
+              </label>
+            ))}
+            {hours && variable && P.isRepeatable(def) && (
+              <>
+                <button type="button" className="btn btn-small" onClick={() => update((s) => write(s, picks.map((p) => (p.course === opt ? { ...p, hours: [...p.hours, p.hours[p.hours.length - 1]] } : p))))}>Add a semester</button>
+                {hours.length > 1 && (
+                  <button type="button" className="btn btn-small" onClick={() => update((s) => write(s, picks.map((p) => (p.course === opt ? { ...p, hours: p.hours.slice(0, -1) } : p))))}>Remove a semester</button>
+                )}
+              </>
+            )}
+          </div>
+        );
+      })}
+    </section>
+  );
+}
 
 function PlanTab({ catalog, offerings, state, update, result }) {
   const { scenario, baseline } = result;
@@ -211,7 +272,9 @@ function PlanTab({ catalog, offerings, state, update, result }) {
           )}
         </section>
 
-        {plan.choices.map((c) => (
+        {plan.choices.map((c) => (c.hours ? (
+          <HoursChoice key={c.id} catalog={catalog} choice={c} state={state} update={update} />
+        ) : (
           <section className="adv-panel" key={c.id}>
             <h2>Choose {c.count}: {c.id}</h2>
             {c.options.map((opt) => (
@@ -228,7 +291,7 @@ function PlanTab({ catalog, offerings, state, update, result }) {
               </label>
             ))}
           </section>
-        ))}
+        )))}
 
         {placeholders.length > 0 && (
           <section className="adv-panel">
@@ -257,7 +320,7 @@ function PlanTab({ catalog, offerings, state, update, result }) {
                 return (
                   <div key={id} className="adv-course-row">
                     <input type="checkbox" checked={done} aria-label={`${id} finished`} onChange={(e) => setStatus(id, e.target.checked ? 'done' : 'todo')} />
-                    <span><strong>{id}</strong> {catalog.courses[id].title}, {catalog.courses[id].credits} hr</span>
+                    <span><strong>{id}</strong> {catalog.courses[id].title}, {P.hasVariableCredits(catalog.courses[id]) ? `${P.creditRange(catalog.courses[id]).min} to ${P.creditRange(catalog.courses[id]).max}` : P.minCredits(catalog.courses[id])} hr</span>
                     {!done && (
                       <label className="small adv-now">
                         <input type="checkbox" checked={now} aria-label={`${id} taking now`} onChange={(e) => setStatus(id, e.target.checked ? 'now' : 'todo')} /> Taking now
@@ -275,7 +338,7 @@ function PlanTab({ catalog, offerings, state, update, result }) {
         <UnplacedNotice plan={plan} />
         <PlanSummary result={result} edited={edited} />
         {[...plan.warnings.filter((w) => !plan.unplaced.some((u) => w.startsWith(`${u.course} is not in the plan.`))), ...plan.assumptions].length > 0 && (
-          <Notice kind="warn"><ul>{[...plan.warnings.filter((w) => !plan.unplaced.some((u) => w.startsWith(`${u.course} is not in the plan.`))), ...plan.assumptions].map((w) => <li key={w}>{w}</li>)}</ul></Notice>
+          <Notice kind="warn"><ul>{[...plan.warnings.filter((w) => !plan.unplaced.some((u) => w.startsWith(`${u.course} is not in the plan.`))), ...plan.assumptions].map((w) => <li key={w}>{unitName(w)}</li>)}</ul></Notice>
         )}
         <Drivers plan={plan} />
         <section className="adv-panel">
@@ -457,7 +520,7 @@ function editDetail(edit, catalog) {
   if (edit.type === 'set_meeting_pattern') return `${termName(edit.term)}${edit.section ? `, section ${edit.section}` : ', all sections'}: ${edit.meetings.map(meetingText).join('; ') || 'no set meetings'}.`;
   if (edit.type === 'move_requirement') {
     const req = catalog.requirements.find((r) => r.id === edit.to);
-    return req ? `${req.type === 'choose' ? 'It becomes one of the elective choices' : 'It becomes a required course'} (${edit.to}).` : '';
+    return req ? `${P.isChoice(req) ? 'It becomes one of the elective choices' : 'It becomes a required course'} (${edit.to}).` : '';
   }
   return '';
 }
@@ -472,7 +535,7 @@ function EditForm({ catalog, result, schedules, onAdd }) {
   const analysis = result.scenario.plan.analysis;
   const current = analysis.courses[d.course]?.seasons ?? [];
   const seasons = d.seasons ?? current;
-  const targets = catalog.requirements.filter((r) => r.type === 'all' || r.type === 'choose');
+  const targets = catalog.requirements.filter((r) => r.type === 'all' || P.isChoice(r));
   const termIds = [...new Set([...Object.keys(schedules), ...result.scenario.plan.terms.slice(0, 8).map((t) => t.term)])].sort(T.compareTerms);
 
   const add = () => {
@@ -487,7 +550,7 @@ function EditForm({ catalog, result, schedules, onAdd }) {
     } else if (d.type === 'set_seasons') {
       edit = { type: 'set_seasons', course: d.course, regular_seasons: seasons };
     } else if (d.type === 'set_credits') {
-      const credits = d.credits ?? def.credits;
+      const credits = d.credits ?? P.minCredits(def);
       if (!(credits > 0)) return setError('Enter a positive number of credit hours.');
       edit = { type: 'set_credits', course: d.course, credits };
     } else if (d.type === 'move_requirement') {
@@ -557,14 +620,14 @@ function EditForm({ catalog, result, schedules, onAdd }) {
       {d.type === 'set_credits' && (
         <div className="field">
           <label htmlFor="ed-cr">Credit hours</label>
-          <input id="ed-cr" className="input" type="number" min="1" max="12" value={d.credits ?? def.credits} onChange={(e) => set({ credits: Number(e.target.value) })} />
+          <input id="ed-cr" className="input" type="number" min="1" max="12" value={d.credits ?? P.minCredits(def)} onChange={(e) => set({ credits: Number(e.target.value) })} />
         </div>
       )}
       {d.type === 'move_requirement' && (
         <div className="field">
           <label htmlFor="ed-mv">Move to</label>
           <select id="ed-mv" className="select" value={d.to ?? targets[0]?.id} onChange={(e) => set({ to: e.target.value })}>
-            {targets.map((r) => <option key={r.id} value={r.id}>{r.type === 'choose' ? 'Elective choice' : 'Required'}: {r.id}</option>)}
+            {targets.map((r) => <option key={r.id} value={r.id}>{P.isChoice(r) ? 'Elective choice' : 'Required'}: {r.id}</option>)}
           </select>
         </div>
       )}
@@ -669,12 +732,12 @@ function WhatIfTab({ catalog, state, update, result, schedules }) {
           <ul>{lines.map((l) => <li key={l}>{l}</li>)}</ul>
           <h3>Critical path</h3>
           <Table head={['', 'Courses']} rows={[
-            ['Baseline', base.analysis.critical.join(', ') || 'None'],
-            ['With your edits', alt.analysis.critical.join(', ') || 'None'],
-            ['Joined', result.diff.critical.added.join(', ') || 'None'],
-            ['Left', result.diff.critical.removed.join(', ') || 'None'],
+            ['Baseline', base.analysis.critical.map(unitName).join(', ') || 'None'],
+            ['With your edits', alt.analysis.critical.map(unitName).join(', ') || 'None'],
+            ['Joined', result.diff.critical.added.map(unitName).join(', ') || 'None'],
+            ['Left', result.diff.critical.removed.map(unitName).join(', ') || 'None'],
           ]} />
-          {slack.length > 0 && (<><h3>Slack that changed</h3><Table head={['Course', 'Baseline slack', 'New slack']} rows={slack.map((c) => [c.course, c.from === null ? 'none' : String(c.from), c.to === null ? 'none' : String(c.to)])} /></>)}
+          {slack.length > 0 && (<><h3>Slack that changed</h3><Table head={['Course', 'Baseline slack', 'New slack']} rows={slack.map((c) => [unitName(c.course), c.from === null ? 'none' : String(c.from), c.to === null ? 'none' : String(c.to)])} /></>)}
           {moved.length > 0 && (<><h3>Courses that moved</h3><Table head={['Course', 'Baseline', 'With your edits']} rows={moved.map((c) => [c.course, c.from ? termName(c.from) : 'not in plan', c.to ? termName(c.to) : 'not in plan'])} /></>)}
           {responsible.length > 0 && (
             <>

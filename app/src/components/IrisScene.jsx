@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { tileLabel } from '../lib/courseGraph.js';
 import {
   AREAS, AREA_BY_ID, AREA_OF, SUBJECT_OF, COURSE_R, areaSize, ringSlots, semesterArcs, selectedRadius,
-  hoverLabel, wrapText,
+  hoverLabel, wrapText, hoursText, areaHoursText,
 } from '../lib/exploreModel.js';
 
 const EASE = [0.32, 0.72, 0, 1];
@@ -41,7 +41,6 @@ const AreaBase = memo(function AreaBase({ catalog, area, open, at, index, timing
   const size = areaSize(area, open);
   const labelY = open ? -(size.outer + 12) : -(size.r + 12);
   const arcs = open ? semesterArcs(catalog, area) : [];
-  const hours = area.ids.reduce((sum, id) => sum + catalog.courses[id].credits, 0);
   return (
     <motion.g
       aria-hidden="true"
@@ -56,7 +55,7 @@ const AreaBase = memo(function AreaBase({ catalog, area, open, at, index, timing
         <circle className="area-dash" r={size.r - 14} />
         <text className="area-count" y="2">{area.ids.length}</text>
         <text className="area-count-label" y="22">courses</text>
-        <text className="area-hours" y="39">{hours} credit hours</text>
+        <text className="area-hours" y="39">{areaHoursText(catalog, area)}</text>
       </motion.g>
 
       {open && <circle className="ring-track" r={size.R} />}
@@ -102,7 +101,7 @@ const CourseCircle = memo(function CourseCircle({
 }) {
   const id = slot.id;
   const subject = SUBJECT_OF[id];
-  const credits = catalog.courses[id].credits;
+  const credits = hoursText(catalog.courses[id]);
   const [subj, num] = id.split(' ');
   const selR = selectedRadius(area);
   const r = selected ? selR : COURSE_R;

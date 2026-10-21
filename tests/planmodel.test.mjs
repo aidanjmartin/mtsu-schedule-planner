@@ -103,7 +103,7 @@ test('the plan reports open general education hours and no placeholder courses',
 
 test('the map pre-checks the courses before a 2nd year fall student and the courses in it', () => {
   const answers = secondYearFall();
-  assert.deepEqual([...answers.finished].sort(), ['CHEM 1110', 'ENGR 1100', 'ENGR 2100', 'MATH 1910', 'MATH 1920', 'PHYS 2110']);
+  assert.deepEqual([...answers.finished].sort(), ['CHEM 1110', 'ENGR 1010', 'ENGR 1100', 'ENGR 2100', 'MATH 1910', 'MATH 1920', 'PHYS 2110']);
   assert.deepEqual([...answers.taking].sort(), ['ENGR 2110', 'ENGR 2210', 'MATH 3110', 'PHYS 2120']);
   const result = M.computeResult(catalog, offerings, answers, { today });
   assert.equal(result.graduationLabel, 'Spring 2029');
@@ -150,7 +150,7 @@ test('prerequisites read as plain sentences', () => {
 
 test('elective cards say when the student can take each one', () => {
   const cards = M.electiveCards(catalog, offerings, firstSemester(), today);
-  assert.equal(cards.length, 8);
+  assert.equal(cards.length, 9);
   const vision = cards.find((c) => c.id === 'ENGR 4570');
   assert.equal(vision.canTakeNow, false);
   assert.ok(vision.reasons.some((r) => r.includes('ENGR 3520')));
@@ -207,4 +207,48 @@ test('a course that runs in only one season gets that season in the delay alert'
   const result = M.computeResult(only, offerings, { ...base, finished, taking: M.closeTaking(only, finished, base.taking) }, { today, withSlips: false });
   const alert = result.alerts.find((a) => a.severity === 'bad');
   assert.match(alert.text, /^PHYS 2110 is holding up your plan\. Take it in Fall 2027, the next time it is offered, to keep senior design in Fall 20\d\d\.$/);
+});
+
+// ---------------------------------------------------- hour-based electives
+
+const mixed = () => ({ ...firstSemester(), electives: ['ENGR 3600', 'ENGR 4550', 'ENGR 4570'], electiveHours: { 'ENGR 3600': [2, 2] } });
+
+test('the elective step counts hours: 2 + 2 hours of ENGR 3600 and two 3-hour courses make 10', () => {
+  const status = M.electiveStatus(catalog, mixed());
+  assert.equal(status.total, 10);
+  assert.equal(status.ok, true);
+  assert.equal(status.message, 'You have chosen all 10 hours. Remove a course to pick a different one.');
+});
+
+test('the elective step says how many hours are missing, too many, or over the internship and research limit', () => {
+  const under = M.electiveStatus(catalog, { ...firstSemester(), electives: ['ENGR 4550', 'ENGR 4570'] });
+  assert.equal(under.total, 6);
+  assert.equal(under.ok, false);
+  assert.equal(under.message, 'Choose 4 hours more.');
+  const none = M.electiveStatus(catalog, { ...firstSemester(), electives: [] });
+  assert.match(none.message, /^Choose 10 hours of electives\./);
+  const over = M.electiveStatus(catalog, { ...firstSemester(), electives: ['ENGR 4550', 'ENGR 4570', 'ENGR 3915', 'ENGR 3970'] });
+  assert.equal(over.total, 12);
+  assert.match(over.message, /2 hours too many/);
+  const capped = M.electiveStatus(catalog, { ...firstSemester(), electives: ['ENGR 3600', 'ENGR 4600', 'ENGR 4550'], electiveHours: { 'ENGR 3600': [3, 3], 'ENGR 4600': [3] } });
+  assert.equal(capped.ok, false);
+  assert.equal(capped.message, 'ENGR 3600 and ENGR 4600 can add up to 6 hours. You have chosen 9 hours. Lower the hours or remove one of them.');
+});
+
+test('the plan shows ENGR 3600 at 2 hours in two semesters, and the elective list shows the hours', () => {
+  const result = M.computeResult(catalog, offerings, mixed(), { today, withSlips: false });
+  const rows = result.terms.flatMap((t) => t.courses.filter((c) => c.course === 'ENGR 3600').map((c) => ({ term: t.term, hours: c.credits })));
+  assert.equal(rows.length, 2);
+  assert.deepEqual(rows.map((r) => r.hours), [2, 2]);
+  assert.deepEqual(result.electiveLines.map((e) => e.text), ['ENGR 3600, 2 hr and 2 hr', 'ENGR 4550', 'ENGR 4570']);
+  assert.equal(result.unplaced.length, 0);
+  assert.ok(result.terms.every((t) => t.hours <= t.capacity));
+});
+
+test('a first-semester student has ENGR 1010 in Fall 2027 with ENGR 1100', () => {
+  const result = M.computeResult(catalog, offerings, firstSemester(), { today, withSlips: false });
+  const first = result.terms[0];
+  assert.equal(first.label, 'Fall 2027');
+  assert.ok(first.courses.some((c) => c.course === 'ENGR 1010' && c.credits === 1));
+  assert.ok(first.courses.some((c) => c.course === 'ENGR 1100'));
 });

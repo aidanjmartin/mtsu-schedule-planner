@@ -3,6 +3,36 @@
 
 import { parseSuggested, positionSeason } from './terms.js';
 
+// -------------------------------------------------------------------- credits
+
+/** The range of credit hours a course can carry: { min, max }. A plain number means min and max are equal. */
+export function creditRange(def) {
+  const c = def?.credits;
+  if (c && typeof c === 'object') return { min: c.min, max: c.max };
+  return { min: c, max: c };
+}
+
+/** Hours a course counts for when the student has not chosen: the fixed hours, or the smallest choice. */
+export function minCredits(def) {
+  return creditRange(def).min;
+}
+
+/** True when the course carries a range of hours (the student picks hours each semester). */
+export function hasVariableCredits(def) {
+  const { min, max } = creditRange(def);
+  return min !== max;
+}
+
+/** True when a student may take the course in more than one semester. */
+export function isRepeatable(def) {
+  return def?.repeatable === true;
+}
+
+/** The requirement types that list their options in `options`. */
+export function isChoice(req) {
+  return req?.type === 'choose' || req?.type === 'choose_hours';
+}
+
 // ---------------------------------------------------------------- expressions
 
 /**
@@ -198,7 +228,7 @@ export function suggestedPositionOf(catalog, courseId) {
   const def = catalog.courses[courseId];
   if (def?.suggested_term) return parseSuggested(def.suggested_term);
   for (const req of catalog.requirements ?? []) {
-    if (req.type === 'choose' && req.options?.includes(courseId) && req.suggested_term) {
+    if (isChoice(req) && req.options?.includes(courseId) && req.suggested_term) {
       return parseSuggested(req.suggested_term);
     }
   }
@@ -243,7 +273,7 @@ function intersect(lists) {
 export function courseRequirementMap(catalog) {
   const map = new Map();
   for (const req of catalog.requirements ?? []) {
-    const list = req.type === 'all' ? req.courses : req.type === 'choose' ? req.options : [];
+    const list = req.type === 'all' ? req.courses : isChoice(req) ? req.options : [];
     for (const course of list ?? []) {
       if (!map.has(course)) map.set(course, []);
       map.get(course).push(req.id);
@@ -253,17 +283,114 @@ export function courseRequirementMap(catalog) {
 }
 
 /**
+ * Read a student's picks for a choose_hours requirement into a list of { course, hours } entries.
+ * A pick is a course id, or { course, hours } where `hours` lists the hours for each semester the student takes the
+ * course. A course with fixed hours always counts for its credit hours once. A course with a range of hours and no
+ * `hours` counts for its smallest choice once. Hours outside the range are moved inside it, and a course that is not
+ * repeatable counts for one semester.
+ */
+export function readHourPicks(catalog, req, picks = []) {
+  const options = req.options ?? [];
+  const out = [];
+  for (const pick of picks ?? []) {
+    const course = typeof pick === 'string' ? pick : pick?.course;
+    const def = catalog.courses[course];
+    if (!def || !options.includes(course) || out.some((p) => p.course === course)) continue;
+    const { min, max } = creditRange(def);
+    let hours = [min];
+    if (hasVariableCredits(def)) {
+      const given = Array.isArray(pick?.hours) ? pick.hours.filter((h) => Number.isFinite(h)) : [];
+      if (given.length) hours = given.map((h) => Math.min(max, Math.max(min, Math.round(h))));
+      if (!isRepeatable(def)) hours = hours.slice(0, 1);
+    }
+    out.push({ course, hours });
+  }
+  return out;
+}
+
+/** Hours used by each limit of a choose_hours requirement, for a list of { course, hours } entries. */
+export function limitUsage(req, picks) {
+  return (req.limits ?? []).map((limit) => {
+    const used = picks
+      .filter((p) => limit.courses.includes(p.course))
+      .reduce((sum, p) => sum + p.hours.reduce((a, b) => a + b, 0), 0);
+    return { courses: limit.courses, max_hours: limit.max_hours, used, over: used > limit.max_hours };
+  });
+}
+
+/**
+ * Add up a student's picks for a choose_hours requirement.
+ * Returns { total, hours, status, limits, picks }. `status` is 'exact', 'under', or 'over'. `limits` lists the hours
+ * used against each limit.
+ */
+export function checkHourPicks(catalog, req, picks = []) {
+  const read = readHourPicks(catalog, req, picks);
+  const total = read.reduce((sum, p) => sum + p.hours.reduce((a, b) => a + b, 0), 0);
+  const limits = limitUsage(req, read);
+  const status = total === req.hours ? 'exact' : total < req.hours ? 'under' : 'over';
+  return { total, hours: req.hours, status, limits, picks: read, ok: status === 'exact' && !limits.some((l) => l.over) };
+}
+
+/**
+ * Fill a choose_hours requirement. The student's picks come first, in the order given. Then options the student has
+ * already completed, then the requirement's `defaults`, then the other options in catalog order. Hours that would go
+ * over the total or over a limit are skipped. A course with a range of hours is added last, at the hours that are left.
+ */
+function fillHours(catalog, req, picks, done) {
+  const options = req.options ?? [];
+  const entries = new Map();   // course -> hours for each semester, in the order added
+  let total = 0;
+  const used = (list) => [...entries]
+    .filter(([c]) => list.includes(c))
+    .reduce((sum, [, hs]) => sum + hs.reduce((a, b) => a + b, 0), 0);
+  const fits = (course, hour) => total + hour <= req.hours
+    && (req.limits ?? []).every((limit) => !limit.courses.includes(course) || used(limit.courses) + hour <= limit.max_hours);
+  const put = (course, hour) => {
+    entries.set(course, [...(entries.get(course) ?? []), hour]);
+    total += hour;
+  };
+  for (const pick of picks) {
+    for (const hour of pick.hours) if (fits(pick.course, hour)) put(pick.course, hour);
+  }
+  const addWhole = (course) => {
+    if (entries.has(course) || !options.includes(course) || !catalog.courses[course]) return;
+    const def = catalog.courses[course];
+    if (hasVariableCredits(def)) return;
+    const hour = creditRange(def).min;
+    if (fits(course, hour)) put(course, hour);
+  };
+  options.filter((c) => done.has(c)).forEach(addWhole);
+  (req.defaults ?? []).forEach(addWhole);
+  options.forEach(addWhole);
+  // A course with a range of hours fills what is left.
+  for (const course of options) {
+    if (total >= req.hours) break;
+    const def = catalog.courses[course];
+    if (!def || entries.has(course) || !hasVariableCredits(def)) continue;
+    const { min, max } = creditRange(def);
+    for (let hour = Math.min(max, req.hours - total); hour >= min; hour -= 1) {
+      if (fits(course, hour)) { put(course, hour); break; }
+    }
+  }
+  const order = (c) => { const i = picks.findIndex((p) => p.course === c); return i === -1 ? 1000 + options.indexOf(c) : i; };
+  return [...entries].map(([course, hours]) => ({ course, hours })).sort((a, b) => order(a.course) - order(b.course));
+}
+
+/**
  * Work out which courses a student must take.
  *   - Every course in an "all" requirement.
  *   - For a "choose" requirement: the options the student picked, topped up with options already completed,
  *     then with the first unpicked options in catalog order.
+ *   - For a "choose_hours" requirement: the student's picks, filled up to the required hours (see fillHours).
  *   - Placeholders reserve hours only. A student marks one done by putting its id in `completed`.
+ * A "choose_hours" pick is a course id or { course, hours: [hours for each semester] }.
  */
 export function resolveRequirements(catalog, { completed = [], choices = {} } = {}) {
   const done = new Set(completed);
   const required = new Set();
   const chooseInfo = [];
   const placeholders = [];
+  const hourPicks = {};
   for (const req of catalog.requirements ?? []) {
     if (req.type === 'all') {
       (req.courses ?? []).forEach((c) => required.add(c));
@@ -281,6 +408,15 @@ export function resolveRequirements(catalog, { completed = [], choices = {} } = 
       }
       picked.forEach((c) => required.add(c));
       chooseInfo.push({ id: req.id, count: req.count, options, selected: picked, suggested_term: req.suggested_term ?? null });
+    } else if (req.type === 'choose_hours') {
+      const picks = fillHours(catalog, req, readHourPicks(catalog, req, choices[req.id] ?? []), done);
+      picks.forEach((p) => required.add(p.course));
+      hourPicks[req.id] = picks;
+      chooseInfo.push({
+        id: req.id, hours: req.hours, options: req.options ?? [], selected: picks.map((p) => p.course), picks,
+        total: picks.reduce((sum, p) => sum + p.hours.reduce((a, b) => a + b, 0), 0),
+        suggested_term: req.suggested_term ?? null,
+      });
     } else if (req.type === 'placeholder') {
       placeholders.push({
         id: req.id,
@@ -291,7 +427,7 @@ export function resolveRequirements(catalog, { completed = [], choices = {} } = 
       });
     }
   }
-  return { required, choose: chooseInfo, placeholders };
+  return { required, choose: chooseInfo, placeholders, hourPicks };
 }
 
 /**

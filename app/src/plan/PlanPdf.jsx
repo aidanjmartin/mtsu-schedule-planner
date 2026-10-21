@@ -128,7 +128,7 @@ export default function PlanPdf({ catalog, answers, result, name, logo, created,
             <Text style={s.val}>{answers.taking.length ? answers.taking.join(', ') : 'None'}</Text>
           </View>
         )}
-        <View style={s.row}><Text style={s.key}>Electives</Text><Text style={s.val}>{result.electives.length ? result.electives.map((id) => `${id} ${catalog.courses[id].title}`).join('; ') : 'None'}</Text></View>
+        <View style={s.row}><Text style={s.key}>Electives</Text><Text style={s.val}>{result.electiveLines.length ? result.electiveLines.map((e) => `${e.course} ${catalog.courses[e.course].title}${e.variable ? `, ${e.hours.join(' hr and ')} hr` : ''}`).join('; ') : 'None'}</Text></View>
         <View style={s.row}><Text style={s.key}>Credit load</Text><Text style={s.val}>{LOADS[result.loadKey].label}, {LOADS[result.loadKey].range} a semester</Text></View>
 
         <Text style={s.h2}>Semester by semester</Text>

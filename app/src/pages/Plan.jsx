@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useData } from '../lib/DataContext.jsx';
-import { hasPosition, ELECTIVE_COUNT } from '../lib/planModel.js';
+import { hasPosition, electiveStatus } from '../lib/planModel.js';
 import usePlanState, { STEP_COUNT } from '../plan/usePlanState.js';
 import ProgressBar, { STEP_NAMES } from '../plan/ProgressBar.jsx';
 import StepPosition from '../plan/StepPosition.jsx';
@@ -34,9 +34,10 @@ export default function Plan() {
     window.scrollTo({ top: 0 });
   }, [step]);
 
-  const canContinue = step === 0 ? hasPosition(answers) : step === 3 ? answers.electives.length === ELECTIVE_COUNT : true;
+  const electives = step === 3 ? electiveStatus(catalog, answers) : null;
+  const canContinue = step === 0 ? hasPosition(answers) : step === 3 ? electives.ok : true;
   const hint = step === 0 && !canContinue ? 'Choose where you are to continue.'
-    : step === 3 && !canContinue ? `Choose ${ELECTIVE_COUNT} electives to continue.` : '';
+    : step === 3 && !canContinue ? electives.message : '';
   const onResults = step === STEP_COUNT - 1;
 
   const props = { catalog, offerings, answers, setAnswers };

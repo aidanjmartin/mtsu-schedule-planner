@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useData } from '../lib/DataContext.jsx';
 import IrisCanvas from '../components/IrisCanvas.jsx';
+import CourseMap from '../components/CourseMap.jsx';
+import ViewSwitch from '../components/ViewSwitch.jsx';
+import { storageGet, storageSet } from '../lib/storage.js';
 import CoursePanel from '../components/CoursePanel.jsx';
 import MapLegend from '../components/MapLegend.jsx';
 import { AREAS, AREA_OF } from '../lib/exploreModel.js';
@@ -17,10 +20,23 @@ function useNarrow() {
   return narrow;
 }
 
+const VIEW_KEY = 'mtsu-mechatronics-map-view-v1';
+
+/** The map view the student used last on this device. Circle view is the default. */
+function useMapView() {
+  const [view, setView] = useState(() => (storageGet(VIEW_KEY) === 'flow' ? 'flow' : 'circle'));
+  const change = useCallback((next) => {
+    setView(next);
+    storageSet(VIEW_KEY, next);
+  }, []);
+  return [view, change];
+}
+
 export default function Explore() {
   const { core } = useData();
   const { catalog, offerings } = core;
   const narrow = useNarrow();
+  const [view, setView] = useMapView();
   const [open, setOpen] = useState(() => new Set());
   const [selected, setSelected] = useState(null);
 
@@ -53,18 +69,30 @@ export default function Explore() {
       <div className="explore-head">
         <div>
           <h1>Course map</h1>
-          <p className="lede">Open an area to see its courses. Select a course to see what it needs and what it opens up.</p>
+          <p className="lede">
+            {view === 'flow'
+              ? 'Every course sits in its subject group. Select a course to see what it needs and what it opens up.'
+              : 'Open an area to see its courses. Select a course to see what it needs and what it opens up.'}
+          </p>
         </div>
         <a className="btn btn-primary" href="#/plan">Plan my degree</a>
       </div>
 
-      <div className="explore-body">
-        <MapLegend narrow={narrow} />
-        <section className="map-frame" aria-label="Course map">
-          <IrisCanvas
-            catalog={catalog} open={open} selected={selected} narrow={narrow} sheetOpen={Boolean(selected) && narrow} allOpen={allOpen}
-            onOpen={openArea} onClose={closeArea} onSelect={select} onPick={pick} onOpenAll={openAll} onCloseAll={closeAll}
-          />
+      <div className={`explore-body is-${view}`}>
+        <div className="map-toolbar">
+          <ViewSwitch view={view} onChange={setView} />
+          {view === 'flow' && !narrow && <MapLegend narrow={false} view="flow" />}
+        </div>
+        {(view === 'circle' || narrow) && <MapLegend narrow={narrow} view={view} />}
+        <section className="map-frame" aria-label={view === 'flow' ? 'Course flow chart' : 'Course map'}>
+          {view === 'circle' ? (
+            <IrisCanvas
+              catalog={catalog} open={open} selected={selected} narrow={narrow} sheetOpen={Boolean(selected) && narrow} allOpen={allOpen}
+              onOpen={openArea} onClose={closeArea} onSelect={select} onPick={pick} onOpenAll={openAll} onCloseAll={closeAll}
+            />
+          ) : (
+            <CourseMap catalog={catalog} selected={selected} onSelect={select} onPick={pick} narrow={narrow} sheetOpen={Boolean(selected) && narrow} />
+          )}
         </section>
         <aside className={`side-panel${selected ? ' is-open' : ''}`} aria-label="Course details" aria-live="polite">
           <CoursePanel catalog={catalog} offerings={offerings} courseId={selected} onSelect={pick} onClose={() => setSelected(null)} />

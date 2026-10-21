@@ -69,7 +69,7 @@ export function applyEdits({ catalog, schedules = {}, edits = [] }) {
       if (target.type === 'placeholder') return fail('A course cannot move into a placeholder requirement.');
       for (const req of out.requirements) {
         if (req.type === 'all') req.courses = req.courses.filter((c) => c !== edit.course);
-        if (req.type === 'choose') req.options = req.options.filter((c) => c !== edit.course);
+        if (req.type === 'choose' || req.type === 'choose_hours') req.options = req.options.filter((c) => c !== edit.course);
       }
       const list = target.type === 'all' ? target.courses : target.options;
       list.push(edit.course);

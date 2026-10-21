@@ -13,7 +13,7 @@ export default function StepLoad({ catalog, offerings, answers, setAnswers }) {
   const results = useMemo(
     () => compareLoads(catalog, offerings, answers),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [catalog, offerings, answers.finished, answers.taking, answers.electives, answers.electivesDone, answers.firstSemester, answers.year, answers.season],
+    [catalog, offerings, answers.finished, answers.taking, answers.electives, answers.electiveHours, answers.electivesDone, answers.firstSemester, answers.year, answers.season],
   );
   const notes = loadNotes(results);
   const best = results.reduce((a, b) => (a.graduation && b.graduation && T.compareTerms(b.graduation, a.graduation) < 0 ? b : a), results[0]);

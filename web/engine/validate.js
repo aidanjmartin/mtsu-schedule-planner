@@ -2,7 +2,9 @@
 // and a prerequisite check for any course-to-term placement (including the academic map's suggested schedule).
 
 import { isSuggested, parseSuggested } from './terms.js';
-import { normalizePrereqs, evaluatePrereqs, resolveRequirements, courseRequirementMap } from './prereqs.js';
+import {
+  normalizePrereqs, evaluatePrereqs, resolveRequirements, courseRequirementMap, creditRange, minCredits, isRepeatable, isChoice,
+} from './prereqs.js';
 
 const STANDING_LEVELS = ['sophomore', 'junior', 'senior'];
 
@@ -49,6 +51,56 @@ function findCycles(edges) {
   return groups;
 }
 
+/** Check a choose_hours requirement: known options, a positive total, sensible limits, and a way to reach the total. */
+function checkChooseHours(req, courses, errors) {
+  if (!(Number.isInteger(req.hours) && req.hours > 0)) {
+    errors.push(issue('unsatisfiable_requirement', `Requirement "${req.id}" needs a whole number of hours above 0.`));
+    return;
+  }
+  const options = req.options ?? [];
+  for (const c of options) {
+    if (!courses[c]) errors.push(issue('unknown_course', `Requirement "${req.id}" lists the option ${c}, which is not in the catalog.`, { ref: c }));
+  }
+  const known = options.filter((c) => courses[c]);
+  if (req.suggested_term && !isSuggested(req.suggested_term)) {
+    errors.push(issue('bad_suggested_term', `Requirement "${req.id}" has the suggested term "${req.suggested_term}".`));
+  }
+  for (const c of req.defaults ?? []) {
+    if (!options.includes(c)) errors.push(issue('bad_default', `Requirement "${req.id}" lists the default ${c}, which is not one of its options.`, { ref: c }));
+  }
+  const limits = req.limits ?? [];
+  for (const limit of limits) {
+    if (!(Number.isInteger(limit.max_hours) && limit.max_hours >= 0)) {
+      errors.push(issue('bad_limit', `A limit in requirement "${req.id}" needs max_hours of 0 or more.`));
+    }
+    for (const c of limit.courses ?? []) {
+      if (!options.includes(c)) errors.push(issue('bad_limit', `A limit in requirement "${req.id}" lists ${c}, which is not one of its options.`, { ref: c }));
+    }
+  }
+  // Can some mix of options add up to exactly the required hours, inside every limit? Search over whole-hour choices.
+  const rules = limits.map((l) => ({ courses: new Set(l.courses ?? []), max: l.max_hours }));
+  const reachable = new Set([JSON.stringify([0, ...rules.map(() => 0)])]);
+  for (const c of known) {
+    const { min, max } = creditRange(courses[c]);
+    const sizes = []; for (let h = min; h <= max; h += 1) sizes.push(h);
+    const times = isRepeatable(courses[c]) ? Math.ceil(req.hours / min) : 1;
+    for (let round = 0; round < times; round += 1) {
+      for (const state of [...reachable]) {
+        const [total, ...used] = JSON.parse(state);
+        for (const h of sizes) {
+          if (total + h > req.hours) continue;
+          const next = used.map((u, i) => u + (rules[i].courses.has(c) ? h : 0));
+          if (next.some((u, i) => u > rules[i].max)) continue;
+          reachable.add(JSON.stringify([total + h, ...next]));
+        }
+      }
+    }
+  }
+  if (![...reachable].some((state) => JSON.parse(state)[0] === req.hours)) {
+    errors.push(issue('unsatisfiable_requirement', `Requirement "${req.id}" asks for ${req.hours} hours, but no mix of its options adds up to that inside its limits.`));
+  }
+}
+
 /**
  * Check a catalog file against the rules in DATA_FORMAT.md.
  * Returns { errors, warnings, checks }. `checks` lists every note that starts with "CHECK:".
@@ -71,8 +123,20 @@ export function validateCatalog(catalog) {
       warnings.push(issue('course_id_format', `"${id}" does not look like a course id such as "ENGR 3540".`, { course: id }));
     }
     if (typeof def.title !== 'string' || !def.title) errors.push(issue('missing_field', `${id} needs a title.`, { course: id }));
-    if (!(typeof def.credits === 'number' && def.credits > 0)) {
+    const range = def.credits;
+    if (range && typeof range === 'object') {
+      const whole = (n) => Number.isInteger(n) && n > 0;
+      if (!(whole(range.min) && whole(range.max) && range.min <= range.max)) {
+        errors.push(issue('bad_credits', `${id} needs credits like { "min": 1, "max": 3 }, with whole numbers and min no larger than max.`, { course: id }));
+      }
+    } else if (!(typeof range === 'number' && range > 0)) {
       errors.push(issue('bad_credits', `${id} needs a positive number of credits.`, { course: id }));
+    }
+    if (def.repeatable !== undefined && typeof def.repeatable !== 'boolean') {
+      errors.push(issue('bad_field', `${id} has a repeatable value that is not true or false.`, { course: id }));
+    }
+    if (def.first_semester !== undefined && typeof def.first_semester !== 'boolean') {
+      errors.push(issue('bad_field', `${id} has a first_semester value that is not true or false.`, { course: id }));
     }
     if (!Array.isArray(def.components) || def.components.length === 0) {
       errors.push(issue('missing_components', `${id} needs at least one component.`, { course: id }));
@@ -144,7 +208,7 @@ export function validateCatalog(catalog) {
       if (!req.courses?.length) errors.push(issue('unsatisfiable_requirement', `Requirement "${req.id}" lists no courses.`));
       for (const c of req.courses ?? []) {
         if (!courses[c]) errors.push(issue('unknown_course', `Requirement "${req.id}" lists ${c}, which is not in the catalog.`, { ref: c }));
-        else { hoursLow += courses[c].credits; hoursHigh += courses[c].credits; }
+        else { hoursLow += minCredits(courses[c]); hoursHigh += creditRange(courses[c]).max; }
       }
     } else if (req.type === 'choose') {
       const known = (req.options ?? []).filter((c) => courses[c]);
@@ -156,13 +220,16 @@ export function validateCatalog(catalog) {
       } else if (known.length < req.count) {
         errors.push(issue('unsatisfiable_requirement', `Requirement "${req.id}" asks for ${req.count} course(s) but only ${known.length} known option(s) exist, so no student can satisfy it.`));
       } else {
-        const credits = known.map((c) => courses[c].credits).sort((a, b) => a - b);
+        const credits = known.map((c) => minCredits(courses[c])).sort((a, b) => a - b);
         hoursLow += credits.slice(0, req.count).reduce((a, b) => a + b, 0);
         hoursHigh += credits.slice(-req.count).reduce((a, b) => a + b, 0);
       }
       if (req.suggested_term && !isSuggested(req.suggested_term)) {
         errors.push(issue('bad_suggested_term', `Requirement "${req.id}" has the suggested term "${req.suggested_term}".`));
       }
+    } else if (req.type === 'choose_hours') {
+      checkChooseHours(req, courses, errors);
+      if (Number.isFinite(req.hours) && req.hours > 0) { hoursLow += req.hours; hoursHigh += req.hours; }
     } else if (req.type === 'placeholder') {
       if (!(typeof req.hours === 'number' && req.hours > 0)) {
         errors.push(issue('unsatisfiable_requirement', `Placeholder "${req.id}" needs a positive number of hours.`));
@@ -210,7 +277,7 @@ export function suggestedPlacement(catalog) {
     if (def.suggested_term) placement[id] = parseSuggested(def.suggested_term);
   }
   for (const req of catalog.requirements ?? []) {
-    if (req.type === 'choose') {
+    if (isChoice(req)) {
       for (const id of req.options ?? []) {
         if (placement[id] === undefined && req.suggested_term) placement[id] = parseSuggested(req.suggested_term);
       }
@@ -259,7 +326,7 @@ export function checkPlacement(catalog, placement, { counted = null } = {}) {
       const need = catalog.standing_hours?.[def.standing] ?? 0;
       let hours = 0;
       for (const [other, p] of Object.entries(placement)) {
-        if (p < pos && (!counted || counted.has(other))) hours += catalog.courses[other]?.credits ?? 0;
+        if (p < pos && (!counted || counted.has(other))) hours += minCredits(catalog.courses[other]) ?? 0;
       }
       for (const chunk of placeholderChunks) if (chunk.pos < pos) hours += chunk.hours;
       if (hours < need) {

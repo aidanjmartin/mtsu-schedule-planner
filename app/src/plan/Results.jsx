@@ -36,7 +36,7 @@ function Summary({ result, answers }) {
         </div>
         <div className="tb-cell">
           <span className="tb-label">Your electives</span>
-          <span className="tb-text">{result.electives.length ? result.electives.map((id) => <span key={id} className="tb-line">{id}</span>) : 'None chosen'}</span>
+          <span className="tb-text">{result.electiveLines.length ? result.electiveLines.map((e) => <span key={e.course} className="tb-line">{e.text}</span>) : 'None chosen'}</span>
         </div>
         <div className="tb-cell">
           <span className="tb-label">Credit load</span>

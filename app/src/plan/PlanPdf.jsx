@@ -1,8 +1,11 @@
 import React from 'react';
-import { Document, Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer';
+import { Document, Page, Text, View, Image, StyleSheet, Font } from '@react-pdf/renderer';
 import { terms as T } from '../lib/engine.js';
 import { LOADS, positionLabel, mapPosition } from '../lib/planModel.js';
 import { meetingText, listText } from '../lib/format.js';
+
+// Never split a word across lines.
+Font.registerHyphenationCallback((word) => [word]);
 
 const BLUE = '#0266BB';
 const INK = '#14202E';

@@ -151,6 +151,8 @@ button.progress-link:hover .progress-name { color: var(--blue); text-decoration:
 .elective-later { font-size: var(--t-s); color: var(--warn); background: var(--warn-tint); border-radius: var(--r-s); padding: var(--s-2) var(--s-3); }
 .elective-later b { font-weight: 600; }
 .elective-locked { font-size: var(--t-s); color: var(--ink-3); }
+.elective-planned { font-size: var(--t-s); color: var(--blue-ink); background: var(--blue-tint); border-radius: var(--r-s); padding: var(--s-2) var(--s-3); }
+.elective-planned b { font-weight: 600; }
 .elective-done { padding: 0 var(--s-4) var(--s-3) calc(var(--s-4) + 22px + var(--s-3)); font-size: var(--t-s); }
 .check { display: flex; align-items: flex-start; gap: var(--s-2); cursor: pointer; }
 @media (max-width: 760px) { .cards { grid-template-columns: 1fr; } }

@@ -77,16 +77,6 @@ export function currentSeason(today = new Date()) {
 }
 
 /**
- * Set when the semester the student chose in step 1 is not the semester today's date puts them in.
- * Returns { season, label } for the semester we expect, or null when the answer fits.
- */
-export function seasonMismatch(answers, today = new Date()) {
-  if (answers.firstSemester || answers.season === null) return null;
-  const current = referenceTerm(today);
-  return T.seasonOf(current) === answers.season ? null : { season: T.seasonOf(current), term: current, label: T.termLabel(current) };
-}
-
-/**
  * The semester the student is in. A first-semester student has not started, so this is the semester they start.
  * Everyone else is in the semester today's date puts them in.
  */
@@ -107,10 +97,12 @@ export function advance(term, count) {
 }
 
 /** Position on the academic map: 3 per year (fall, spring, unused summer). */
-export function mapPosition(answers) {
+export function mapPosition(answers, today = new Date()) {
   if (answers.firstSemester) return 0;
   const year = Math.min(Math.max(answers.year ?? 1, 1), 5);
-  return (year - 1) * 3 + (answers.season === 'spring' ? 1 : 0);
+  // The semester is not asked. It is the season of the current semester, from today's date.
+  const season = answers.season ?? currentSeason(today);
+  return (year - 1) * 3 + (season === 'spring' ? 1 : 0);
 }
 
 /**
@@ -119,8 +111,8 @@ export function mapPosition(answers) {
  */
 export function startPosition(answers, today = new Date()) {
   if (answers.firstSemester) return T.seasonOf(firstTermFor(answers, today)) === 'spring' ? 1 : 0;
-  const position = mapPosition(answers);
-  return position + (answers.season === 'spring' ? 2 : 1);
+  const position = mapPosition(answers, today);
+  return position + ((answers.season ?? currentSeason(today)) === 'spring' ? 2 : 1);
 }
 
 export function positionLabel(position) {
@@ -130,12 +122,12 @@ export function positionLabel(position) {
 }
 
 export function seedKey(answers) {
-  return answers.firstSemester ? 'first' : `${answers.year}-${answers.season}`;
+  return answers.firstSemester ? 'first' : `${answers.year}-${answers.season ?? currentSeason()}`;
 }
 
 /** Whether the answers to step 1 are complete. */
 export function hasPosition(answers) {
-  return answers.firstSemester || (answers.year !== null && answers.season !== null);
+  return answers.firstSemester || answers.year !== null;
 }
 
 export function seasonsText(seasons) {
@@ -298,7 +290,7 @@ export function closeTaking(catalog, finished, taking, { hours = 9999 } = {}) {
  * could take this semester.
  */
 export function takingChoices(catalog, offerings, answers, today = new Date()) {
-  const position = mapPosition(answers);
+  const position = mapPosition(answers, today);
   const current = currentTermFor(answers, today);
   const season = T.seasonOf(current);
   const hours = finishedHours(catalog, answers.finished, position);
@@ -397,7 +389,7 @@ export function electiveCards(catalog, offerings, answers, today = new Date()) {
   const start = student.start_term;
   const analysis = C.analyzeCriticalPath({ catalog, offerings, student });
   const completed = new Set(student.completed);
-  const hours = finishedHours(catalog, [...completed].filter((id) => catalog.courses[id]), mapPosition(answers) + 1);
+  const hours = finishedHours(catalog, [...completed].filter((id) => catalog.courses[id]), mapPosition(answers, today) + 1);
   return electiveOptions(catalog).map((id) => {
     const def = catalog.courses[id];
     const info = analysis.courses[id];
@@ -441,7 +433,7 @@ function termOrdinal(plan, term) {
 export function mapPace(answers, today = new Date()) {
   // A first semester that starts in spring begins mid-year on the map, so there is no fixed pace to compare with.
   if (answers.firstSemester && T.seasonOf(firstTermFor(answers, today)) === 'spring') return null;
-  const position = mapPosition(answers);
+  const position = mapPosition(answers, today);
   const semester = Math.floor(position / 3) * 2 + (position % 3);
   if (semester > 7) return null;
   const current = currentTermFor(answers, today);
@@ -534,7 +526,7 @@ export function computeResult(catalog, offerings, answers, { loadKey = answers.l
   const unplaced = raw.unplaced;
   const graduation = unplaced.length ? null : shaped.last;
   const sd = shaped.sd;
-  const position = mapPosition(answers);
+  const position = mapPosition(answers, today);
   const pace = mapPace(answers, today);
 
   const inProgress = answers.firstSemester || answers.taking.length === 0 ? null : {

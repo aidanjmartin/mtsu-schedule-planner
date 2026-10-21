@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { emptyAnswers, seedAnswers, hasPosition, LOADS, ELECTIVE_COUNT } from '../lib/planModel.js';
+import { emptyAnswers, seedAnswers, seedKey, hasPosition, currentSeason, LOADS, ELECTIVE_COUNT } from '../lib/planModel.js';
 import { storageGet, storageSet, storageRemove } from '../lib/storage.js';
 
 const KEY = 'mtsu-mechatronics-plan-v1';
@@ -15,12 +15,12 @@ function readSaved(catalog) {
     const raw = JSON.parse(text);
     const base = emptyAnswers();
     const known = (id) => Boolean(catalog.courses[id]);
-    const answers = {
+    let answers = {
       ...base,
       firstSemester: raw.answers?.firstSemester === true,
       firstTerm: typeof raw.answers?.firstTerm === 'string' && /^\d{4}(FA|SP)$/.test(raw.answers.firstTerm) ? raw.answers.firstTerm : null,
       year: Number.isInteger(raw.answers?.year) && raw.answers.year >= 1 && raw.answers.year <= 5 ? raw.answers.year : null,
-      season: ['fall', 'spring'].includes(raw.answers?.season) ? raw.answers.season : null,
+      season: null,
       finished: list(raw.answers?.finished).filter(known),
       taking: list(raw.answers?.taking).filter(known),
       electives: list(raw.answers?.electives).filter(known).slice(0, ELECTIVE_COUNT),
@@ -28,6 +28,11 @@ function readSaved(catalog) {
       load: LOADS[raw.answers?.load] ? raw.answers.load : 'standard',
       seededFor: typeof raw.answers?.seededFor === 'string' ? raw.answers.seededFor : null,
     };
+    // The semester is not asked. It always comes from today's date, so a saved plan follows the calendar.
+    if (!answers.firstSemester && answers.year !== null) {
+      answers.season = currentSeason();
+      if (answers.seededFor !== seedKey(answers)) answers = seedAnswers(catalog, answers);
+    }
     const step = Number.isInteger(raw.step) ? Math.min(Math.max(raw.step, 0), STEP_COUNT - 1) : 0;
     return { answers, step: hasPosition(answers) ? step : 0 };
   } catch {
@@ -52,6 +57,7 @@ export default function usePlanState(catalog) {
   /** Change the student's place in the program and refill the finished and taking lists from the map. */
   const setPosition = useCallback((patch) => setState((s) => {
     const moved = { ...s.answers, ...patch };
+    moved.season = moved.firstSemester || moved.year === null ? null : currentSeason();
     return { ...s, answers: hasPosition(moved) ? seedAnswers(catalog, moved) : { ...moved, seededFor: null } };
   }), [catalog]);
 

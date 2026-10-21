@@ -61,11 +61,16 @@ test('a first-semester student can start in Spring 2027 and the plan assumes not
   assert.equal(M.planStartTerm(stale, today), '2027FA');
 });
 
-test('the semester answer must match the current semester from today\'s date', () => {
-  assert.equal(M.seasonMismatch(secondYearFall(), today), null);
-  const wrong = { ...secondYearFall(), season: 'spring' };
-  assert.deepEqual(M.seasonMismatch(wrong, today), { season: 'fall', term: '2026FA', label: 'Fall 2026' });
-  assert.equal(M.seasonMismatch(firstSemester(), today), null);
+test('the semester is not asked: a year alone puts the student in the season of today\'s date', () => {
+  const byYear = { ...secondYearFall(), season: null };
+  assert.equal(M.hasPosition(byYear), true);
+  assert.equal(M.mapPosition(byYear, today), 3, 'October is fall, so 2nd year fall is map position 3');
+  assert.equal(M.mapPosition(byYear, new Date('2027-02-10T12:00:00')), 4, 'February is spring');
+  assert.equal(M.currentTermFor(byYear, today), '2026FA');
+  assert.equal(M.planStartTerm(byYear, today), '2027SP');
+  const result = M.computeResult(catalog, offerings, byYear, { today });
+  assert.equal(result.graduationLabel, M.computeResult(catalog, offerings, secondYearFall(), { today }).graduationLabel);
+  assert.equal(M.hasPosition(M.emptyAnswers()), false);
 });
 
 test('the map statement appears only when every remaining course sits in its map semester', () => {

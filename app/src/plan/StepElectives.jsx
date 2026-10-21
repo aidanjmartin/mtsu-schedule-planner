@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { electiveCards, ELECTIVE_GROUPS, ELECTIVE_COUNT, seasonsText } from '../lib/planModel.js';
+import { electiveCards, runPlan, ELECTIVE_GROUPS, ELECTIVE_COUNT, seasonsText } from '../lib/planModel.js';
 import { terms as T } from '../lib/engine.js';
 
 export default function StepElectives({ catalog, offerings, answers, setAnswers }) {
@@ -10,6 +10,11 @@ export default function StepElectives({ catalog, offerings, answers, setAnswers 
     [catalog, offerings, answers.finished, answers.taking, answers.firstSemester, answers.year, answers.season, answers.electivesDone, answers.load],
   );
   const byId = Object.fromEntries(cards.map((c) => [c.id, c]));
+  // The semester the plan schedules each chosen elective.
+  const placements = useMemo(
+    () => (answers.electives.length ? runPlan(catalog, offerings, answers, answers.load).raw.placements : {}),
+    [catalog, offerings, answers],
+  );
   const chosen = answers.electives;
   const full = chosen.length >= ELECTIVE_COUNT;
 
@@ -55,7 +60,10 @@ export default function StepElectives({ catalog, offerings, answers, setAnswers 
                         <span><b>Runs in:</b> {seasonsText(c.seasons)}{catalog.courses[id].available_from ? `, starting ${T.termLabel(catalog.courses[id].available_from)}` : ''}</span>
                         <span><b>Requires:</b> {c.requires.length || c.standing ? [...c.requires, c.standing ? `${c.standing} standing.` : null].filter(Boolean).join(' ') : 'No other courses.'}</span>
                       </span>
-                      {!c.canTakeNow && c.earliest && (
+                      {on && placements[id] && !answers.electivesDone.includes(id) && (
+                        <span className="elective-planned"><b>Planned for {T.termLabel(placements[id])}.</b></span>
+                      )}
+                      {!on && !c.canTakeNow && c.earliest && (
                         <span className="elective-later">
                           <b>You can't take this yet.</b> {c.reasons.join(' ')} The earliest semester for you is {T.termLabel(c.earliest)}.
                         </span>

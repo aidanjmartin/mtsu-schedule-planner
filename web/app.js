@@ -130,7 +130,7 @@ function sanitizeState(raw, fallbackYear) {
   if (raw.options && typeof raw.options === 'object') {
     const o = raw.options;
     out.options = {
-      summer_allowed: !!o.summer_allowed,
+      summer_allowed: false, // Summer terms are out of scope for the proof of concept.
       max_credits: Number.isFinite(o.max_credits) && o.max_credits > 0 ? o.max_credits : base.options.max_credits,
       summer_max_credits: Number.isFinite(o.summer_max_credits) && o.summer_max_credits >= 0 ? o.summer_max_credits : base.options.summer_max_credits,
       include_occasional: !!o.include_occasional,
@@ -677,17 +677,11 @@ function renderPlan(root, result) {
   left.append(el('section', { class: 'panel' },
     el('h2', { text: 'Your plan settings' }),
     el('div', { class: 'field' }, el('label', { class: 'label', for: 'start-term', text: 'First term to plan' }), startSelect),
-    el('div', { class: 'field' },
-      el('label', { class: 'check' },
-        el('input', { type: 'checkbox', checked: state.options.summer_allowed, onchange: (e) => update((s) => { s.options.summer_allowed = e.target.checked; }) }),
-        'Allow summer terms')),
     el('div', { class: 'row' },
       el('div', { class: 'field' }, el('label', { for: 'max-credits', class: 'label', text: 'Credit hour limit, fall and spring' }),
         el('input', { id: 'max-credits', type: 'number', min: 1, max: 30, value: state.options.max_credits,
           onchange: (e) => update((s) => { s.options.max_credits = Math.max(1, Number(e.target.value) || 18); }) })),
-      el('div', { class: 'field' }, el('label', { for: 'summer-credits', class: 'label', text: 'Credit hour limit, summer' }),
-        el('input', { id: 'summer-credits', type: 'number', min: 0, max: 20, value: state.options.summer_max_credits, disabled: !state.options.summer_allowed,
-          onchange: (e) => update((s) => { s.options.summer_max_credits = Math.max(0, Number(e.target.value) || 0); }) }))),
+    ),
     data.offerings
       ? el('div', { class: 'field' }, el('label', { class: 'check' },
         el('input', { type: 'checkbox', checked: state.options.include_occasional, onchange: (e) => update((s) => { s.options.include_occasional = e.target.checked; }) }),

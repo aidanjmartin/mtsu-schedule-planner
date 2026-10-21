@@ -1,0 +1,644 @@
+{
+  "catalog_year": "2026-27",
+  "program": "Mechatronics Engineering, B.S.",
+  "total_hours": 128,
+  "sources": [
+    "https://www.mtsu.edu/program/mechatronics-engineering-b-s/ (Requirements section, 2026-27 catalog course descriptions)",
+    "https://catalog.mtsu.edu/mime/media/view/49/12672/"
+  ],
+  "standing_hours": {
+    "sophomore": 30,
+    "junior": 60,
+    "senior": 90
+  },
+  "milestones": [
+    {
+      "id": "senior-design",
+      "label": "Senior design",
+      "courses": [
+        "ENGR 4580",
+        "ENGR 4590"
+      ]
+    }
+  ],
+  "notes": "Prerequisites come from the 2026-27 catalog course descriptions linked from the program page, read October 20, 2026. Term placement comes from the 2026-27 academic map. Every student starts in MATH 1910; precalculus starts are out of scope. Summer terms are out of scope. CHECK: standing_hours (30/60/90) not yet verified against the catalog.",
+  "courses": {
+    "ENGR 1100": {
+      "title": "Engineering Fundamentals",
+      "credits": 3,
+      "components": [
+        "ENGR 1100"
+      ],
+      "prereqs": {
+        "course": "MATH 1910",
+        "concurrent_ok": true
+      },
+      "standing": null,
+      "suggested_term": "freshman-fall",
+      "notes": "CHECK: The catalog lists MATH 1630, MATH 1730, or MATH 1910 as a prerequisite, not a corequisite, but the academic map places ENGR 1100 and MATH 1910 in the same term. Encoded as MATH 1910 taken before or with ENGR 1100, on the assumption that calculus placement satisfies it."
+    },
+    "MATH 1910": {
+      "title": "Calculus I",
+      "credits": 4,
+      "components": [
+        "MATH 1910"
+      ],
+      "prereqs": null,
+      "standing": null,
+      "suggested_term": "freshman-fall",
+      "notes": "Prerequisites from the 2026-27 catalog course description."
+    },
+    "CHEM 1110": {
+      "title": "General Chemistry I and Lab",
+      "credits": 4,
+      "components": [
+        "CHEM 1110",
+        "CHEM 1111"
+      ],
+      "prereqs": null,
+      "standing": null,
+      "suggested_term": "freshman-fall",
+      "notes": "Prerequisites from the 2026-27 catalog course description."
+    },
+    "ENGR 2100": {
+      "title": "Introduction to Engineering Design",
+      "credits": 3,
+      "components": [
+        "ENGR 2100"
+      ],
+      "prereqs": null,
+      "standing": null,
+      "suggested_term": "freshman-spring",
+      "notes": "Prerequisites from the 2026-27 catalog course description."
+    },
+    "MATH 1920": {
+      "title": "Calculus II",
+      "credits": 4,
+      "components": [
+        "MATH 1920"
+      ],
+      "prereqs": {
+        "course": "MATH 1910",
+        "min_grade": "C"
+      },
+      "standing": null,
+      "suggested_term": "freshman-spring",
+      "notes": "Prerequisites from the 2026-27 catalog course description."
+    },
+    "PHYS 2110": {
+      "title": "Calculus-Based Physics I and Laboratory I",
+      "credits": 4,
+      "components": [
+        "PHYS 2110",
+        "PHYS 2111"
+      ],
+      "prereqs": {
+        "course": "MATH 1910",
+        "min_grade": "C"
+      },
+      "standing": null,
+      "suggested_term": "freshman-spring",
+      "notes": "Prerequisites from the 2026-27 catalog course description."
+    },
+    "ENGR 2110": {
+      "title": "Statics",
+      "credits": 3,
+      "components": [
+        "ENGR 2110"
+      ],
+      "prereqs": {
+        "all": [
+          "ENGR 1100",
+          "MATH 1910",
+          "PHYS 2110"
+        ]
+      },
+      "standing": null,
+      "suggested_term": "sophomore-fall",
+      "notes": "Catalog prerequisite is PHYS 2111, the lab paired with PHYS 2110 in this planning unit. The academic map adds ENGR 1100 with C or better."
+    },
+    "ENGR 2210": {
+      "title": "Introduction to Materials Science and Engineering",
+      "credits": 3,
+      "components": [
+        "ENGR 2210"
+      ],
+      "prereqs": "CHEM 1110",
+      "standing": null,
+      "suggested_term": "sophomore-fall",
+      "notes": "Prerequisites from the 2026-27 catalog course description."
+    },
+    "MATH 3110": {
+      "title": "Calculus III",
+      "credits": 4,
+      "components": [
+        "MATH 3110"
+      ],
+      "prereqs": "MATH 1920",
+      "standing": null,
+      "suggested_term": "sophomore-fall",
+      "notes": "Prerequisites from the 2026-27 catalog course description."
+    },
+    "PHYS 2120": {
+      "title": "Calculus-Based Physics II and Laboratory II",
+      "credits": 4,
+      "components": [
+        "PHYS 2120",
+        "PHYS 2121"
+      ],
+      "prereqs": {
+        "all": [
+          "PHYS 2110",
+          {
+            "course": "MATH 1920",
+            "min_grade": "C"
+          }
+        ]
+      },
+      "standing": null,
+      "suggested_term": "sophomore-fall",
+      "notes": "Catalog prerequisites are PHYS 2111 and MATH 1920 with C or better. The academic map lists only PHYS 2110."
+    },
+    "ENGR 2120": {
+      "title": "Dynamics",
+      "credits": 3,
+      "components": [
+        "ENGR 2120"
+      ],
+      "prereqs": {
+        "all": [
+          "ENGR 2110",
+          "MATH 1920"
+        ]
+      },
+      "standing": null,
+      "suggested_term": "sophomore-spring",
+      "notes": "Prerequisites from the 2026-27 catalog course description."
+    },
+    "ENGR 2130": {
+      "title": "Electrical Circuit Analysis I",
+      "credits": 3,
+      "components": [
+        "ENGR 2130"
+      ],
+      "prereqs": {
+        "all": [
+          "ENGR 1100",
+          "MATH 1910",
+          {
+            "course": "PHYS 2120",
+            "concurrent_ok": true
+          }
+        ]
+      },
+      "standing": null,
+      "suggested_term": "sophomore-spring",
+      "notes": "PHYS 2121 may be taken concurrently (catalog). The academic map lists PHYS 2120/2121 as a completed prerequisite."
+    },
+    "MATH 3120": {
+      "title": "Differential Equations I",
+      "credits": 3,
+      "components": [
+        "MATH 3120"
+      ],
+      "prereqs": {
+        "course": "MATH 1920",
+        "min_grade": "C"
+      },
+      "standing": null,
+      "suggested_term": "sophomore-spring",
+      "notes": "Prerequisites from the 2026-27 catalog course description."
+    },
+    "CSCI 1170": {
+      "title": "Computer Science I",
+      "credits": 4,
+      "components": [
+        "CSCI 1170"
+      ],
+      "prereqs": null,
+      "standing": null,
+      "suggested_term": "sophomore-spring",
+      "notes": "Catalog prerequisite is MATH 1730 or MATH 1810 with C or better, Math ACT 26, or a calculus placement score. Every student in this model places into MATH 1910, so no prerequisite applies."
+    },
+    "ENGR 3510": {
+      "title": "Electrical Circuit Analysis II",
+      "credits": 3,
+      "components": [
+        "ENGR 3510"
+      ],
+      "prereqs": {
+        "all": [
+          "ENGR 2130",
+          "MATH 3120"
+        ]
+      },
+      "standing": null,
+      "suggested_term": "junior-fall",
+      "notes": "Prerequisites from the 2026-27 catalog course description."
+    },
+    "ENGR 3560": {
+      "title": "Mechanics of Materials",
+      "credits": 3,
+      "components": [
+        "ENGR 3560"
+      ],
+      "prereqs": {
+        "all": [
+          "ENGR 2210",
+          "ENGR 2110",
+          "MATH 1920"
+        ]
+      },
+      "standing": null,
+      "suggested_term": "junior-fall",
+      "notes": "Prerequisites from the 2026-27 catalog course description."
+    },
+    "ENGR 3590": {
+      "title": "Kinematics and Dynamics of Machinery",
+      "credits": 3,
+      "components": [
+        "ENGR 3590"
+      ],
+      "prereqs": {
+        "all": [
+          "ENGR 2120",
+          "CSCI 1170"
+        ]
+      },
+      "standing": null,
+      "suggested_term": "junior-fall",
+      "notes": "Prerequisites from the 2026-27 catalog course description."
+    },
+    "MATH 2010": {
+      "title": "Elements of Linear Algebra",
+      "credits": 3,
+      "components": [
+        "MATH 2010"
+      ],
+      "prereqs": "MATH 1910",
+      "standing": null,
+      "suggested_term": "junior-fall",
+      "notes": "Catalog prerequisite is MATH 1910. The academic map lists none."
+    },
+    "ENGR 3520": {
+      "title": "Digital Circuits Fundamentals",
+      "credits": 3,
+      "components": [
+        "ENGR 3520"
+      ],
+      "prereqs": {
+        "all": [
+          "ENGR 2130",
+          "CSCI 1170"
+        ]
+      },
+      "standing": null,
+      "suggested_term": "junior-fall",
+      "notes": "Prerequisites from the 2026-27 catalog course description."
+    },
+    "ENGR 3970": {
+      "title": "Engineering Economy",
+      "credits": 3,
+      "components": [
+        "ENGR 3970"
+      ],
+      "prereqs": null,
+      "standing": "junior",
+      "suggested_term": "junior-spring",
+      "notes": "Catalog prerequisite is junior standing or permission of instructor."
+    },
+    "ENGR 3530": {
+      "title": "Electronics and Instrumentation",
+      "credits": 3,
+      "components": [
+        "ENGR 3530"
+      ],
+      "prereqs": {
+        "course": "ENGR 3510",
+        "concurrent_ok": true
+      },
+      "standing": null,
+      "suggested_term": "junior-spring",
+      "notes": "Prerequisites from the 2026-27 catalog course description."
+    },
+    "ENGR 3550": {
+      "title": "Fluid Mechanics",
+      "credits": 3,
+      "components": [
+        "ENGR 3550"
+      ],
+      "prereqs": {
+        "all": [
+          "ENGR 2120",
+          "MATH 3110"
+        ]
+      },
+      "standing": null,
+      "suggested_term": "junior-spring",
+      "notes": "Prerequisites from the 2026-27 catalog course description."
+    },
+    "ENGR 3915": {
+      "title": "Technical Project Management and Soft Skills",
+      "credits": 3,
+      "components": [
+        "ENGR 3915"
+      ],
+      "prereqs": null,
+      "standing": "junior",
+      "suggested_term": "junior-spring",
+      "notes": "Catalog prerequisite is junior standing or permission of instructor."
+    },
+    "ENGR 4540": {
+      "title": "Thermodynamics for Engineers",
+      "credits": 3,
+      "components": [
+        "ENGR 4540"
+      ],
+      "prereqs": {
+        "all": [
+          "MATH 3110",
+          "PHYS 2110"
+        ]
+      },
+      "standing": null,
+      "suggested_term": "junior-spring",
+      "notes": "Catalog prerequisites are MATH 3110 and PHYS 2110/2111."
+    },
+    "ENGR 4550": {
+      "title": "Introduction to Robotics",
+      "credits": 3,
+      "components": [
+        "ENGR 4550"
+      ],
+      "prereqs": {
+        "all": [
+          "ENGR 3590",
+          "MATH 2010"
+        ]
+      },
+      "standing": null,
+      "suggested_term": "junior-spring",
+      "notes": "Prerequisites from the 2026-27 catalog course description."
+    },
+    "ENGR 4560": {
+      "title": "Advanced Embedded Systems Programming",
+      "credits": 3,
+      "components": [
+        "ENGR 4560"
+      ],
+      "prereqs": "ENGR 3520",
+      "standing": null,
+      "suggested_term": "junior-spring",
+      "notes": "Catalog prerequisite is ENGR 3520."
+    },
+    "ENGR 4500": {
+      "title": "FE Exam Preparation",
+      "credits": 1,
+      "components": [
+        "ENGR 4500"
+      ],
+      "prereqs": null,
+      "standing": "senior",
+      "suggested_term": "senior-fall",
+      "notes": "Catalog prerequisite is senior standing or completion of all 3000-level courses; encoded as senior standing."
+    },
+    "ENGR 4510": {
+      "title": "Programmable Logic Controllers and Networks",
+      "credits": 3,
+      "components": [
+        "ENGR 4510"
+      ],
+      "prereqs": "ENGR 3520",
+      "standing": null,
+      "suggested_term": "senior-fall",
+      "notes": "Catalog prerequisite is ENGR 3520 only. The academic map lists ENGR 3520 and ENGR 3530."
+    },
+    "ENGR 3540": {
+      "title": "Introduction to Feedback Control",
+      "credits": 3,
+      "components": [
+        "ENGR 3540"
+      ],
+      "prereqs": {
+        "all": [
+          "ENGR 3520",
+          {
+            "course": "ENGR 3530",
+            "concurrent_ok": true
+          },
+          "MATH 3120"
+        ]
+      },
+      "standing": null,
+      "suggested_term": "senior-fall",
+      "notes": "Prerequisites from the 2026-27 catalog course description."
+    },
+    "ENGR 4580": {
+      "title": "Mechatronic System Design",
+      "credits": 3,
+      "components": [
+        "ENGR 4580"
+      ],
+      "prereqs": {
+        "all": [
+          "ENGR 3590",
+          "ENGR 3915",
+          {
+            "course": "ENGR 3540",
+            "concurrent_ok": true
+          },
+          {
+            "course": "ENGR 3550",
+            "concurrent_ok": true
+          }
+        ]
+      },
+      "standing": null,
+      "suggested_term": "senior-fall",
+      "notes": "Prerequisites from the 2026-27 catalog course description."
+    },
+    "ENGR 4530": {
+      "title": "Controls and Optimization",
+      "credits": 3,
+      "components": [
+        "ENGR 4530"
+      ],
+      "prereqs": "ENGR 3540",
+      "standing": null,
+      "suggested_term": "senior-spring",
+      "notes": "Prerequisites from the 2026-27 catalog course description."
+    },
+    "ENGR 4590": {
+      "title": "Automation System Design",
+      "credits": 3,
+      "components": [
+        "ENGR 4590"
+      ],
+      "prereqs": {
+        "all": [
+          "ENGR 4580",
+          "ENGR 4510"
+        ]
+      },
+      "standing": null,
+      "suggested_term": "senior-spring",
+      "notes": "Catalog prerequisites are ENGR 4580 and ENGR 4510. The academic map lists ENGR 4580 and an unnamed 3000-level course."
+    },
+    "ENGR 4520": {
+      "title": "Electrical Power and Machinery",
+      "credits": 3,
+      "components": [
+        "ENGR 4520"
+      ],
+      "prereqs": "ENGR 3510",
+      "standing": null,
+      "suggested_term": "senior-spring",
+      "notes": "Prerequisites from the 2026-27 catalog course description."
+    }
+  },
+  "requirements": [
+    {
+      "id": "math-science",
+      "type": "all",
+      "courses": [
+        "MATH 1910",
+        "CHEM 1110",
+        "MATH 1920",
+        "PHYS 2110",
+        "MATH 3110",
+        "PHYS 2120",
+        "MATH 3120",
+        "CSCI 1170",
+        "MATH 2010"
+      ]
+    },
+    {
+      "id": "engr-core",
+      "type": "all",
+      "courses": [
+        "ENGR 1100",
+        "ENGR 2100",
+        "ENGR 2110",
+        "ENGR 2210",
+        "ENGR 2120",
+        "ENGR 2130",
+        "ENGR 3510",
+        "ENGR 3560",
+        "ENGR 3590",
+        "ENGR 3520",
+        "ENGR 3970",
+        "ENGR 3530",
+        "ENGR 3550",
+        "ENGR 3915",
+        "ENGR 4500",
+        "ENGR 4510",
+        "ENGR 3540",
+        "ENGR 4580",
+        "ENGR 4530",
+        "ENGR 4590",
+        "ENGR 4520"
+      ]
+    },
+    {
+      "id": "engr-elective",
+      "type": "choose",
+      "count": 1,
+      "options": [
+        "ENGR 4540",
+        "ENGR 4550",
+        "ENGR 4560"
+      ],
+      "suggested_term": "junior-spring"
+    },
+    {
+      "id": "tbc-information-literacy",
+      "type": "placeholder",
+      "label": "Information Literacy",
+      "hours": 3,
+      "suggested_terms": [
+        "freshman-fall"
+      ]
+    },
+    {
+      "id": "tbc-written-communication",
+      "type": "placeholder",
+      "label": "Written Communication",
+      "hours": 3,
+      "suggested_terms": [
+        "freshman-fall"
+      ]
+    },
+    {
+      "id": "tbc-creativity-1",
+      "type": "placeholder",
+      "label": "Creativity and Cultural Expression",
+      "hours": 3,
+      "suggested_terms": [
+        "freshman-spring"
+      ]
+    },
+    {
+      "id": "tbc-human-society-1",
+      "type": "placeholder",
+      "label": "Human Society and Social Relationships",
+      "hours": 3,
+      "suggested_terms": [
+        "freshman-spring"
+      ]
+    },
+    {
+      "id": "tbc-history-1",
+      "type": "placeholder",
+      "label": "History and Civic Learning",
+      "hours": 3,
+      "suggested_terms": [
+        "sophomore-fall"
+      ]
+    },
+    {
+      "id": "tbc-literature",
+      "type": "placeholder",
+      "label": "Literature",
+      "hours": 3,
+      "suggested_terms": [
+        "sophomore-spring"
+      ]
+    },
+    {
+      "id": "tbc-non-written-communication",
+      "type": "placeholder",
+      "label": "Non-Written Communication",
+      "hours": 3,
+      "suggested_terms": [
+        "junior-fall"
+      ]
+    },
+    {
+      "id": "tbc-history-2",
+      "type": "placeholder",
+      "label": "History and Civic Learning",
+      "hours": 3,
+      "suggested_terms": [
+        "senior-fall"
+      ]
+    },
+    {
+      "id": "tbc-human-society-2",
+      "type": "placeholder",
+      "label": "Human Society and Social Relationships",
+      "hours": 3,
+      "suggested_terms": [
+        "senior-spring"
+      ]
+    },
+    {
+      "id": "tbc-creativity-2",
+      "type": "placeholder",
+      "label": "Creativity and Cultural Expression",
+      "hours": 3,
+      "suggested_terms": [
+        "senior-spring"
+      ]
+    }
+  ]
+}

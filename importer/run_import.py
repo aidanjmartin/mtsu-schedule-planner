@@ -115,6 +115,9 @@ def run(args, client=None):
             return 1
         plan = [(t.term_id, term_label(t.term_id), t.code) for t in chosen]
 
+    if not args.include_summer:
+        plan = [entry for entry in plan if not entry[0].endswith("SU")]
+
     for term_id, name, code in plan:
         log.info("Term %s (%s)", term_id, name)
         if not args.reparse:
@@ -156,6 +159,7 @@ def build_parser():
     parser.add_argument("--data-dir", default="data", help="data folder (default: %(default)s)")
     parser.add_argument("--min-interval", type=float, default=banner8.MIN_INTERVAL_SECONDS,
                         help="seconds to wait between web requests; the minimum is 3 (default: %(default)s)")
+    parser.add_argument("--include-summer", action="store_true", help="also import summer terms (skipped by default)")
     parser.add_argument("--reparse", action="store_true", help="parse the saved HTML again without any web requests")
     return parser
 

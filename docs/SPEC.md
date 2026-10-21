@@ -15,7 +15,9 @@ This proof of concept answers four questions for one student or one hypothetical
 
 In scope:
 
-- Mechatronics Engineering B.S., catalog years 2026-27 and 2018-19.
+- Mechatronics Engineering B.S., catalog year 2026-27. The data format supports more catalog years; earlier years come later.
+- Every student starts in MATH 1910 (Calculus I). Students who start in precalculus are out of scope.
+- Fall and spring terms only. Summer terms are out of scope for planning and for the schedule import.
 - Courses with subject ENGR, MATH, PHYS, CHEM, and CSCI. Section times come from MTSU's public schedule.
 - General education (True Blue Core) requirements as placeholders with credit hours and preferred terms. The planner reserves hours for them but does not schedule their sections.
 - A single web page that runs entirely in the browser. No server, no accounts, and no student data leaves the device.
@@ -26,7 +28,7 @@ Out of scope for the proof of concept: career-track elective optimization, the b
 
 ### 1. Catalog data (hand-encoded)
 
-One file per catalog year, in the format defined in `DATA_FORMAT.md`. Prerequisites come from the course descriptions at catalog.mtsu.edu, cross-checked against the academic map notes. When the two sources disagree, the file uses the course description and records the disagreement in a `notes` field. Nothing is silently resolved.
+One file per catalog year, in the format defined in `DATA_FORMAT.md`. Prerequisites come from the course descriptions at catalog.mtsu.edu, reached through the Requirements section of the program page (https://www.mtsu.edu/program/mechatronics-engineering-b-s/), cross-checked against the academic map notes. When the two sources disagree, the file uses the course description and records the disagreement in a `notes` field. Nothing is silently resolved.
 
 ### 2. Schedule importer (Python)
 
@@ -35,7 +37,7 @@ Reads MTSU's public Banner 8 dynamic schedule at `https://ssb.mtsu.edu/pls/PROD/
 - Reads the term list and term codes from that page's term dropdown.
 - Submits the class search form (`bwckschd.p_get_crse_unsec`) once per term and subject, waiting at least 3 seconds between requests.
 - Saves the raw HTML for each request and parses it into the schedule format in `DATA_FORMAT.md`.
-- Covers Fall 2018 through the newest term listed, for the five subjects in scope.
+- Covers fall and spring terms from Fall 2018 through the newest term listed, for the five subjects in scope. Summer terms are skipped unless the importer runs with `--include-summer`.
 
 Where it runs: this cloud workspace cannot reach ssb.mtsu.edu. The importer runs as a GitHub Actions workflow (manual trigger plus a monthly schedule) that commits the parsed files back to the repository. If GitHub's servers are blocked, the fallback is running the same script on the owner's computer.
 
@@ -73,7 +75,6 @@ README.md
 docs/SPEC.md
 docs/DATA_FORMAT.md
 data/catalogs/2026-27.json
-data/catalogs/2018-19.json
 data/schedule/raw/<term_code>/<subject>.html
 data/schedule/<term_code>.json
 data/offerings.json
@@ -89,7 +90,7 @@ tools/build.py       produces dist/planner.html
 
 The proof of concept is done when all of these pass:
 
-1. Both catalog files validate, and every prerequisite matches its source, with each disagreement between course description and academic map listed in `notes`.
+1. The 2026-27 catalog file validates, and every prerequisite matches its source, with each disagreement between course description and academic map listed in `notes`.
 2. The 2026-27 academic map's suggested schedule passes the engine's prerequisite check with no violations.
 3. The parser reproduces the expected sections from saved HTML samples of at least one fall and one spring term.
 4. The offering-pattern file covers every ENGR course in the 2026-27 catalog.

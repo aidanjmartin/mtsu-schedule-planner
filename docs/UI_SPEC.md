@@ -10,17 +10,39 @@ The site has three pages, reached from a top bar that is present on every page. 
 
 ### 1. Explore (home, `#/explore`)
 
-A course map in the style of UofT ECE Iris.
+An interactive course map that works the way UofT ECE Iris works: the program starts as a few labeled circles, a student opens the ones they care about, and each opened circle becomes a ring of courses they can click.
 
-- Courses appear as rounded tiles grouped into areas. The core areas sit in the center, and the elective career groups sit around them.
-- Selecting a course highlights its prerequisites (solid lines) and the courses it unlocks (dashed lines), and dims everything else.
-- A side panel (a bottom sheet on phones) shows the title, credit hours, the semesters it runs, prerequisites in plain words ("Take ENGR 3520 first. ENGR 3530 can be taken the same semester."), and what it unlocks.
-- A legend explains the line styles and group colors. A "Plan my degree" button leads to page 2.
-- The map supports pan and zoom on desktop and phone.
+**Starting view.** Six area circles on a light canvas, each labeled above it:
 
-Course groups:
+| Area circle | Courses inside | Ring order |
+|---|---|---|
+| Core: Years 1 and 2 (center) | MATH 1910, 1920, 3110, 3120; PHYS 2110/2111, 2120/2121; CHEM 1110/1111; CSCI 1170; ENGR 1100, 2100, 2110, 2120, 2130, 2210 | By academic map semester, Year 1 Fall to Year 2 Spring, clockwise from the top |
+| Required: Years 3 and 4 | ENGR 3510, 3520, 3530, 3540, 3550, 3560, 3590, 4500, 4510, 4520, 4530, 4580, 4590; MATH 2010 | By academic map semester, Year 3 Fall to Year 4 Spring, clockwise from the top |
+| Elective: Systems Engineering & Management | ENGR 3915, 3970 | By course number |
+| Elective: Robotics & Embedded Systems | ENGR 4550, 4560 | By course number |
+| Elective: Advanced Study | ENGR 4540, 4570 | By course number |
+| Elective: Internship & Research | ENGR 4600, 4610 | By course number |
 
-| Group | Courses |
+The core circle sits in the center. The required circle and the four elective circles sit around it. A short line under the page title reads: "Open an area to see its courses. Select a course to see what it needs and what it opens up."
+
+**Opening an area.** Clicking an area circle grows it, with a short animation, into a ring of course circles. Inside the ring:
+
+- Each course is a small circle showing its course number and credit hours, filled with its subject color (table below).
+- Thin arcs outside the course circles mark and label each semester ("Year 1 Fall", "Year 1 Spring", and so on). Elective rings have no semester arcs.
+- The empty center of the ring reads "Select a course."
+- A close button (×) sits below the ring. Other area circles move aside to make room and stay clickable, so several areas can be open at once. An "Open all" control opens every area.
+
+**Selecting a course.**
+
+- The course moves to the center of its ring, enlarged, with its full title.
+- Dashed arrows connect it to its prerequisites and to the courses it opens up, across every open ring. A "taken in the same semester is fine" prerequisite uses a dash-dot arrow. Unconnected courses fade.
+- A closed area circle that holds a connected course shows a small count badge ("2 linked"). Clicking it opens that area with the links already drawn.
+- A details panel (a bottom sheet on phones) shows the course number and title, credit hours, the semesters it runs, its academic map semester, the official catalog description, prerequisites in plain words, and linked course chips. Clicking a chip selects that course.
+- Hovering a course circle shows a label such as "ENGR 3540, Introduction to Feedback Control, Year 4 Fall."
+
+**Subject colors** come from the earlier groups, shown in a legend on the left with the arrow styles:
+
+| Subject color | Courses |
 |---|---|
 | Math & Science | MATH 1910, 1920, 2010, 3110, 3120; PHYS 2110/2111, 2120/2121; CHEM 1110/1111; CSCI 1170 |
 | Engineering Foundations | ENGR 1100, 2100, 2210, 4500 |
@@ -28,10 +50,15 @@ Course groups:
 | Circuits, Electronics & Automation | ENGR 2130, 3510, 3520, 3530, 4510, 4520 |
 | Controls | ENGR 3540, 4530 |
 | Senior Design | ENGR 4580, 4590 |
-| Elective: Systems Engineering & Management | ENGR 3915, 3970 |
-| Elective: Robotics & Embedded Systems | ENGR 4550, 4560 |
-| Elective: Advanced Study | ENGR 4540, 4570 |
-| Elective: Internship & Research | ENGR 4600, 4610 |
+| Electives | ENGR 3915, 3970, 4540, 4550, 4560, 4570, 4600, 4610 |
+
+**Controls**, stacked at the bottom right: zoom in, zoom out, fit to screen, search (type a course number or title, then the map opens its area and selects it), and help (a short walkthrough of the steps above). A "Plan my degree" button sits at the top right.
+
+**Phone width.** Area circles stack in one column in the same order. An opened ring fills the screen width, and the details panel opens as a bottom sheet. Pinch to zoom works.
+
+**Drawing.** The map is drawn in SVG by React, with animation by the Motion library. Animation respects the reduced-motion setting. The canvas uses the site's light theme and the logo blue as the accent, with the subject colors kept soft so the selected course and its arrows stand out.
+
+**Descriptions.** Catalog descriptions are stored in the catalog file as a `description` field for each course. ENGR 4570, 4600, and 4610 use descriptions supplied by the program owner until they appear in the catalog.
 
 ### 2. Plan my degree (`#/plan`)
 
@@ -89,5 +116,5 @@ Accounts, sharing plans with advisors, summer terms, precalculus starts, catalog
 2. A student in 2nd year fall with PHYS 2110 unchecked sees the effect on senior design and graduation, with an alert naming PHYS 2110.
 3. The elective step prevents choosing more than 3 and explains any elective the student cannot take yet.
 4. Export PDF downloads a readable plan that matches the screen.
-5. The Explore map highlights prerequisites and unlocked courses for every course and works at phone width.
+5. On the Explore map, every area opens and closes, every course can be selected, its prerequisites and the courses it opens up are linked across open areas, and the map works at phone width.
 6. The site loads from GitHub Pages with no console errors.

@@ -305,7 +305,11 @@
       "prereqs": null,
       "standing": "junior",
       "suggested_term": "junior-spring",
-      "notes": "Catalog prerequisite is junior standing or permission of instructor. Required in the published 2026-27 catalog; modeled as an elective option per the proposed Fall 2027 change."
+      "notes": "Catalog prerequisite is junior standing or permission of instructor. Required in the published 2026-27 catalog; modeled as an elective option per the proposed Fall 2027 change. Runs every fall and spring. This replaces the offering history for planning.",
+      "season_override": [
+        "fall",
+        "spring"
+      ]
     },
     "ENGR 3530": {
       "title": "Electronics and Instrumentation",
@@ -346,7 +350,11 @@
       "prereqs": null,
       "standing": "junior",
       "suggested_term": "junior-spring",
-      "notes": "Catalog prerequisite is junior standing or permission of instructor. Required in the published 2026-27 catalog; modeled as an elective option per the proposed Fall 2027 change."
+      "notes": "Catalog prerequisite is junior standing or permission of instructor. Required in the published 2026-27 catalog; modeled as an elective option per the proposed Fall 2027 change. Runs every fall and spring. This replaces the offering history for planning.",
+      "season_override": [
+        "fall",
+        "spring"
+      ]
     },
     "ENGR 4540": {
       "title": "Thermodynamics for Engineers",
@@ -362,7 +370,10 @@
       },
       "standing": null,
       "suggested_term": "junior-spring",
-      "notes": "Catalog prerequisites are MATH 3110 and PHYS 2110/2111."
+      "notes": "Catalog prerequisites are MATH 3110 and PHYS 2110/2111. Planned to run every spring. This replaces the offering history for planning.",
+      "season_override": [
+        "spring"
+      ]
     },
     "ENGR 4550": {
       "title": "Introduction to Robotics",
@@ -378,7 +389,10 @@
       },
       "standing": null,
       "suggested_term": "junior-spring",
-      "notes": "Prerequisites from the 2026-27 catalog course description."
+      "notes": "Prerequisites from the 2026-27 catalog course description. Planned to run every spring. This replaces the offering history for planning.",
+      "season_override": [
+        "spring"
+      ]
     },
     "ENGR 4560": {
       "title": "Advanced Embedded Systems Programming",
@@ -389,7 +403,10 @@
       "prereqs": "ENGR 3520",
       "standing": null,
       "suggested_term": "junior-spring",
-      "notes": "Catalog prerequisite is ENGR 3520."
+      "notes": "Catalog prerequisite is ENGR 3520. Planned to run every fall. This replaces the offering history for planning.",
+      "season_override": [
+        "fall"
+      ]
     },
     "ENGR 4500": {
       "title": "FE Exam Preparation",
@@ -454,7 +471,10 @@
       },
       "standing": null,
       "suggested_term": "senior-fall",
-      "notes": "The published 2026-27 catalog also requires ENGR 3915. That prerequisite is dropped here per the proposed Fall 2027 change that makes ENGR 3915 an elective."
+      "notes": "The published 2026-27 catalog also requires ENGR 3915. That prerequisite is dropped here per the proposed Fall 2027 change that makes ENGR 3915 an elective. Senior design I runs every fall only. This replaces the offering history for planning.",
+      "season_override": [
+        "fall"
+      ]
     },
     "ENGR 4530": {
       "title": "Controls and Optimization",
@@ -481,7 +501,10 @@
       },
       "standing": null,
       "suggested_term": "senior-spring",
-      "notes": "Catalog prerequisites are ENGR 4580 and ENGR 4510. The academic map lists ENGR 4580 and an unnamed 3000-level course."
+      "notes": "Catalog prerequisites are ENGR 4580 and ENGR 4510. The academic map lists ENGR 4580 and an unnamed 3000-level course. Senior design II runs every spring only. This replaces the offering history for planning.",
+      "season_override": [
+        "spring"
+      ]
     },
     "ENGR 4520": {
       "title": "Electrical Power and Machinery",
@@ -503,8 +526,11 @@
       "prereqs": "ENGR 3520",
       "standing": null,
       "suggested_term": "senior-fall",
-      "notes": "Proposed course, first offered Fall 2027; not in the published 2026-27 catalog.",
-      "available_from": "2027FA"
+      "notes": "Proposed course, first offered Fall 2027; not in the published 2026-27 catalog. Planned to run every fall. This replaces the offering history for planning.",
+      "available_from": "2027FA",
+      "season_override": [
+        "fall"
+      ]
     },
     "ENGR 4600": {
       "title": "Mechatronics Engineering Internship",

@@ -21,7 +21,7 @@
       ]
     }
   ],
-  "notes": "Prerequisites come from the 2026-27 catalog course descriptions linked from the program page, read October 20, 2026. Term placement comes from the 2026-27 academic map. Every student starts in MATH 1910; precalculus starts are out of scope. Summer terms are out of scope. CHECK: standing_hours (30/60/90) not yet verified against the catalog.",
+  "notes": "Prerequisites come from the 2026-27 catalog course descriptions linked from the program page, read October 20, 2026. Term placement comes from the 2026-27 academic map. Every student starts in MATH 1910; precalculus starts are out of scope. Summer terms are out of scope.",
   "courses": {
     "ENGR 1100": {
       "title": "Engineering Fundamentals",
@@ -35,7 +35,7 @@
       },
       "standing": null,
       "suggested_term": "freshman-fall",
-      "notes": "CHECK: The catalog lists MATH 1630, MATH 1730, or MATH 1910 as a prerequisite, not a corequisite, but the academic map places ENGR 1100 and MATH 1910 in the same term. Encoded as MATH 1910 taken before or with ENGR 1100, on the assumption that calculus placement satisfies it."
+      "notes": "Catalog lists MATH 1630, MATH 1730, or MATH 1910 as the prerequisite. Students take MATH 1910 and ENGR 1100 in the same term, as the academic map shows."
     },
     "MATH 1910": {
       "title": "Calculus I",

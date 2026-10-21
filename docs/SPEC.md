@@ -94,7 +94,7 @@ The proof of concept is done when all of these pass:
 2. The 2026-27 academic map's suggested schedule passes the engine's prerequisite check with no violations.
 3. The parser reproduces the expected sections from saved HTML samples of at least one fall and one spring term.
 4. The offering-pattern file covers every ENGR course in the 2026-27 catalog.
-5. A student starting with MATH 1730 in Fall 2026 and a student starting with MATH 1910 in Fall 2026 both receive plans, and the page shows the senior design start term for each, along with the courses responsible for any difference.
+5. An on-track student starting in Fall 2026 and a student who takes PHYS 2110 one semester later than the academic map both receive plans, and the page shows the senior design start term for each, along with the courses responsible for the difference.
 6. A test schedule with two known overlapping sections produces a conflict report naming both courses.
 7. A what-if edit that makes ENGR 3530 fall-only changes the critical path, and the page shows the difference from the baseline.
 

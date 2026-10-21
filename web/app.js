@@ -1356,17 +1356,31 @@ function render() {
 
 // -------------------------------------------------------- export and import
 
+function showStatus(message, extra = null) {
+  const box = $('#status');
+  clear(box).append(el('p', { text: message }));
+  if (extra) box.append(extra);
+  box.append(el('button', { type: 'button', text: 'Dismiss', onclick: () => { box.hidden = true; } }));
+  box.hidden = false;
+}
+
+// Published pages cannot start downloads, so the plan is copied as text. Save it in a .json file to load later.
 function exportState() {
   const text = JSON.stringify({ version: 1, ...state }, null, 2);
+  const fallback = () => {
+    const area = el('textarea', { id: 'export-text', rows: 8, readonly: true });
+    area.value = text;
+    showStatus('Copy this text and save it in a file ending in .json. Load plan file reads it back.', area);
+    area.focus();
+    area.select();
+  };
   try {
-    const url = URL.createObjectURL(new Blob([text], { type: 'application/json' }));
-    const link = el('a', { href: url, download: 'mtsu-degree-plan.json' });
-    document.body.append(link);
-    link.click();
-    link.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    navigator.clipboard.writeText(text).then(
+      () => showStatus('Plan copied. Paste it into a file ending in .json to keep it; Load plan file reads it back.'),
+      fallback,
+    );
   } catch {
-    window.prompt('Copy this text and save it in a file:', text);
+    fallback();
   }
 }
 
@@ -1379,8 +1393,9 @@ function importState(file) {
       if (!data.catalogs[state.catalog_year]) state.catalog_year = Object.keys(data.catalogs)[0] ?? state.catalog_year;
       saveState();
       render();
+      showStatus('Plan loaded.');
     } catch {
-      window.alert('That file is not a saved plan from this page.');
+      showStatus('That file is not a plan copied from this page. Choose a .json file made with Copy plan.');
     }
   };
   reader.readAsText(file);
@@ -1424,13 +1439,22 @@ async function main() {
   $('#catalog-year').addEventListener('change', (e) => update((s) => { s.catalog_year = e.target.value; s.completed = []; s.in_progress = []; s.choices = {}; s.edits = []; s.options.target_term = null; }));
   $('#btn-export').addEventListener('click', exportState);
   $('#file-import').addEventListener('change', (e) => { if (e.target.files[0]) importState(e.target.files[0]); e.target.value = ''; });
-  $('#btn-reset').addEventListener('click', () => {
-    if (window.confirm('Clear all of your choices and edits on this device?')) {
-      storageRemove(STORAGE_KEY);
-      state = defaultState(Object.keys(data.catalogs)[0] ?? CATALOG_YEARS[0]);
-      ui.graph.selected = null;
-      render();
+  let resetArmed = null;
+  $('#btn-reset').addEventListener('click', (e) => {
+    const button = e.currentTarget;
+    if (!resetArmed) {
+      button.textContent = 'Click again to clear';
+      resetArmed = setTimeout(() => { button.textContent = 'Reset'; resetArmed = null; }, 4000);
+      return;
     }
+    clearTimeout(resetArmed);
+    resetArmed = null;
+    button.textContent = 'Reset';
+    storageRemove(STORAGE_KEY);
+    state = defaultState(Object.keys(data.catalogs)[0] ?? CATALOG_YEARS[0]);
+    ui.graph.selected = null;
+    render();
+    showStatus('Cleared your choices and edits on this device.');
   });
 
   clear($('#main')).append(el('p', { class: 'muted', text: 'Loading data...' }));

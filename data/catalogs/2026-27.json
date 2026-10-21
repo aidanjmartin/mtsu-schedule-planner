@@ -572,7 +572,8 @@
       "season_override": [
         "fall"
       ],
-      "description": null
+      "description": "Rules-based machine vision, vision geometry, AI-based computer vision, deep learning, and industry applications.",
+      "description_unofficial": true
     },
     "ENGR 4600": {
       "title": "Mechatronics Engineering Research",
@@ -611,8 +612,9 @@
         "spring"
       ],
       "suggested_term": "junior-spring",
-      "description": null,
-      "notes": "Proposed course; not in the published 2026-27 catalog. 1 to 3 credit hours per semester, repeatable. ENGR 3600 and ENGR 4600 together count for at most 6 hours. Open to juniors and seniors. Offered every fall and spring."
+      "description": "Undergraduate internship credit.",
+      "notes": "Proposed course; not in the published 2026-27 catalog. 1 to 3 credit hours per semester, repeatable. ENGR 3600 and ENGR 4600 together count for at most 6 hours. Open to juniors and seniors. Offered every fall and spring.",
+      "description_unofficial": true
     },
     "ENGR 1010": {
       "title": "Engineering Colloquium",
@@ -628,8 +630,9 @@
         "spring"
       ],
       "suggested_term": "freshman-fall",
-      "description": null,
-      "notes": "Proposed course; not in the published 2026-27 catalog. 1 credit hour. No prerequisites. Taken in the student's first semester. Offered every fall and spring."
+      "description": "First semester seminar course. Visiting academics, industry professionals, department resources, student organizations, and field trips.",
+      "notes": "Proposed course; not in the published 2026-27 catalog. 1 credit hour. No prerequisites. Taken in the student's first semester. Offered every fall and spring.",
+      "description_unofficial": true
     }
   },
   "requirements": [
@@ -678,6 +681,12 @@
       "type": "choose_hours",
       "hours": 10,
       "label": "Mechatronics electives (10 hours)",
+      "defaults": [
+        "ENGR 3915",
+        "ENGR 3970",
+        "ENGR 4550",
+        "ENGR 4500"
+      ],
       "options": [
         "ENGR 3600",
         "ENGR 3915",

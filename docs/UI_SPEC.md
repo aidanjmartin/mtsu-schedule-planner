@@ -62,7 +62,7 @@ The core circle sits in the center. The required circle and the four elective ci
 
 **Drawing.** The map is drawn in SVG by React, with animation by the Motion library. Animation respects the reduced-motion setting. The canvas uses the site's light theme and the logo blue as the accent, with the subject colors kept soft so the selected course and its arrows stand out.
 
-**Descriptions.** Catalog descriptions are stored in the catalog file as a `description` field for each course. ENGR 1010, 3600, 4570, and 4600 have no catalog description yet; their panel reads "Proposed course. Description coming soon." until the program owner supplies one.
+**Descriptions.** Catalog descriptions are stored in the catalog file as a `description` field for each course. ENGR 1010, 3600, 4570, and 4600 are proposed courses with no catalog description. ENGR 1010, 3600, and 4570 show the program owner's placeholder text under the label "Unofficial description." ENGR 4600 reads "Proposed course. Description coming soon."
 
 ### 2. Plan my degree (`#/plan`)
 

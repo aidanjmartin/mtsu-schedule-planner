@@ -67,7 +67,7 @@ All data files are JSON. Course identifiers use the subject, one space, and the 
 - `credits`: total hours for the planning unit, including any lab component.
 - `credits` may also be an object `{ "min": 1, "max": 3 }` for a course whose hours vary by semester. Such a course has `"repeatable": true` when a student may take it in more than one semester.
 - `first_semester`: optional `true` for a course every student takes in their first semester (ENGR 1010).
-- `description`: the catalog description, or `null` for a proposed course.
+- `description`: the catalog description, or `null` for a proposed course with no description yet. `description_unofficial: true` marks a placeholder description supplied by the program owner for a proposed course.
 - `components`: the course numbers that need a section in the schedule. A lecture and its required lab form one unit with two components.
 - `prereqs`: `null`, or an expression built from:
   - a course identifier string, meaning "completed in an earlier term";
@@ -79,7 +79,7 @@ All data files are JSON. Course identifiers use the subject, one space, and the 
 - `suggested_term`: the academic map position, `<year>-<season>` with year `freshman`, `sophomore`, `junior`, or `senior` and season `fall`, `spring`, or `summer`. Used for graph layout and as the baseline plan.
 - `notes`: required whenever sources disagree or a value needs a human check. Start such notes with `CHECK:`.
 - `requirements`: every course in `courses` must appear in exactly one requirement. Placeholder requirements reserve hours only.
-- A `choose_hours` requirement is met by choosing options whose credit hours add up to exactly `hours`. Its optional `limits` list caps the combined hours of a set of courses, for example `{ "courses": ["ENGR 3600", "ENGR 4600"], "max_hours": 6 }`.
+- A `choose_hours` requirement is met by choosing options whose credit hours add up to exactly `hours`. Its optional `limits` list caps the combined hours of a set of courses, for example `{ "courses": ["ENGR 3600", "ENGR 4600"], "max_hours": 6 }`. Its optional `defaults` list names the courses the planner assumes when the student picks nothing; it fills any hours the student's picks leave open in that order, then in the order of `options`.
 
 ```json
 {

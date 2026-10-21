@@ -28,7 +28,7 @@ export function isNewCourse(catalog, id) {
 /** Sentence for new courses that have no published class times. */
 export function newCourseTimesText(ids) {
   if (ids.length === 0) return '';
-  const names = ids.length === 1 ? ids[0] : `${ids.slice(0, -1).join(', ')} and ${ids[ids.length - 1]}`;
+  const names = ids.length === 1 ? ids[0] : ids.length === 2 ? `${ids[0]} and ${ids[1]}` : `${ids.slice(0, -1).join(', ')}, and ${ids[ids.length - 1]}`;
   return ids.length === 1
     ? `${names} is a new course, so its class times aren't published yet.`
     : `${names} are new courses, so their class times aren't published yet.`;

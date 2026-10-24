@@ -1,8 +1,8 @@
 {
-  "time": "2026-10-23T22:47:38-05:00",
-  "current_job": "",
+  "time": "2026-10-23T23:18:22-05:00",
+  "current_job": "tourbot/000-runner-update",
   "pending_jobs": [],
-  "gpu": "NVIDIA RTX 4000 Ada Generation, 3 %, 1039 MiB, 20475 MiB, 30",
+  "gpu": "NVIDIA RTX 4000 Ada Generation, 4 %, 1039 MiB, 20475 MiB, 30",
   "disk_free_gb": 913.1,
   "robot_enabled": true
 }

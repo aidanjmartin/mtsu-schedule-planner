@@ -1,8 +1,8 @@
 {
-  "time": "2026-10-24T03:19:24-05:00",
-  "current_job": "tourbot/330-rl-short-train",
+  "time": "2026-10-24T03:49:25-05:00",
+  "current_job": "tourbot/340-rl-long-train",
   "pending_jobs": [],
-  "gpu": "NVIDIA RTX 4000 Ada Generation, 33 %, 1682 MiB, 20475 MiB, 31",
+  "gpu": "NVIDIA RTX 4000 Ada Generation, 32 %, 1670 MiB, 20475 MiB, 36",
   "disk_free_gb": 905.7,
   "robot_enabled": true
 }

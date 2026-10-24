@@ -19,9 +19,10 @@ The site runs entirely in the browser. There is no server and no account. Answer
 | `data/catalogs/` | One hand-encoded catalog file per catalog year (2026-27). |
 | `data/schedule/` | Parsed class schedules, one file per term, plus `index.json` that lists them. `raw/` keeps the saved web pages and is not published. |
 | `data/offerings.json` | Which seasons each course regularly runs, derived from the schedules. |
+| `data/career-tracks.json` | Career tracks with a weight for each elective, for elective optimization. |
 | `importer/` | Python code that reads MTSU's public class schedule and derives offering patterns. |
 | `tests/` | Node tests for the engine and the plan model, and pytest tests for the importer. |
-| `docs/` | The specifications. |
+| `docs/` | The specifications, the data formats, and the engine interface (`ENGINE_API.md`). |
 | `.github/workflows/import-schedule.yml` | Runs the importer on GitHub and commits the results. |
 | `.github/workflows/deploy-pages.yml` | Builds the site and publishes it to GitHub Pages. |
 
@@ -37,7 +38,7 @@ npm run dev
 
 Open the address that Vite prints. `npm run build` writes the finished site to `app/dist/`, and `npm run preview` serves it.
 
-Before every `dev` and `build`, `app/scripts/copy-data.mjs` copies `data/catalogs/`, `data/offerings.json`, and `data/schedule/*.json` (not `raw/`) into `app/public/data/`. That folder is generated and is not committed. The engine is not copied. Vite reads it from `web/engine/`, so there is one engine and no fork.
+Before every `dev` and `build`, `app/scripts/copy-data.mjs` copies `data/catalogs/`, `data/offerings.json`, `data/career-tracks.json`, and `data/schedule/*.json` (not `raw/`) into `app/public/data/`. That folder is generated and is not committed. The engine is not copied. Vite reads it from `web/engine/`, so there is one engine and no fork.
 
 The site is served from `/mtsu-schedule-planner/` on GitHub Pages, which is the `base` setting in `app/vite.config.js`. Change it if the repository name changes.
 
@@ -53,7 +54,7 @@ python3 -m pytest tests/
 
 On Node 21 and newer, `node --test tests/` works through a small helper, `tests/index.js`. You can also run `npm test` from the repository root.
 
-The engine tests use a small synthetic catalog in `tests/fixtures/catalog-small.json`. The plan model tests use the real 2026-27 catalog with a fixed date, and check the two walkthroughs in the interface specification: a first-semester student who starts in Fall 2027 graduates in Spring 2031 and starts senior design in Fall 2030, and a 2nd year fall student who has not finished PHYS 2110 gets an alert naming it. The importer tests use synthetic HTML in `tests/fixtures/` that copies the layout of MTSU's Banner 8 class listing.
+The engine tests use a small synthetic catalog in `tests/fixtures/catalog-small.json`. The tests for the course graph, plan checker, broken-plan report, and elective optimizer (`tests/planner-engine.test.mjs`) use the real 2026-27 catalog, offering patterns, Spring 2027 class schedule, and career tracks. The plan model tests use the real 2026-27 catalog with a fixed date, and check the two walkthroughs in the interface specification: a first-semester student who starts in Fall 2027 graduates in Spring 2031 and starts senior design in Fall 2030, and a 2nd year fall student who has not finished PHYS 2110 gets an alert naming it. The importer tests use synthetic HTML in `tests/fixtures/` that copies the layout of MTSU's Banner 8 class listing.
 
 ## Publish the site
 
@@ -88,7 +89,11 @@ The engine is plain JavaScript in `web/engine/`. Its functions are pure, so they
 - `critical-path.js` runs a forward pass (earliest term) and a backward pass (latest term), and reports slack.
 - `planner.js` fills each term with the courses that are offered and ready, ordered by least slack and then by the longest chain of dependent courses. It reserves general education hours first. This rule gives a good plan, not a guaranteed best plan.
 - `timetable.js` searches section combinations, ranks them by fewest campus days and then fewest classes before 9:00 a.m., and explains conflicts.
-- `whatif.js` applies edits to copies of the data and compares results with the baseline.
+- `whatif.js` applies edits to copies of the data and compares results with the baseline. `findBrokenPlans` applies a curriculum change and reports which saved plans break.
+- `graph.js` builds the course data model and the prerequisite and corequisite graph. A corequisite is a course a student may take in the same term or earlier.
+- `checker.js` checks a plan a student or instructor wrote: missing prerequisites, class standing, overloaded terms, courses planned in a season they do not run, missing requirements, elective hours, time conflicts, and senior design readiness. Each problem comes with fixes the checker has applied to a copy of the plan and confirmed.
+- `electives.js` recommends elective sets for a career track. It lists every set that meets the hour requirement, scores each by track fit, and plans the best ones to rank them by graduation term, senior design start, and fit.
+- `index.js` exports the whole interface. `docs/ENGINE_API.md` documents it.
 
 ## Run the schedule importer on your computer
 
@@ -125,3 +130,5 @@ All knowledge of MTSU's site sits in `importer/banner8.py`. MTSU plans to move t
 - Summer terms, precalculus starts, and catalog years other than 2026-27 are out of scope.
 - Slack and critical path ignore the credit limit. The planner applies the credit limit afterward, so a plan can finish later than the critical path alone suggests.
 - Offering patterns come from past terms. They do not promise that a course runs in a future term.
+- The career track weights in `data/career-tracks.json` have not been reviewed by the program owner.
+- The plan checker counts general education only as hours (`other_hours`). It does not check which general education areas a plan covers.

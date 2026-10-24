@@ -22,7 +22,7 @@ In scope:
 - General education (True Blue Core) requirements as placeholders with credit hours and preferred terms. The planner reserves hours for them but does not schedule their sections.
 - A single web page that runs entirely in the browser. No server, no accounts, and no student data leaves the device.
 
-Out of scope for the proof of concept: career-track elective optimization, the buddy system, minors, transfer credit rules, grade-based rules beyond pass/fail, and department-wide forecasts.
+Out of scope for the proof of concept: the buddy system, minors, transfer credit rules, grade-based rules beyond pass/fail, and department-wide forecasts.
 
 ## Components
 

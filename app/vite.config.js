@@ -17,4 +17,11 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 1800,
   },
+  // Component tests run with Vitest in a simulated browser (jsdom). `npm test` runs them.
+  test: {
+    environment: 'jsdom',
+    include: ['test/**/*.test.{js,jsx}'],
+    setupFiles: ['test/setup.js'],
+    testTimeout: 30000,
+  },
 });

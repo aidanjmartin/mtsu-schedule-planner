@@ -3,6 +3,8 @@ name: Deploy site
 # Builds the React app in app/ and publishes it to GitHub Pages (Settings > Pages > Source: GitHub Actions).
 # A push made with the built-in GITHUB_TOKEN does not start other workflows, so the schedule import cannot
 # trigger this one with its commit. The workflow_run trigger below deploys after the import finishes instead.
+# Every trigger is limited to main: a push to main, an import run on main, or a manual run started on main.
+# A manual run started on any other branch skips both jobs, so nothing deploys until a change is merged.
 
 on:
   push:
@@ -24,8 +26,10 @@ concurrency:
 
 jobs:
   build:
-    # After an import run, deploy only when the import succeeded.
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    # Build only from main. After an import run, deploy only when the import succeeded.
+    if: >-
+      (github.event_name == 'workflow_run' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.conclusion == 'success')
+      || (github.event_name != 'workflow_run' && github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -41,6 +45,9 @@ jobs:
         working-directory: app
       - name: Test the engine and the plan model
         run: node --test tests/
+      - name: Test the interface components
+        run: npm test
+        working-directory: app
       - name: Build the site
         run: npm run build
         working-directory: app

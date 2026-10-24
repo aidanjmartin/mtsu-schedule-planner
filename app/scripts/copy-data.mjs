@@ -1,5 +1,5 @@
 // Copies the repository's data/ folder into app/public/data so the built site can load it.
-// It copies catalogs, offerings.json, and the parsed schedule files. It skips data/schedule/raw
+// It copies catalogs, offerings.json, career-tracks.json, and the parsed schedule files. It skips data/schedule/raw
 // (the saved web pages), which the site never reads.
 
 import fs from 'node:fs';
@@ -23,8 +23,8 @@ function copy(from, to) {
 for (const file of fs.readdirSync(path.join(source, 'catalogs'))) {
   if (file.endsWith('.json')) copy(path.join(source, 'catalogs', file), path.join(target, 'catalogs', file));
 }
-if (fs.existsSync(path.join(source, 'offerings.json'))) {
-  copy(path.join(source, 'offerings.json'), path.join(target, 'offerings.json'));
+for (const file of ['offerings.json', 'career-tracks.json']) {
+  if (fs.existsSync(path.join(source, file))) copy(path.join(source, file), path.join(target, file));
 }
 const scheduleDir = path.join(source, 'schedule');
 if (fs.existsSync(scheduleDir)) {

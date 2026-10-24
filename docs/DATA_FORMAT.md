@@ -172,6 +172,14 @@ Saved in browser state and in exported files as an ordered list. Each edit appli
   { "type": "set_seasons", "course": "ENGR 3530", "regular_seasons": ["fall"] },
   { "type": "set_credits", "course": "ENGR 2100", "credits": 3 },
   { "type": "move_requirement", "course": "ENGR 3970", "to": "engr-elective" },
+  { "type": "set_standing", "course": "ENGR 3590", "standing": "junior" },
+  {
+    "type": "add_course",
+    "course": "ENGR 4620",
+    "requirement": "engr-core",
+    "definition": { "title": "Capstone Seminar", "credits": 1, "prereqs": "ENGR 3590", "season_override": ["fall"] }
+  },
+  { "type": "remove_course", "course": "ENGR 3530" },
   {
     "type": "set_meeting_pattern",
     "course": "ENGR 3510",
@@ -193,3 +201,44 @@ Saved in browser state and in exported files as an ordered list. Each edit appli
   "edits": []
 }
 ```
+
+## Career tracks: `data/career-tracks.json`
+
+```json
+{
+  "version": 1,
+  "catalog_year": "2026-27",
+  "requirement": "engr-elective",
+  "notes": "CHECK: ...",
+  "tracks": [
+    {
+      "id": "robotics-automation",
+      "label": "Robotics and automation",
+      "description": "Designing, programming, and maintaining robots and automated production lines.",
+      "weights": { "ENGR 4550": 3, "ENGR 4570": 3, "ENGR 4560": 2, "ENGR 3915": 1, "ENGR 4540": 0 },
+      "why": { "ENGR 4550": "Robot kinematics, dynamics, control, and path planning." }
+    }
+  ]
+}
+```
+
+- `requirement`: the `choose_hours` requirement the tracks apply to.
+- `weights`: a whole number from 0 (no help toward the track) to 3 (central to the track) for each option of that requirement. A missing option counts as 0.
+- `why`: an optional one-sentence reason for a course's weight, shown with a recommendation.
+
+## Plans for the checker
+
+The plan checker (`web/engine/checker.js`) reads a plan a student or instructor wrote:
+
+```json
+{
+  "completed": ["MATH 1910", "ENGR 1010"],
+  "in_progress": ["MATH 1920"],
+  "terms": [
+    { "term": "2027FA", "courses": ["ENGR 2110", { "course": "ENGR 3600", "hours": 2 }], "other_hours": 6 }
+  ],
+  "options": { "max_credits": 17, "summer_allowed": false }
+}
+```
+
+`other_hours` counts hours that are not catalog courses, such as general education. `docs/ENGINE_API.md` lists every field and option.

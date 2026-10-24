@@ -6,4 +6,6 @@ if (Number(process.versions.node.split('.')[0]) >= 21) {
   import('./exploremodel.test.mjs');
   import('./flowlayout.test.mjs');
   import('./planner-engine.test.mjs');
+  import('./termlayout.test.mjs');
+  import('./plancheck.test.mjs');
 }

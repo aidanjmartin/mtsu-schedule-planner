@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { computeResult, LOADS } from '../lib/planModel.js';
 import { terms as T } from '../lib/engine.js';
 import ClassTimes, { useClassTimes } from './ClassTimes.jsx';
+import CheckPlan from './CheckPlan.jsx';
 import { listText, plural, isNewCourse } from '../lib/format.js';
 
 const STATUS = {
@@ -139,6 +140,8 @@ export default function Results({ catalog, offerings, scheduleTerms, answers, on
           {result.terms.map((t, i) => <SemesterCard key={t.term} term={t} last={i === result.terms.length - 1} />)}
         </div>
       </section>
+
+      <CheckPlan catalog={catalog} offerings={offerings} result={result} />
 
       <ClassTimes catalog={catalog} result={result} info={info} pick={pick} setPick={setPick} />
 

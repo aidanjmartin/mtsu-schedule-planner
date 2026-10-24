@@ -10,7 +10,9 @@ The site has three pages, reached from a top bar that is present on every page. 
 
 ### 1. Explore (home, `#/explore`)
 
-**Two views.** A switch at the top of the map offers **Circle view** (described below, the default) and **Flow view**. The page remembers the student's last choice on that device. Both views use the same course data, subject colors, details panel, and search.
+**Three views.** A switch at the top of the map offers **Term view** (the default), **Circle view**, and **Flow view**. The page remembers the student's last choice on that device. All three views use the same course data, subject colors, details panel, and search.
+
+**Term view** arranges the courses by academic map semester: one column per semester, labeled "Year 1 Fall" through "Year 4 Spring," with the number of courses in each. Required courses sit at the top of their column, and elective options sit below an "Elective options" divider. On a wide screen, Years 1 and 2 form the top band and Years 3 and 4 the band below it. At phone width the semesters stack in one column, two tiles across. Selecting a course works as in Flow view: solid lines lead back to every course it needs, dashed lines lead on to every course it opens up, and unconnected courses fade.
 
 **Flow view** is the earlier flow chart: every course as a tile in its subject group, with prerequisite lines drawn when a course is selected. Group boxes follow the subject table below, with each elective career area as its own box. Tiles show the full course title (wrapping to two lines when needed, with the full title on hover). At phone width the chart opens fitted to the screen width, with a "Drag to move, pinch to zoom" hint.
 
@@ -85,6 +87,7 @@ The planner keeps each course in its academic map semester whenever the student'
 - **Semester cards** in order through graduation. Each card lists its courses with credit hours, total hours, and open general education hours. Senior design courses are visually marked.
 - **Plain-language alerts**, only where they apply, for example: "ENGR 3540 must be taken by Fall 2028, or senior design moves to Fall 2029." "ENGR 4570 is first offered in Fall 2027."
 - **Next semester's class times:** a weekly calendar for the first semester of the plan, with one set of sections that fit together without time overlaps, plus alternatives. Sections with set meeting times come before online or "time to be announced" sections. When the next semester's schedule is not published yet, the calendar uses the same semester from the previous year and says so.
+- **Check a change:** the student picks a planned course and a semester to move it to. The plan checker (`checkPlan` in `web/engine/checker.js`) checks the whole changed plan and lists each conflict, such as a prerequisite not finished, a course not offered that semester, or too many credit hours. Each conflict shows the fixes the checker confirmed against the whole plan, each with an **Apply fix** button. A fix that adds a semester at the end is listed after the fixes that do not. The changed plan appears as one row per semester with conflicting courses marked, and **Undo all changes** returns to the recommended plan. The recommended plan above, and the PDF, stay as they are.
 - **Export PDF** downloads a file named like `mechatronics-plan-fall-2026.pdf`.
 - **Start over** and **Edit answers** buttons.
 
@@ -104,10 +107,10 @@ Light theme throughout, white surfaces, MTSU blue from the logo as the single ac
 
 - React with Vite, JavaScript (no TypeScript), plain CSS with design tokens.
 - The planning engine in `web/engine/` is reused unchanged and imported by the React app.
-- Course map: React Flow with fixed group layout.
+- Course map: React Flow with fixed layouts (Term view and Flow view) and SVG drawn by React (Circle view).
 - PDF: generated in the browser with @react-pdf/renderer, so the button downloads a real file.
 - Data: `data/` is copied into the build at build time. No server.
-- Hosting: GitHub Pages, deployed by a GitHub Actions workflow on every push to `main`.
+- Hosting: GitHub Pages, deployed by a GitHub Actions workflow from `main` only.
 - Student answers save in browser storage on that device only, with a clear "Start over."
 
 ## Out of scope
@@ -122,5 +125,6 @@ Accounts, sharing plans with advisors, summer terms, precalculus starts, catalog
 4. Export PDF downloads a readable plan that matches the screen.
 5. On the Explore map, every area opens and closes, every course can be selected, its prerequisites and the courses it opens up are linked across open areas, and the map works at phone width.
 6. The site loads from GitHub Pages with no console errors.
-7. Both Explore views work at desktop and phone width, the switch remembers the last view, and Circle view opens by default.
+7. All three Explore views work at desktop and phone width, the switch remembers the last view, and Term view opens by default.
+9. On the plan page, moving a course to a semester that breaks the plan lists each conflict with at least one fix, and applying a fix that clears every conflict returns the message "Your plan has no conflicts."
 8. A first-semester student's plan places ENGR 1010 in the first semester, in the same semester as ENGR 1100 or earlier.

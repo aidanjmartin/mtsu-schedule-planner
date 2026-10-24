@@ -4,8 +4,8 @@ A degree planner for MTSU Mechatronics Engineering B.S. students. It answers one
 
 The site has three pages:
 
-- **Course map** (`#/explore`, the home page). A map of every course in the degree, grouped by subject. Selecting a course highlights what the student needs first (solid lines) and what it opens up (dashed lines), and a side panel (a bottom sheet on phones) explains the course in plain words.
-- **Plan my degree** (`#/plan`). A six-step walkthrough: where the student is in the program, finished courses, courses taken this semester, 10 hours of electives, credit hours per semester, and the plan. The plan lists every semester through graduation, explains anything that needs attention, shows next semester's class times, and exports a PDF.
+- **Course map** (`#/explore`, the home page). A map of every course in the degree with three views: Term view (the default) arranges courses in columns by academic map semester, Circle view groups them into areas that open into rings, and Flow view groups them by subject. Selecting a course highlights what the student needs first (solid lines) and what it opens up (dashed lines), and a side panel (a bottom sheet on phones) explains the course in plain words.
+- **Plan my degree** (`#/plan`). A six-step walkthrough: where the student is in the program, finished courses, courses taken this semester, 10 hours of electives, credit hours per semester, and the plan. The plan lists every semester through graduation, explains anything that needs attention, shows next semester's class times, and exports a PDF. **Check a change** lets the student move a course to another semester and lists each conflict the plan checker finds, with fixes to apply.
 - **Advanced** (`#/advanced`, linked from the footer). Tools for the program owner: what-if edits with a baseline comparison, the critical path and slack table, and full section timetables.
 
 The site runs entirely in the browser. There is no server and no account. Answers save in the browser on that device only, and **Start over** clears them. The name a student types for the PDF is never stored. The interface specification is `docs/UI_SPEC.md`. The data formats are in `docs/DATA_FORMAT.md`.
@@ -21,7 +21,8 @@ The site runs entirely in the browser. There is no server and no account. Answer
 | `data/offerings.json` | Which seasons each course regularly runs, derived from the schedules. |
 | `data/career-tracks.json` | Career tracks with a weight for each elective, for elective optimization. |
 | `importer/` | Python code that reads MTSU's public class schedule and derives offering patterns. |
-| `tests/` | Node tests for the engine and the plan model, and pytest tests for the importer. |
+| `tests/` | Node tests for the engine, the plan model, and the map layouts, and pytest tests for the importer. |
+| `app/test/` | Component tests for the site, run with Vitest in a simulated browser (jsdom). |
 | `docs/` | The specifications, the data formats, and the engine interface (`ENGINE_API.md`). |
 | `.github/workflows/import-schedule.yml` | Runs the importer on GitHub and commits the results. |
 | `.github/workflows/deploy-pages.yml` | Builds the site and publishes it to GitHub Pages. |
@@ -52,6 +53,16 @@ node --test tests/
 python3 -m pytest tests/
 ```
 
+The component tests in `app/test/` need Node 20 or newer and the site's packages:
+
+```
+cd app
+npm install
+npm test
+```
+
+They cover the top bar and footer, page routing, the Term view's columns and highlighting, the plan walkthrough, Check a change with its fixes, and the PDF, which they draw with the real PDF library.
+
 On Node 21 and newer, `node --test tests/` works through a small helper, `tests/index.js`. You can also run `npm test` from the repository root.
 
 The engine tests use a small synthetic catalog in `tests/fixtures/catalog-small.json`. The tests for the course graph, plan checker, broken-plan report, and elective optimizer (`tests/planner-engine.test.mjs`) use the real 2026-27 catalog, offering patterns, Spring 2027 class schedule, and career tracks. The plan model tests use the real 2026-27 catalog with a fixed date, and check the two walkthroughs in the interface specification: a first-semester student who starts in Fall 2027 graduates in Spring 2031 and starts senior design in Fall 2030, and a 2nd year fall student who has not finished PHYS 2110 gets an alert naming it. The importer tests use synthetic HTML in `tests/fixtures/` that copies the layout of MTSU's Banner 8 class listing.
@@ -60,10 +71,10 @@ The engine tests use a small synthetic catalog in `tests/fixtures/catalog-small.
 
 `.github/workflows/deploy-pages.yml` builds `app/` and deploys it with GitHub Pages. In the repository settings, set Pages to the **GitHub Actions** source once. After that the workflow runs:
 
-- on every push to `main`, and
-- when the "Import class schedule" workflow finishes successfully. A commit made with the built-in `GITHUB_TOKEN` does not start other workflows, so this second trigger makes new schedule data reach the site.
+- on every push to `main`,
+- and when the "Import class schedule" workflow finishes successfully. A commit made with the built-in `GITHUB_TOKEN` does not start other workflows, so this second trigger makes new schedule data reach the site.
 
-You can also start it by hand from the Actions tab.
+You can also start it by hand from the Actions tab. Every trigger is limited to `main`: a manual run started on any other branch skips the build and deploy jobs, so nothing reaches the site until a change is merged. The workflow runs the Node tests and the component tests before it builds.
 
 ## How the plan page works
 

@@ -8,3 +8,6 @@ export * as critical from '../../../web/engine/critical-path.js';
 export * as planner from '../../../web/engine/planner.js';
 export * as timetable from '../../../web/engine/timetable.js';
 export * as whatif from '../../../web/engine/whatif.js';
+export * as graph from '../../../web/engine/graph.js';
+export * as checker from '../../../web/engine/checker.js';
+export * as electives from '../../../web/engine/electives.js';

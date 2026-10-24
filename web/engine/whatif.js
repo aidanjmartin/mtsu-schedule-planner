@@ -2,12 +2,16 @@
 // Nothing here changes its inputs: every function returns new objects.
 
 import { planTerms } from './planner.js';
+import { checkPlan, planFromPlanner } from './checker.js';
 import { planTimetables, movableFromAnalysis } from './timetable.js';
 import { validateCatalog } from './validate.js';
 import { normalizePrereqs, prereqCourses } from './prereqs.js';
 import { termDistance, termLabel } from './terms.js';
 
-export const EDIT_TYPES = ['set_prereqs', 'set_seasons', 'set_credits', 'move_requirement', 'set_meeting_pattern'];
+export const EDIT_TYPES = [
+  'set_prereqs', 'set_seasons', 'set_credits', 'move_requirement', 'set_meeting_pattern',
+  'set_standing', 'add_course', 'remove_course',
+];
 
 const clone = (value) => JSON.parse(JSON.stringify(value));
 const SEASONS = ['fall', 'spring', 'summer'];
@@ -25,6 +29,12 @@ export function describeEdit(edit) {
       return `Move ${edit.course} to the requirement "${edit.to}"`;
     case 'set_meeting_pattern':
       return `Replace the meeting pattern of ${edit.course} in ${edit.term}`;
+    case 'set_standing':
+      return edit.standing ? `Require ${edit.standing} standing for ${edit.course}` : `Remove the class standing rule from ${edit.course}`;
+    case 'add_course':
+      return `Add ${edit.course} to the requirement "${edit.requirement}"`;
+    case 'remove_course':
+      return `Remove ${edit.course} from the curriculum`;
     default:
       return `Unknown edit "${edit.type}"`;
   }
@@ -46,6 +56,21 @@ export function applyEdits({ catalog, schedules = {}, edits = [] }) {
     const fail = (message) => errors.push({ position, edit, message });
     const def = out.courses[edit.course];
     if (!EDIT_TYPES.includes(edit.type)) return fail(`Unknown edit type "${edit.type}".`);
+    if (edit.type === 'add_course') {
+      if (def) return fail(`${edit.course} is already in the catalog.`);
+      if (!/^[A-Z]{2,5} \d{4}[A-Z]?$/.test(edit.course ?? '')) return fail('The new course needs an id such as "ENGR 4620".');
+      const course = { components: [edit.course], prereqs: null, standing: null, notes: 'Added by a what-if edit.', ...(edit.definition ?? {}) };
+      if (typeof course.title !== 'string' || !course.title) return fail('The new course needs a title.');
+      try { normalizePrereqs(course.prereqs); } catch (e) { return fail(e.message); }
+      const unknown = prereqCourses(normalizePrereqs(course.prereqs)).filter((c) => !out.courses[c]);
+      if (unknown.length) return fail(`These courses are not in the catalog: ${unknown.join(', ')}.`);
+      const target = out.requirements.find((r) => r.id === edit.requirement);
+      if (!target || target.type === 'placeholder') return fail(`There is no course requirement "${edit.requirement}".`);
+      out.courses[edit.course] = course;
+      (target.type === 'all' ? target.courses : target.options).push(edit.course);
+      applied.push(edit);
+      return undefined;
+    }
     if (!def) return fail(`${edit.course} is not in the catalog.`);
 
     if (edit.type === 'set_prereqs') {
@@ -73,6 +98,24 @@ export function applyEdits({ catalog, schedules = {}, edits = [] }) {
       }
       const list = target.type === 'all' ? target.courses : target.options;
       list.push(edit.course);
+    } else if (edit.type === 'set_standing') {
+      if (edit.standing !== null && !(catalog.standing_hours && edit.standing in catalog.standing_hours)) {
+        return fail('Standing must be null or a level listed in standing_hours, such as junior.');
+      }
+      def.standing = edit.standing;
+    } else if (edit.type === 'remove_course') {
+      delete out.courses[edit.course];
+      for (const req of out.requirements) {
+        if (req.type === 'all') req.courses = req.courses.filter((c) => c !== edit.course);
+        if (req.type === 'choose' || req.type === 'choose_hours') {
+          req.options = req.options.filter((c) => c !== edit.course);
+          if (req.defaults) req.defaults = req.defaults.filter((c) => c !== edit.course);
+          for (const limit of req.limits ?? []) limit.courses = limit.courses.filter((c) => c !== edit.course);
+        }
+      }
+      for (const m of out.milestones ?? []) m.courses = (m.courses ?? []).filter((c) => c !== edit.course);
+      // Courses that listed it lose that prerequisite. An any-of group keeps its other alternatives.
+      for (const other of Object.values(out.courses)) other.prereqs = stripCourse(other.prereqs, edit.course);
     } else if (edit.type === 'set_meeting_pattern') {
       if (!/^\d{4}(FA|SP|SU)$/.test(edit.term ?? '')) return fail('The edit needs a term such as 2027SP.');
       if (!Array.isArray(edit.meetings)) return fail('The edit needs a list of meetings.');
@@ -106,6 +149,22 @@ export function applyEdits({ catalog, schedules = {}, edits = [] }) {
   const before = new Set(validateCatalog(catalog).errors.map((e) => e.message));
   const newProblems = validateCatalog(out).errors.filter((e) => !before.has(e.message));
   return { catalog: out, schedules: outSchedules, errors, applied, new_problems: newProblems };
+}
+
+/** Remove one course from a catalog prerequisite expression. Empty groups disappear. */
+function stripCourse(expr, course) {
+  if (expr === null || expr === undefined) return null;
+  if (typeof expr === 'string') return expr === course ? null : expr;
+  if (typeof expr.course === 'string') return expr.course === course ? null : expr;
+  for (const key of ['all', 'any']) {
+    if (Array.isArray(expr[key])) {
+      const items = expr[key].map((x) => stripCourse(x, course)).filter((x) => x !== null);
+      if (items.length === 0) return null;
+      if (items.length === 1) return items[0];
+      return { [key]: items };
+    }
+  }
+  return expr;
 }
 
 // ---------------------------------------------------------------- comparisons
@@ -260,4 +319,86 @@ export function diffTimetables(base, alt) {
     base_conflicts: base.conflicts.map((c) => c.courses),
     alt_conflicts: alt.conflicts.map((c) => c.courses),
   };
+}
+
+// ------------------------------------------------------------- broken plans
+
+/**
+ * Apply a curriculum change and report which plans break.
+ * `plans` is a list of { id, label, plan } where `plan` is checker input (see checker.js normalizePlan).
+ * Each plan is checked against the unchanged catalog and against the changed one. A plan breaks when the change
+ * adds an error the plan did not have before. Returns {
+ *   edits, edit_errors, new_problems,
+ *   summary,                              // one sentence
+ *   counts: { breaks, still_ok, already_broken, fixed },
+ *   plans: [{ id, label, status, new_issues, resolved_issues, readiness: { before, after }, message }],
+ * }
+ * `status` is 'breaks' (new errors), 'fixed' (errors gone, none added), 'already_broken' (errors before and after,
+ * none new), or 'still_ok'. Each new issue carries the fixes the checker found under the changed catalog.
+ */
+export function findBrokenPlans({ catalog, offerings = null, schedules = {}, edits = [], plans = [] }) {
+  const applied = applyEdits({ catalog, schedules, edits });
+  const errorsOf = (r) => r.issues.filter((i) => i.severity === 'error');
+  const counts = { breaks: 0, still_ok: 0, already_broken: 0, fixed: 0 };
+  const results = plans.map((entry, n) => {
+    const id = entry.id ?? `plan-${n + 1}`;
+    const label = entry.label ?? id;
+    const before = checkPlan({ catalog, offerings, schedules, plan: entry.plan, fixes: false });
+    const after = checkPlan({ catalog: applied.catalog, offerings, schedules: applied.schedules, plan: entry.plan });
+    const beforeIds = new Set(errorsOf(before).map((i) => i.id));
+    const afterIds = new Set(errorsOf(after).map((i) => i.id));
+    const newIssues = errorsOf(after).filter((i) => !beforeIds.has(i.id));
+    const resolved = errorsOf(before).filter((i) => !afterIds.has(i.id));
+    let status;
+    if (newIssues.length) status = 'breaks';
+    else if (beforeIds.size && afterIds.size === 0) status = 'fixed';
+    else if (afterIds.size) status = 'already_broken';
+    else status = 'still_ok';
+    counts[status] += 1;
+    const sdBefore = before.readiness.find((r) => r.id === 'senior-design') ?? before.readiness[0] ?? null;
+    const sdAfter = after.readiness.find((r) => r.id === 'senior-design') ?? after.readiness[0] ?? null;
+    let message;
+    if (status === 'breaks') message = `${label} breaks: ${newIssues.map((i) => i.message).join(' ')}`;
+    else if (status === 'fixed') message = `${label} had problems that the change clears.`;
+    else if (status === 'already_broken') message = `${label} had problems before the change and gains no new ones.`;
+    else message = `${label} still works.`;
+    return {
+      id, label, status,
+      new_issues: newIssues,
+      resolved_issues: resolved,
+      readiness: {
+        before: sdBefore ? { status: sdBefore.status, planned_term: sdBefore.planned_term, ready_term: sdBefore.ready_term } : null,
+        after: sdAfter ? { status: sdAfter.status, planned_term: sdAfter.planned_term, ready_term: sdAfter.ready_term, message: sdAfter.message } : null,
+      },
+      message,
+    };
+  });
+  const total = plans.length;
+  const changeText = edits.length ? edits.map(describeEdit).join('; ') : 'No change';
+  const summary = total === 0
+    ? `${changeText}. No plans to check.`
+    : `${changeText}. ${counts.breaks} of ${total} ${total === 1 ? 'plan breaks' : 'plans break'}.`;
+  return {
+    edits: applied.applied,
+    edit_errors: applied.errors,
+    new_problems: applied.new_problems,
+    summary,
+    counts,
+    plans: results,
+  };
+}
+
+/**
+ * Plans the planner makes for a set of example students, in checker form, for what-if checks when no saved plans
+ * exist. `students` lists planner student states, each with an optional `id` and `label`.
+ */
+export function plannerPlans({ catalog, offerings = null, students = [] }) {
+  return students.map((student, n) => {
+    const plan = planTerms({ catalog, offerings, student });
+    return {
+      id: student.id ?? `student-${n + 1}`,
+      label: student.label ?? `Student starting ${termLabel(student.start_term)}`,
+      plan: planFromPlanner(plan, student),
+    };
+  });
 }

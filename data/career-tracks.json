@@ -1,0 +1,140 @@
+{
+  "version": 1,
+  "catalog_year": "2026-27",
+  "requirement": "engr-elective",
+  "notes": "CHECK: The program owner has not reviewed these tracks or weights. They start from the elective groups on the plan page and the 2026-27 course descriptions. A weight runs from 0 (no help toward the track) to 3 (central to the track). Proposed courses (ENGR 3600, ENGR 4570, ENGR 4600) are weighted from their working descriptions. Internship credit (ENGR 3600) and research credit (ENGR 4600) depend on finding an employer or a faculty project, so they carry lower weights outside the tracks they serve directly.",
+  "tracks": [
+    {
+      "id": "robotics-automation",
+      "label": "Robotics and automation",
+      "description": "Designing, programming, and maintaining robots and automated production lines.",
+      "weights": {
+        "ENGR 4550": 3,
+        "ENGR 4570": 3,
+        "ENGR 4560": 2,
+        "ENGR 3600": 1,
+        "ENGR 4600": 1,
+        "ENGR 3915": 1,
+        "ENGR 3970": 1,
+        "ENGR 4500": 1,
+        "ENGR 4540": 0
+      },
+      "why": {
+        "ENGR 4550": "Robot kinematics, dynamics, control, and path planning.",
+        "ENGR 4570": "Machine vision guides robots and inspects parts on automated lines.",
+        "ENGR 4560": "Robot controllers run embedded software.",
+        "ENGR 3600": "Work experience in an automation or robotics setting."
+      }
+    },
+    {
+      "id": "embedded-controls",
+      "label": "Embedded systems and controls",
+      "description": "Writing the software and control logic inside machines, sensors, and smart devices.",
+      "weights": {
+        "ENGR 4560": 3,
+        "ENGR 4550": 2,
+        "ENGR 4570": 2,
+        "ENGR 3600": 1,
+        "ENGR 4600": 1,
+        "ENGR 3915": 1,
+        "ENGR 4500": 1,
+        "ENGR 3970": 0,
+        "ENGR 4540": 0
+      },
+      "why": {
+        "ENGR 4560": "Embedded programming, interrupts, and peripheral communication.",
+        "ENGR 4550": "Robots are a main use of embedded control.",
+        "ENGR 4570": "Vision and AI increasingly run on embedded hardware.",
+        "ENGR 3600": "Work experience writing firmware or control software."
+      }
+    },
+    {
+      "id": "manufacturing-management",
+      "label": "Manufacturing and project management",
+      "description": "Leading engineering projects and teams, and justifying equipment and process investments.",
+      "weights": {
+        "ENGR 3915": 3,
+        "ENGR 3970": 3,
+        "ENGR 3600": 2,
+        "ENGR 4500": 2,
+        "ENGR 4570": 1,
+        "ENGR 4550": 1,
+        "ENGR 4560": 0,
+        "ENGR 4540": 0,
+        "ENGR 4600": 0
+      },
+      "why": {
+        "ENGR 3915": "Project management practice and professional development units from the Project Management Institute.",
+        "ENGR 3970": "Capital budgets, replacement analysis, and Lean Six Sigma economics.",
+        "ENGR 3600": "Work experience inside a plant or engineering firm.",
+        "ENGR 4500": "Engineering economics and ethics appear on the Fundamentals of Engineering exam."
+      }
+    },
+    {
+      "id": "energy-systems",
+      "label": "Energy and thermal systems",
+      "description": "Power generation, heating and cooling, and energy efficiency in machines and buildings.",
+      "weights": {
+        "ENGR 4540": 3,
+        "ENGR 4500": 2,
+        "ENGR 3970": 2,
+        "ENGR 3600": 1,
+        "ENGR 4600": 1,
+        "ENGR 3915": 1,
+        "ENGR 4560": 1,
+        "ENGR 4550": 0,
+        "ENGR 4570": 0
+      },
+      "why": {
+        "ENGR 4540": "Thermodynamics, heat transfer, and power cycles.",
+        "ENGR 4500": "Thermodynamics and fluid mechanics appear on the Fundamentals of Engineering exam.",
+        "ENGR 3970": "Energy projects are justified with engineering economics.",
+        "ENGR 3600": "Work experience in an energy or facilities setting."
+      }
+    },
+    {
+      "id": "graduate-research",
+      "label": "Graduate school and research",
+      "description": "Preparing for a master's or doctoral program, or a research and development role.",
+      "weights": {
+        "ENGR 4600": 3,
+        "ENGR 4570": 2,
+        "ENGR 4540": 2,
+        "ENGR 4550": 2,
+        "ENGR 4560": 1,
+        "ENGR 4500": 1,
+        "ENGR 3600": 1,
+        "ENGR 3915": 0,
+        "ENGR 3970": 0
+      },
+      "why": {
+        "ENGR 4600": "Research credit on a faculty project.",
+        "ENGR 4570": "Deep learning and computer vision are active research areas.",
+        "ENGR 4540": "Thermodynamics is a core graduate engineering subject.",
+        "ENGR 4550": "Robotics is a common graduate specialty."
+      }
+    },
+    {
+      "id": "professional-licensure",
+      "label": "Professional engineering license",
+      "description": "Taking the Fundamentals of Engineering exam, the first step toward a Professional Engineer license.",
+      "weights": {
+        "ENGR 4500": 3,
+        "ENGR 3970": 2,
+        "ENGR 4540": 2,
+        "ENGR 3915": 1,
+        "ENGR 3600": 1,
+        "ENGR 4550": 1,
+        "ENGR 4560": 0,
+        "ENGR 4570": 0,
+        "ENGR 4600": 0
+      },
+      "why": {
+        "ENGR 4500": "Direct review for the Fundamentals of Engineering exam.",
+        "ENGR 3970": "Engineering economics is an exam topic.",
+        "ENGR 4540": "Thermodynamics is an exam topic.",
+        "ENGR 3915": "Business practices appear on the exam."
+      }
+    }
+  ]
+}

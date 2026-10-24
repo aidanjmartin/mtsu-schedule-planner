@@ -42,7 +42,7 @@ function FlowLines() {
 }
 
 /**
- * The legend. The Circle view shows subject colors and arrow styles in a column at the left of the map. The Flow view
+ * The legend. The Circle and Term views show subject colors and line styles in a column at the left of the map. The Flow view
  * labels each subject group on the chart, so its legend shows only the line styles, as a strip above the chart. A phone
  * folds the legend away behind a button.
  */
@@ -66,7 +66,7 @@ export default function MapLegend({ narrow, view = 'circle' }) {
             ))}
           </ul>
         )}
-        {view === 'flow' ? <FlowLines /> : <CircleLines />}
+        {view === 'circle' ? <CircleLines /> : <FlowLines />}
       </div>
     </div>
   );

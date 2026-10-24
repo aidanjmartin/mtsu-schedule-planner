@@ -5,6 +5,7 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { flowLayout, TILE_W, TILE_H, subjectKeyOf } from '../lib/mapLayout.js';
+import { termLayout } from '../lib/termLayout.js';
 import { buildEdges, chainsFor } from '../lib/flowGraph.js';
 import { tileLabel } from '../lib/courseGraph.js';
 import { hoursText } from '../lib/exploreModel.js';
@@ -15,6 +16,17 @@ const POS = { t: Position.Top, r: Position.Right, b: Position.Bottom, l: Positio
 
 /** A group's background panel with its name. Not interactive. */
 function GroupNode({ data }) {
+  if (data.kind === 'term') {
+    return (
+      <div className="map-group map-group-term">
+        <div className="map-group-head">
+          <span className="map-group-name">{data.label}</span>
+          <span className="map-group-count">{data.count} {data.count === 1 ? 'course' : 'courses'}</span>
+        </div>
+        {data.dividerY != null && <div className="map-group-divider" style={{ top: data.dividerY }}>Elective options</div>}
+      </div>
+    );
+  }
   return (
     <div className={`map-group map-group-${data.kind}`} style={{ '--g': `var(--g-${data.subject})`, '--gbg': `var(--g-${data.subject}-bg)` }}>
       <div className="map-group-head">
@@ -79,9 +91,9 @@ const STATE_TEXT = {
 const PAD = 12;
 const TOP_NARROW = 56;   // room for the folded legend above the first group
 
-function MapInner({ catalog, selected, onSelect, onPick, narrow, sheetOpen }) {
+function MapInner({ catalog, selected, onSelect, onPick, narrow, sheetOpen, mode = 'flow' }) {
   const flow = useReactFlow();
-  const layout = useMemo(() => flowLayout(narrow), [narrow]);
+  const layout = useMemo(() => (mode === 'term' ? termLayout(catalog, narrow) : flowLayout(narrow)), [catalog, mode, narrow]);
   const edgesAll = useMemo(() => buildEdges(catalog), [catalog]);
   const chains = useMemo(() => (selected ? chainsFor(selected, edgesAll) : null), [selected, edgesAll]);
   const width = useStore((st) => st.width);
@@ -99,7 +111,7 @@ function MapInner({ catalog, selected, onSelect, onPick, narrow, sheetOpen }) {
     const out = layout.groups.map((g) => ({
       id: `group:${g.id}`, type: 'box', position: { x: g.x, y: g.y }, draggable: false, selectable: false, focusable: false,
       zIndex: -1, width: g.w, height: g.h, style: { width: g.w, height: g.h },
-      data: { kind: g.kind, label: g.label, short: g.short, subject: g.subject },
+      data: { kind: g.kind, label: g.label, short: g.short, subject: g.subject, count: g.count, dividerY: g.dividerY },
     }));
     for (const [id, r] of Object.entries(layout.tiles)) {
       const state = courseState(id);
@@ -150,13 +162,13 @@ function MapInner({ catalog, selected, onSelect, onPick, narrow, sheetOpen }) {
     }
   }, [flow, layout, narrow, width, height]);
   useEffect(() => {
-    const key = `${narrow}:${width}x${height}`;
+    const key = `${mode}:${narrow}:${width}x${height}`;
     if (!width || !height || fitted.current === key) return;
     // A small change of size (the address bar on a phone) keeps the student's place. A new layout refits.
-    if (fitted.current && fitted.current.startsWith(`${narrow}:`)) { fitted.current = key; return; }
+    if (fitted.current && fitted.current.startsWith(`${mode}:${narrow}:`)) { fitted.current = key; return; }
     fitted.current = key;
     fitView(0);
-  }, [narrow, width, height, fitView]);
+  }, [mode, narrow, width, height, fitView]);
 
   // Bring a selected tile into view when it is off screen or hidden by the phone's details sheet.
   const lastSelected = useRef(null);
@@ -200,11 +212,11 @@ function MapInner({ catalog, selected, onSelect, onPick, narrow, sheetOpen }) {
         onPaneClick={() => onSelect(null)}
         onMoveStart={(event) => { if (event) setMoved(true); }}
         proOptions={{ hideAttribution: true }}
-        aria-label="Course flow chart. Each tile is a course."
+        aria-label={mode === 'term' ? 'Course map by semester. Each column is a semester and each tile is a course.' : 'Course flow chart. Each tile is a course.'}
       >
         <Background gap={28} size={1} color="#dfe7f1" />
       </ReactFlow>
-      <MapControls catalog={catalog} api={api} onPick={onPick} view="flow" />
+      <MapControls catalog={catalog} api={api} onPick={onPick} view={mode} />
       {narrow && !selected && !moved && <p className="flow-hint" role="note">Drag to move, pinch to zoom</p>}
     </>
   );

@@ -227,6 +227,18 @@
 .map-group-head::before { content: ""; position: absolute; left: 0; top: 9px; bottom: 9px; width: 4px; border-radius: 0 3px 3px 0; background: var(--g); }
 .map-group-kicker { font-size: 12px; font-weight: 600; color: var(--g); border: 1.5px solid var(--g); border-radius: 999px; padding: 0 7px; line-height: 17px; flex: none; background: var(--paper); }
 
+/* Term view: one column per academic map semester */
+.map-group-term {
+  --g: var(--blue); position: relative; border-color: var(--line-strong); background: rgba(255, 255, 255, 0.72);
+}
+.map-group-term .map-group-head { justify-content: space-between; border-bottom-color: var(--line); }
+.map-group-count { font-family: var(--font-body); font-weight: 500; font-size: 12px; color: var(--ink-3); }
+.map-group-divider {
+  position: absolute; left: 14px; right: 14px; height: 30px; display: flex; align-items: center; gap: var(--s-2);
+  font-size: 12px; font-weight: 600; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.04em;
+}
+.map-group-divider::after { content: ""; flex: 1; border-top: 1px dashed var(--line-strong); }
+
 .tile-wrap { width: 100%; height: 100%; }
 .tile {
   all: unset; box-sizing: border-box; display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto 1fr; align-items: baseline;

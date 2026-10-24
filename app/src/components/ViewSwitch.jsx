@@ -1,8 +1,8 @@
 import React from 'react';
 
-const VIEWS = [['circle', 'Circle view'], ['flow', 'Flow view']];
+export const VIEWS = [['term', 'Term view'], ['circle', 'Circle view'], ['flow', 'Flow view']];
 
-/** The switch between the two map views. It is a group of two radio buttons, so a keyboard moves between them with the arrow keys. */
+/** The switch between the map views. It is a group of radio buttons, so a keyboard moves between them with the arrow keys. */
 export default function ViewSwitch({ view, onChange }) {
   const move = (e, index) => {
     if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) return;

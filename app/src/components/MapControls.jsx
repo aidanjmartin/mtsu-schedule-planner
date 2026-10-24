@@ -75,7 +75,14 @@ function HelpPanel({ onClose, view }) {
           <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" /></svg>
         </button>
       </div>
-      {view === 'flow' ? (
+      {view === 'term' ? (
+        <ol>
+          <li><strong>Read left to right.</strong> Each column is a semester on the academic map, from Year 1 Fall to Year 4 Spring. Elective options sit below the line in their column.</li>
+          <li><strong>Select a course.</strong> Solid lines lead back to the courses it needs. Dashed lines lead on to the courses it opens up. Other courses fade.</li>
+          <li><strong>Read the details.</strong> The panel shows the catalog description and what to take first. Select a linked course to follow the chain.</li>
+          <li><strong>Move around.</strong> Drag to move the map. Scroll, pinch, or use the plus and minus buttons to zoom. The corner button fits everything on screen.</li>
+        </ol>
+      ) : view === 'flow' ? (
         <ol>
           <li><strong>Find a course.</strong> Every course is a tile, grouped by subject. Elective areas sit in dashed boxes.</li>
           <li><strong>Select a course.</strong> Solid lines lead back to the courses it needs. Dashed lines lead on to the courses it opens up.</li>
@@ -105,7 +112,7 @@ export default function MapControls({ catalog, api, onPick, view = 'circle' }) {
     <div className="iris-controls">
       {panel === 'search' && <SearchPanel catalog={catalog} onPick={onPick} onClose={() => setPanel(null)} />}
       {panel === 'help' && <HelpPanel onClose={() => setPanel(null)} view={view} />}
-      <div className="ctl-stack" role="group" aria-label={view === 'flow' ? 'Chart controls' : 'Map controls'}>
+      <div className="ctl-stack" role="group" aria-label={view === 'circle' ? 'Map controls' : 'Chart controls'}>
         {buttons.map(([icon, label, run]) => (
           <button key={icon} type="button" className="ctl" onClick={run} aria-label={label} title={label}><Icon name={icon} /></button>
         ))}

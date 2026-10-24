@@ -20,11 +20,22 @@ function useNarrow() {
   return narrow;
 }
 
+const LEDE = {
+  term: 'Each column is a semester on the academic map. Select a course to see what it needs and what it opens up.',
+  circle: 'Open an area to see its courses. Select a course to see what it needs and what it opens up.',
+  flow: 'Every course sits in its subject group. Select a course to see what it needs and what it opens up.',
+};
+
 const VIEW_KEY = 'mtsu-mechatronics-map-view-v1';
 
-/** The map view the student used last on this device. Circle view is the default. */
+const VIEW_IDS = ['term', 'circle', 'flow'];
+
+/** The map view the student used last on this device. Term view is the default. */
 function useMapView() {
-  const [view, setView] = useState(() => (storageGet(VIEW_KEY) === 'flow' ? 'flow' : 'circle'));
+  const [view, setView] = useState(() => {
+    const saved = storageGet(VIEW_KEY);
+    return VIEW_IDS.includes(saved) ? saved : 'term';
+  });
   const change = useCallback((next) => {
     setView(next);
     storageSet(VIEW_KEY, next);
@@ -70,9 +81,7 @@ export default function Explore() {
         <div>
           <h1>Course map</h1>
           <p className="lede">
-            {view === 'flow'
-              ? 'Every course sits in its subject group. Select a course to see what it needs and what it opens up.'
-              : 'Open an area to see its courses. Select a course to see what it needs and what it opens up.'}
+            {LEDE[view]}
           </p>
         </div>
         <a className="btn btn-primary" href="#/plan">Plan my degree</a>
@@ -83,15 +92,15 @@ export default function Explore() {
           <ViewSwitch view={view} onChange={setView} />
           {view === 'flow' && !narrow && <MapLegend narrow={false} view="flow" />}
         </div>
-        {(view === 'circle' || narrow) && <MapLegend narrow={narrow} view={view} />}
-        <section className="map-frame" aria-label={view === 'flow' ? 'Course flow chart' : 'Course map'}>
+        {(view !== 'flow' || narrow) && <MapLegend narrow={narrow} view={view} />}
+        <section className="map-frame" aria-label={view === 'flow' ? 'Course flow chart' : view === 'term' ? 'Course map by semester' : 'Course map'}>
           {view === 'circle' ? (
             <IrisCanvas
               catalog={catalog} open={open} selected={selected} narrow={narrow} sheetOpen={Boolean(selected) && narrow} allOpen={allOpen}
               onOpen={openArea} onClose={closeArea} onSelect={select} onPick={pick} onOpenAll={openAll} onCloseAll={closeAll}
             />
           ) : (
-            <CourseMap catalog={catalog} selected={selected} onSelect={select} onPick={pick} narrow={narrow} sheetOpen={Boolean(selected) && narrow} />
+            <CourseMap mode={view} catalog={catalog} selected={selected} onSelect={select} onPick={pick} narrow={narrow} sheetOpen={Boolean(selected) && narrow} />
           )}
         </section>
         <aside className={`side-panel${selected ? ' is-open' : ''}`} aria-label="Course details" aria-live="polite">

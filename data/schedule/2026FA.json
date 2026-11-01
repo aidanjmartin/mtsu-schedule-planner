@@ -2,7 +2,7 @@
   "term": "2026FA",
   "term_label": "Fall 2026",
   "banner_term_code": "202680",
-  "imported_at": "2026-10-21T00:29:20Z",
+  "imported_at": "2026-11-01T13:31:17Z",
   "source": "https://ssb.mtsu.edu/pls/PROD/bwckschd.p_disp_dyn_sched",
   "subjects": [
     "ENGR",
@@ -3629,6 +3629,18 @@
       "instructional_method": "Thesis",
       "part_of_term": "1",
       "instructor": "Scott T Handy",
+      "meetings": []
+    },
+    {
+      "crn": "86736",
+      "course": "CHEM 6640",
+      "section": "010",
+      "title": "Thesis Research",
+      "credits": 4,
+      "schedule_type": "Masters Thesis",
+      "instructional_method": "Thesis",
+      "part_of_term": "1",
+      "instructor": "Padhuk Gamaralalage Gayan Senavirathne",
       "meetings": []
     },
     {

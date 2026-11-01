@@ -2,7 +2,7 @@
   "term": "2027SP",
   "term_label": "Spring 2027",
   "banner_term_code": "202710",
-  "imported_at": "2026-10-21T00:29:20Z",
+  "imported_at": "2026-11-01T13:31:17Z",
   "source": "https://ssb.mtsu.edu/pls/PROD/bwckschd.p_disp_dyn_sched",
   "subjects": [
     "ENGR",
@@ -327,7 +327,7 @@
       "schedule_type": "Laboratory",
       "instructional_method": "Conventional Methodology",
       "part_of_term": "1",
-      "instructor": "Sarah Sewell Pierce",
+      "instructor": "Sarah Sewell Pierce, Jan Halamek",
       "meetings": [
         {
           "days": "W",
@@ -390,7 +390,7 @@
       "schedule_type": "Laboratory",
       "instructional_method": "Conventional Methodology",
       "part_of_term": "1",
-      "instructor": "Sarah Sewell Pierce",
+      "instructor": "Sarah Sewell Pierce, Paul C Kline",
       "meetings": [
         {
           "days": "M",
@@ -469,7 +469,7 @@
       "crn": "12816",
       "course": "CHEM 1030",
       "section": "003",
-      "title": "(EXL) Chemistry for Consumers: Cosmetics",
+      "title": "(EXL) Topics in Consumer Chemistry: Cosmetics",
       "credits": 4,
       "schedule_type": "Lecture",
       "instructional_method": "Conventional Methodology",
@@ -544,7 +544,7 @@
       "crn": "11863",
       "course": "CHEM 1031",
       "section": "004",
-      "title": "(EXL) Chemistry for Consumers Lab: Cosmetics",
+      "title": "(EXL) Topics in Consumer Chemistry Laboratory: Cosmetics",
       "credits": 0,
       "schedule_type": "Laboratory",
       "instructional_method": "Conventional Methodology",
@@ -1044,7 +1044,7 @@
       "schedule_type": "Lecture",
       "instructional_method": "Conventional Methodology",
       "part_of_term": "1",
-      "instructor": "Amy J Phelps",
+      "instructor": "Marea Joy Blake",
       "meetings": [
         {
           "days": "MWF",
@@ -1065,7 +1065,7 @@
       "schedule_type": "Lecture",
       "instructional_method": "Conventional Methodology",
       "part_of_term": "1",
-      "instructor": "Amy J Phelps",
+      "instructor": "Marea Joy Blake",
       "meetings": [
         {
           "days": "MWF",
@@ -1086,7 +1086,7 @@
       "schedule_type": "Lecture",
       "instructional_method": "Conventional Methodology",
       "part_of_term": "1",
-      "instructor": "TBA",
+      "instructor": "Oleksandr Hietsoi",
       "meetings": [
         {
           "days": "TR",
@@ -1149,7 +1149,7 @@
       "schedule_type": "Lecture",
       "instructional_method": "Conventional Methodology",
       "part_of_term": "1",
-      "instructor": "TBA",
+      "instructor": "Amy J Phelps",
       "meetings": [
         {
           "days": "TR",
@@ -1485,7 +1485,7 @@
       "schedule_type": "Laboratory",
       "instructional_method": "Conventional Methodology",
       "part_of_term": "1",
-      "instructor": "Amy J Phelps",
+      "instructor": "Vichuda Kaveparsit Hunter",
       "meetings": [
         {
           "days": "T",
@@ -2258,7 +2258,7 @@
       "schedule_type": "Research",
       "instructional_method": "Independent Study",
       "part_of_term": "1",
-      "instructor": "TBA",
+      "instructor": "Souvik Banerjee",
       "meetings": []
     },
     {
@@ -2831,7 +2831,7 @@
       "schedule_type": "Lecture",
       "instructional_method": "Conventional Methodology",
       "part_of_term": "1",
-      "instructor": "Justin Mark Miller",
+      "instructor": "TBA",
       "meetings": [
         {
           "days": "TR",
@@ -2873,7 +2873,7 @@
       "schedule_type": "Laboratory",
       "instructional_method": "Conventional Methodology",
       "part_of_term": "1",
-      "instructor": "Justin Mark Miller",
+      "instructor": "TBA",
       "meetings": [
         {
           "days": "T",
@@ -3206,7 +3206,7 @@
       "schedule_type": "Lecture",
       "instructional_method": "Conventional Methodology",
       "part_of_term": "1",
-      "instructor": "Justin Mark Miller",
+      "instructor": "TBA",
       "meetings": [
         {
           "days": "TR",
@@ -3248,7 +3248,7 @@
       "schedule_type": "Laboratory",
       "instructional_method": "Conventional Methodology",
       "part_of_term": "1",
-      "instructor": "Justin Mark Miller",
+      "instructor": "TBA",
       "meetings": [
         {
           "days": "T",
@@ -3350,7 +3350,7 @@
       "schedule_type": "Masters Thesis",
       "instructional_method": "Thesis",
       "part_of_term": "1",
-      "instructor": "TBA",
+      "instructor": "Beng Guat Ooi",
       "meetings": []
     },
     {
@@ -3423,6 +3423,18 @@
       "instructional_method": "Thesis",
       "part_of_term": "1",
       "instructor": "TBA",
+      "meetings": []
+    },
+    {
+      "crn": "16649",
+      "course": "CHEM 6640",
+      "section": "013",
+      "title": "Thesis Research",
+      "credits": 3,
+      "schedule_type": "Masters Thesis",
+      "instructional_method": "Thesis",
+      "part_of_term": "1",
+      "instructor": "Keying Ding",
       "meetings": []
     },
     {
@@ -4219,35 +4231,6 @@
       ]
     },
     {
-      "crn": "11164",
-      "course": "CSCI 6050",
-      "section": "001",
-      "title": "Computer Systems Fundamentals",
-      "credits": 4,
-      "schedule_type": "Combined Lecture/Lab",
-      "instructional_method": "Conventional Methodology",
-      "part_of_term": "1",
-      "instructor": "Arpan Man Sainju",
-      "meetings": [
-        {
-          "days": "TR",
-          "start": "08:00",
-          "end": "09:25",
-          "location": "COLLEGE OF EDUCATION 140",
-          "start_date": "2027-01-19",
-          "end_date": "2027-05-06"
-        },
-        {
-          "days": "T",
-          "start": "13:00",
-          "end": "15:00",
-          "location": "TBA TBA",
-          "start_date": "2027-01-19",
-          "end_date": "2027-05-06"
-        }
-      ]
-    },
-    {
       "crn": "12769",
       "course": "CSCI 6250",
       "section": "001",
@@ -4472,9 +4455,9 @@
       "instructor": "TBA",
       "meetings": [
         {
-          "days": "MWF",
-          "start": "11:30",
-          "end": "12:25",
+          "days": "MW",
+          "start": "09:40",
+          "end": "11:05",
           "location": "APPLIED ENGINEERING BUILDING 102",
           "start_date": "2027-01-19",
           "end_date": "2027-05-06"
@@ -4712,7 +4695,7 @@
           "days": "MW",
           "start": "08:00",
           "end": "08:55",
-          "location": "APPLIED ENGINEERING BUILDING 202",
+          "location": "APPLIED ENGINEERING BUILDING 201",
           "start_date": "2027-01-19",
           "end_date": "2027-05-06"
         },
@@ -4959,8 +4942,29 @@
       "meetings": [
         {
           "days": "TR",
-          "start": "14:40",
-          "end": "17:10",
+          "start": "11:20",
+          "end": "13:50",
+          "location": "APPLIED ENGINEERING BUILDING 302",
+          "start_date": "2027-01-19",
+          "end_date": "2027-05-06"
+        }
+      ]
+    },
+    {
+      "crn": "16623",
+      "course": "ENGR 4520",
+      "section": "002",
+      "title": "Electrical Power and Machinery",
+      "credits": 3,
+      "schedule_type": "Combined Lecture/Lab",
+      "instructional_method": "Conventional Methodology",
+      "part_of_term": "1",
+      "instructor": "Jacob Martin D Avy",
+      "meetings": [
+        {
+          "days": "MW",
+          "start": "16:10",
+          "end": "18:40",
           "location": "APPLIED ENGINEERING BUILDING 302",
           "start_date": "2027-01-19",
           "end_date": "2027-05-06"
@@ -5846,7 +5850,7 @@
       "schedule_type": "Lecture",
       "instructional_method": "Distance Lrn: Online",
       "part_of_term": "1",
-      "instructor": "Scott N McDaniel",
+      "instructor": "Megan N Hardin",
       "meetings": []
     },
     {
@@ -5858,7 +5862,7 @@
       "schedule_type": "Lecture",
       "instructional_method": "Distance Lrn: Online",
       "part_of_term": "1",
-      "instructor": "Scott N McDaniel",
+      "instructor": "Megan N Hardin",
       "meetings": []
     },
     {
@@ -5919,6 +5923,18 @@
       "crn": "12627",
       "course": "MATH 1630",
       "section": "D02",
+      "title": "College Mathematics for Managerial, Social, and Life Sciences",
+      "credits": 3,
+      "schedule_type": "Lecture",
+      "instructional_method": "Distance Lrn: Online",
+      "part_of_term": "1",
+      "instructor": "TBA",
+      "meetings": []
+    },
+    {
+      "crn": "16588",
+      "course": "MATH 1630",
+      "section": "D03",
       "title": "College Mathematics for Managerial, Social, and Life Sciences",
       "credits": 3,
       "schedule_type": "Lecture",
@@ -6102,6 +6118,18 @@
       "crn": "12628",
       "course": "MATH 1710",
       "section": "D02",
+      "title": "College Algebra",
+      "credits": 3,
+      "schedule_type": "Lecture",
+      "instructional_method": "Distance Lrn: Online",
+      "part_of_term": "1",
+      "instructor": "TBA",
+      "meetings": []
+    },
+    {
+      "crn": "16589",
+      "course": "MATH 1710",
+      "section": "D03",
       "title": "College Algebra",
       "credits": 3,
       "schedule_type": "Lecture",
@@ -6997,6 +7025,18 @@
       "meetings": []
     },
     {
+      "crn": "16590",
+      "course": "MATH 1810",
+      "section": "D03",
+      "title": "Applied Calculus I",
+      "credits": 3,
+      "schedule_type": "Lecture",
+      "instructional_method": "Distance Lrn: Online",
+      "part_of_term": "1",
+      "instructor": "TBA",
+      "meetings": []
+    },
+    {
       "crn": "10219",
       "course": "MATH 1910",
       "section": "001",
@@ -7253,6 +7293,18 @@
       "crn": "13924",
       "course": "MATH 1910",
       "section": "D01",
+      "title": "Calculus I",
+      "credits": 4,
+      "schedule_type": "Lecture",
+      "instructional_method": "Distance Lrn: Online",
+      "part_of_term": "1",
+      "instructor": "TBA",
+      "meetings": []
+    },
+    {
+      "crn": "16591",
+      "course": "MATH 1910",
+      "section": "D02",
       "title": "Calculus I",
       "credits": 4,
       "schedule_type": "Lecture",
@@ -7930,10 +7982,10 @@
       "instructor": "TBA",
       "meetings": [
         {
-          "days": "MW",
-          "start": "16:10",
-          "end": "17:35",
-          "location": "KIRKSEY OLD MAIN 225",
+          "days": "MWF",
+          "start": "10:20",
+          "end": "11:15",
+          "location": "KIRKSEY OLD MAIN 227",
           "start_date": "2027-01-19",
           "end_date": "2027-05-06"
         }

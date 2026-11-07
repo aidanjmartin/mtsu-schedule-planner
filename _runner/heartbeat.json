@@ -1,8 +1,8 @@
 {
-  "time": "2026-11-07T10:50:38-06:00",
+  "time": "2026-11-07T11:20:38-06:00",
   "current_job": "ENGR6010_Go2X_SafeRL/132-nav-mujoco-ent003",
   "pending_jobs": [],
-  "gpu": "NVIDIA RTX 4000 Ada Generation, 100 %, 16242 MiB, 20475 MiB, 68",
-  "disk_free_gb": 840.3,
+  "gpu": "NVIDIA RTX 4000 Ada Generation, 46 %, 16241 MiB, 20475 MiB, 64",
+  "disk_free_gb": 840.2,
   "robot_enabled": true
 }
